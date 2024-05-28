@@ -24,7 +24,7 @@ from thrift.transport import TTransport
 all_structs = []
 
 
-class AddTader(object):
+class AddTrader(object):
     """
     Attributes:
      - id
@@ -66,7 +66,7 @@ class AddTader(object):
                 oprot._fast_encode(self, [self.__class__, self.thrift_spec])
             )
             return
-        oprot.writeStructBegin("AddTader")
+        oprot.writeStructBegin("AddTrader")
         if self.id is not None:
             oprot.writeFieldBegin("id", TType.I64, 1)
             oprot.writeI64(self.id)
@@ -199,7 +199,7 @@ class TraderResponse(object):
         return not (self == other)
 
 
-class BlockTader(object):
+class BlockTrader(object):
     """
     Attributes:
      - id
@@ -249,7 +249,7 @@ class BlockTader(object):
                 oprot._fast_encode(self, [self.__class__, self.thrift_spec])
             )
             return
-        oprot.writeStructBegin("BlockTader")
+        oprot.writeStructBegin("BlockTrader")
         if self.id is not None:
             oprot.writeFieldBegin("id", TType.I64, 1)
             oprot.writeI64(self.id)
@@ -877,8 +877,8 @@ class PlaceOrder(object):
         return not (self == other)
 
 
-all_structs.append(AddTader)
-AddTader.thrift_spec = (
+all_structs.append(AddTrader)
+AddTrader.thrift_spec = (
     None,  # 0
     (
         1,
@@ -920,8 +920,8 @@ TraderResponse.thrift_spec = (
         None,
     ),  # 4
 )
-all_structs.append(BlockTader)
-BlockTader.thrift_spec = (
+all_structs.append(BlockTrader)
+BlockTrader.thrift_spec = (
     None,  # 0
     (
         1,

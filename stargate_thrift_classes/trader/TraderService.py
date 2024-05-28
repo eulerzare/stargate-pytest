@@ -26,18 +26,18 @@ all_structs = []
 
 
 class Iface(object):
-    def addTrader(self, addTader):
+    def addTrader(self, addTrader):
         """
         Parameters:
-         - addTader
+         - addTrader
 
         """
         pass
 
-    def blockTrader(self, blockTader):
+    def blockTrader(self, blockTrader):
         """
         Parameters:
-         - blockTader
+         - blockTrader
 
         """
         pass
@@ -74,19 +74,19 @@ class Client(Iface):
             self._oprot = oprot
         self._seqid = 0
 
-    def addTrader(self, addTader):
+    def addTrader(self, addTrader):
         """
         Parameters:
-         - addTader
+         - addTrader
 
         """
-        self.send_addTrader(addTader)
+        self.send_addTrader(addTrader)
         return self.recv_addTrader()
 
-    def send_addTrader(self, addTader):
+    def send_addTrader(self, addTrader):
         self._oprot.writeMessageBegin("addTrader", TMessageType.CALL, self._seqid)
         args = addTrader_args()
-        args.addTader = addTader
+        args.addTrader = addTrader
         args.write(self._oprot)
         self._oprot.writeMessageEnd()
         self._oprot.trans.flush()
@@ -108,19 +108,19 @@ class Client(Iface):
             TApplicationException.MISSING_RESULT, "addTrader failed: unknown result"
         )
 
-    def blockTrader(self, blockTader):
+    def blockTrader(self, blockTrader):
         """
         Parameters:
-         - blockTader
+         - blockTrader
 
         """
-        self.send_blockTrader(blockTader)
+        self.send_blockTrader(blockTrader)
         return self.recv_blockTrader()
 
-    def send_blockTrader(self, blockTader):
+    def send_blockTrader(self, blockTrader):
         self._oprot.writeMessageBegin("blockTrader", TMessageType.CALL, self._seqid)
         args = blockTrader_args()
-        args.blockTader = blockTader
+        args.blockTrader = blockTrader
         args.write(self._oprot)
         self._oprot.writeMessageEnd()
         self._oprot.trans.flush()
@@ -285,7 +285,7 @@ class Processor(Iface, TProcessor):
         iprot.readMessageEnd()
         result = addTrader_result()
         try:
-            result.success = self._handler.addTrader(args.addTader)
+            result.success = self._handler.addTrader(args.addTrader)
             msg_type = TMessageType.REPLY
         except TTransport.TTransportException:
             raise
@@ -310,7 +310,7 @@ class Processor(Iface, TProcessor):
         iprot.readMessageEnd()
         result = blockTrader_result()
         try:
-            result.success = self._handler.blockTrader(args.blockTader)
+            result.success = self._handler.blockTrader(args.blockTrader)
             msg_type = TMessageType.REPLY
         except TTransport.TTransportException:
             raise
@@ -411,15 +411,15 @@ class Processor(Iface, TProcessor):
 class addTrader_args(object):
     """
     Attributes:
-     - addTader
+     - addTrader
 
     """
 
     def __init__(
         self,
-        addTader=None,
+        addTrader=None,
     ):
-        self.addTader = addTader
+        self.addTrader = addTrader
 
     def read(self, iprot):
         if (
@@ -436,8 +436,8 @@ class addTrader_args(object):
                 break
             if fid == 1:
                 if ftype == TType.STRUCT:
-                    self.addTader = AddTader()
-                    self.addTader.read(iprot)
+                    self.addTrader = AddTrader()
+                    self.addTrader.read(iprot)
                 else:
                     iprot.skip(ftype)
             else:
@@ -452,9 +452,9 @@ class addTrader_args(object):
             )
             return
         oprot.writeStructBegin("addTrader_args")
-        if self.addTader is not None:
-            oprot.writeFieldBegin("addTader", TType.STRUCT, 1)
-            self.addTader.write(oprot)
+        if self.addTrader is not None:
+            oprot.writeFieldBegin("addTrader", TType.STRUCT, 1)
+            self.addTrader.write(oprot)
             oprot.writeFieldEnd()
         oprot.writeFieldStop()
         oprot.writeStructEnd()
@@ -479,8 +479,8 @@ addTrader_args.thrift_spec = (
     (
         1,
         TType.STRUCT,
-        "addTader",
-        [AddTader, None],
+        "addTrader",
+        [AddTrader, None],
         None,
     ),  # 1
 )
@@ -566,15 +566,15 @@ addTrader_result.thrift_spec = (
 class blockTrader_args(object):
     """
     Attributes:
-     - blockTader
+     - blockTrader
 
     """
 
     def __init__(
         self,
-        blockTader=None,
+        blockTrader=None,
     ):
-        self.blockTader = blockTader
+        self.blockTrader = blockTrader
 
     def read(self, iprot):
         if (
@@ -591,8 +591,8 @@ class blockTrader_args(object):
                 break
             if fid == 1:
                 if ftype == TType.STRUCT:
-                    self.blockTader = BlockTader()
-                    self.blockTader.read(iprot)
+                    self.blockTrader = BlockTrader()
+                    self.blockTrader.read(iprot)
                 else:
                     iprot.skip(ftype)
             else:
@@ -607,9 +607,9 @@ class blockTrader_args(object):
             )
             return
         oprot.writeStructBegin("blockTrader_args")
-        if self.blockTader is not None:
-            oprot.writeFieldBegin("blockTader", TType.STRUCT, 1)
-            self.blockTader.write(oprot)
+        if self.blockTrader is not None:
+            oprot.writeFieldBegin("blockTrader", TType.STRUCT, 1)
+            self.blockTrader.write(oprot)
             oprot.writeFieldEnd()
         oprot.writeFieldStop()
         oprot.writeStructEnd()
@@ -634,8 +634,8 @@ blockTrader_args.thrift_spec = (
     (
         1,
         TType.STRUCT,
-        "blockTader",
-        [BlockTader, None],
+        "blockTrader",
+        [BlockTrader, None],
         None,
     ),  # 1
 )

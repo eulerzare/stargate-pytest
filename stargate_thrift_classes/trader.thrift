@@ -1,14 +1,14 @@
 include "base.thrift"
 
 service TraderService {
-  TraderResponse addTrader(1:AddTader addTader),
-  TraderResponse blockTrader(1:BlockTader blockTader),
+  TraderResponse addTrader(1:AddTrader addTrader),
+  TraderResponse blockTrader(1:BlockTrader blockTrader),
   TraderAssetResponse getTraderAsset(1:GetTraderAsset getTraderAsset),
   TransferAssetResponse transferAsset(1:TransferAsset transferAsset),
   base.Response placeOrder(1:PlaceOrder placeOrder)
 }
 
-struct AddTader {
+struct AddTrader {
   1: required i64 id,
 }
 
@@ -19,7 +19,7 @@ struct TraderResponse {
   4: base.Trader trader,
 }
 
-struct BlockTader {
+struct BlockTrader {
   1: required i64 id,
   2: required bool active,
 }
