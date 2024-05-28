@@ -618,7 +618,7 @@ class takeSnapshot_result(object):
                 break
             if fid == 0:
                 if ftype == TType.STRUCT:
-                    self.success = base.ttypes.Response()
+                    self.success = stargate_thrift_classes.base.ttypes.Response()
                     self.success.read(iprot)
                 else:
                     iprot.skip(ftype)
@@ -661,7 +661,7 @@ takeSnapshot_result.thrift_spec = (
         0,
         TType.STRUCT,
         "success",
-        [base.ttypes.Response, None],
+        [stargate_thrift_classes.base.ttypes.Response, None],
         None,
     ),  # 0
 )
@@ -773,7 +773,7 @@ class addCurrency_result(object):
                 break
             if fid == 0:
                 if ftype == TType.STRUCT:
-                    self.success = base.ttypes.Response()
+                    self.success = stargate_thrift_classes.base.ttypes.Response()
                     self.success.read(iprot)
                 else:
                     iprot.skip(ftype)
@@ -816,7 +816,7 @@ addCurrency_result.thrift_spec = (
         0,
         TType.STRUCT,
         "success",
-        [base.ttypes.Response, None],
+        [stargate_thrift_classes.base.ttypes.Response, None],
         None,
     ),  # 0
 )
@@ -1083,7 +1083,7 @@ class changeCurrencyScale_result(object):
                 break
             if fid == 0:
                 if ftype == TType.STRUCT:
-                    self.success = base.ttypes.Response()
+                    self.success = stargate_thrift_classes.base.ttypes.Response()
                     self.success.read(iprot)
                 else:
                     iprot.skip(ftype)
@@ -1126,7 +1126,7 @@ changeCurrencyScale_result.thrift_spec = (
         0,
         TType.STRUCT,
         "success",
-        [base.ttypes.Response, None],
+        [stargate_thrift_classes.base.ttypes.Response, None],
         None,
     ),  # 0
 )
@@ -1238,7 +1238,7 @@ class addContract_result(object):
                 break
             if fid == 0:
                 if ftype == TType.STRUCT:
-                    self.success = base.ttypes.Response()
+                    self.success = stargate_thrift_classes.base.ttypes.Response()
                     self.success.read(iprot)
                 else:
                     iprot.skip(ftype)
@@ -1281,7 +1281,7 @@ addContract_result.thrift_spec = (
         0,
         TType.STRUCT,
         "success",
-        [base.ttypes.Response, None],
+        [stargate_thrift_classes.base.ttypes.Response, None],
         None,
     ),  # 0
 )
@@ -1548,7 +1548,7 @@ class changeContractScale_result(object):
                 break
             if fid == 0:
                 if ftype == TType.STRUCT:
-                    self.success = base.ttypes.Response()
+                    self.success = stargate_thrift_classes.base.ttypes.Response()
                     self.success.read(iprot)
                 else:
                     iprot.skip(ftype)
@@ -1591,7 +1591,7 @@ changeContractScale_result.thrift_spec = (
         0,
         TType.STRUCT,
         "success",
-        [base.ttypes.Response, None],
+        [stargate_thrift_classes.base.ttypes.Response, None],
         None,
     ),  # 0
 )

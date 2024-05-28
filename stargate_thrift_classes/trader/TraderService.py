@@ -1177,7 +1177,7 @@ placeOrder_result.thrift_spec = (
         0,
         TType.STRUCT,
         "success",
-        [base.ttypes.Response, None],
+        [stargate_thrift_classes.base.ttypes.Response, None],
         None,
     ),  # 0
 )
