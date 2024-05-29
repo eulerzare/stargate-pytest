@@ -1134,7 +1134,7 @@ class placeOrder_result(object):
                 break
             if fid == 0:
                 if ftype == TType.STRUCT:
-                    self.success = base.ttypes.Response()
+                    self.success = stargate_thrift_classes.base.ttypes.Response()
                     self.success.read(iprot)
                 else:
                     iprot.skip(ftype)

@@ -57,6 +57,8 @@ struct PlaceOrder {
   4: required base.OrderType orderType,
   5: required base.OrderSide orderSide,
   6: string price,
-  7: required string sizeInBaseCurrency,
-  8: required i16 leverage,
+  7: required string size,
+  8: required bool isSizeInBaseCurrency,
+  9: required i16 leverage,
+  10: required bool isCrossMargin,
 }

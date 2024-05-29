@@ -708,8 +708,10 @@ class PlaceOrder(object):
      - orderType
      - orderSide
      - price
-     - sizeInBaseCurrency
+     - size
+     - isSizeInBaseCurrency
      - leverage
+     - isCrossMargin
 
     """
 
@@ -721,8 +723,10 @@ class PlaceOrder(object):
         orderType=None,
         orderSide=None,
         price=None,
-        sizeInBaseCurrency=None,
+        size=None,
+        isSizeInBaseCurrency=None,
         leverage=None,
+        isCrossMargin=None,
     ):
         self.id = id
         self.traderId = traderId
@@ -730,8 +734,10 @@ class PlaceOrder(object):
         self.orderType = orderType
         self.orderSide = orderSide
         self.price = price
-        self.sizeInBaseCurrency = sizeInBaseCurrency
+        self.size = size
+        self.isSizeInBaseCurrency = isSizeInBaseCurrency
         self.leverage = leverage
+        self.isCrossMargin = isCrossMargin
 
     def read(self, iprot):
         if (
@@ -782,7 +788,7 @@ class PlaceOrder(object):
                     iprot.skip(ftype)
             elif fid == 7:
                 if ftype == TType.STRING:
-                    self.sizeInBaseCurrency = (
+                    self.size = (
                         iprot.readString().decode("utf-8", errors="replace")
                         if sys.version_info[0] == 2
                         else iprot.readString()
@@ -790,8 +796,18 @@ class PlaceOrder(object):
                 else:
                     iprot.skip(ftype)
             elif fid == 8:
+                if ftype == TType.BOOL:
+                    self.isSizeInBaseCurrency = iprot.readBool()
+                else:
+                    iprot.skip(ftype)
+            elif fid == 9:
                 if ftype == TType.I16:
                     self.leverage = iprot.readI16()
+                else:
+                    iprot.skip(ftype)
+            elif fid == 10:
+                if ftype == TType.BOOL:
+                    self.isCrossMargin = iprot.readBool()
                 else:
                     iprot.skip(ftype)
             else:
@@ -832,17 +848,23 @@ class PlaceOrder(object):
                 self.price.encode("utf-8") if sys.version_info[0] == 2 else self.price
             )
             oprot.writeFieldEnd()
-        if self.sizeInBaseCurrency is not None:
-            oprot.writeFieldBegin("sizeInBaseCurrency", TType.STRING, 7)
+        if self.size is not None:
+            oprot.writeFieldBegin("size", TType.STRING, 7)
             oprot.writeString(
-                self.sizeInBaseCurrency.encode("utf-8")
-                if sys.version_info[0] == 2
-                else self.sizeInBaseCurrency
+                self.size.encode("utf-8") if sys.version_info[0] == 2 else self.size
             )
             oprot.writeFieldEnd()
+        if self.isSizeInBaseCurrency is not None:
+            oprot.writeFieldBegin("isSizeInBaseCurrency", TType.BOOL, 8)
+            oprot.writeBool(self.isSizeInBaseCurrency)
+            oprot.writeFieldEnd()
         if self.leverage is not None:
-            oprot.writeFieldBegin("leverage", TType.I16, 8)
+            oprot.writeFieldBegin("leverage", TType.I16, 9)
             oprot.writeI16(self.leverage)
+            oprot.writeFieldEnd()
+        if self.isCrossMargin is not None:
+            oprot.writeFieldBegin("isCrossMargin", TType.BOOL, 10)
+            oprot.writeBool(self.isCrossMargin)
             oprot.writeFieldEnd()
         oprot.writeFieldStop()
         oprot.writeStructEnd()
@@ -858,12 +880,16 @@ class PlaceOrder(object):
             raise TProtocolException(message="Required field orderType is unset!")
         if self.orderSide is None:
             raise TProtocolException(message="Required field orderSide is unset!")
-        if self.sizeInBaseCurrency is None:
+        if self.size is None:
+            raise TProtocolException(message="Required field size is unset!")
+        if self.isSizeInBaseCurrency is None:
             raise TProtocolException(
-                message="Required field sizeInBaseCurrency is unset!"
+                message="Required field isSizeInBaseCurrency is unset!"
             )
         if self.leverage is None:
             raise TProtocolException(message="Required field leverage is unset!")
+        if self.isCrossMargin is None:
+            raise TProtocolException(message="Required field isCrossMargin is unset!")
         return
 
     def __repr__(self):
@@ -1100,17 +1126,31 @@ PlaceOrder.thrift_spec = (
     (
         7,
         TType.STRING,
-        "sizeInBaseCurrency",
+        "size",
         "UTF8",
         None,
     ),  # 7
     (
         8,
+        TType.BOOL,
+        "isSizeInBaseCurrency",
+        None,
+        None,
+    ),  # 8
+    (
+        9,
         TType.I16,
         "leverage",
         None,
         None,
-    ),  # 8
+    ),  # 9
+    (
+        10,
+        TType.BOOL,
+        "isCrossMargin",
+        None,
+        None,
+    ),  # 10
 )
 fix_spec(all_structs)
 del all_structs
