@@ -12,7 +12,7 @@ from stargate_thrift_classes.trader.TraderService import Client as TraderClient
 from stargate_thrift_classes.trader.ttypes import AddTrader, TraderAssetResponse, GetTraderAsset, TransferAsset, \
     PlaceOrder
 from utils.test_constants import ADD_CURRENCY_ALL, ADD_TRADER_ALL, CONTRACTS_ALL, ADD_TRADER_01, ADD_CURRENCY_USDT, \
-    ADD_TRADER_02, CONTRACT_BTCUSDT_PERPETUAL
+    ADD_TRADER_02, CONTRACT_BTCUSDT_PERPETUAL, ADD_TRADER_03, ADD_TRADER_04, ADD_TRADER_05
 
 host = config("THRIFT_HOST", cast=str)
 port = config("THRIFT_PORT", cast=int)
@@ -66,24 +66,52 @@ class BasicSetups(unittest.TestCase):
 
     def test_transfer_asset(self):
         print(trader_client.transferAsset(TransferAsset(
+            uniqueId=1,
+            traderId=ADD_TRADER_01.id,
+            marketType=MarketType.PERPETUAL_USDM,
+            currencyId=ADD_CURRENCY_USDT.id,
+            amount="100000.45436609"
+        )))
+        print(trader_client.transferAsset(TransferAsset(
             uniqueId=2,
             traderId=ADD_TRADER_02.id,
             marketType=MarketType.PERPETUAL_USDM,
             currencyId=ADD_CURRENCY_USDT.id,
-            amount="200.45436"
+            amount="100000.436436"
+        )))
+        print(trader_client.transferAsset(TransferAsset(
+            uniqueId=3,
+            traderId=ADD_TRADER_03.id,
+            marketType=MarketType.PERPETUAL_USDM,
+            currencyId=ADD_CURRENCY_USDT.id,
+            amount="80000.436436"
+        )))
+        print(trader_client.transferAsset(TransferAsset(
+            uniqueId=4,
+            traderId=ADD_TRADER_04.id,
+            marketType=MarketType.PERPETUAL_USDM,
+            currencyId=ADD_CURRENCY_USDT.id,
+            amount="90000.436436"
+        )))
+        print(trader_client.transferAsset(TransferAsset(
+            uniqueId=5,
+            traderId=ADD_TRADER_05.id,
+            marketType=MarketType.PERPETUAL_USDM,
+            currencyId=ADD_CURRENCY_USDT.id,
+            amount="91234.87654321"
         )))
 
     def test_place_order(self):
         print(trader_client.placeOrder(PlaceOrder(
-            id=4,
-            traderId=ADD_TRADER_02.id,
+            id=1,
+            traderId=ADD_TRADER_01.id,
             contractId=CONTRACT_BTCUSDT_PERPETUAL.id,
             orderType=OrderType.LIMIT,
             orderSide=OrderSide.ASK,
-            price="60000.0",
-            size="1500.24",
+            price="59990.0",
+            size="1000",
             isSizeInBaseCurrency=False,
-            leverage=20,
+            leverage=5,
             isCrossMargin=False,
         )))
 
