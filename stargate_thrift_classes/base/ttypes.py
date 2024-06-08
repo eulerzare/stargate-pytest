@@ -65,55 +65,40 @@ class OrderSide(object):
     }
 
 
-class Empty(object):
+class PositionSide(object):
+    LONG = 1
+    SHORT = 2
 
-    def read(self, iprot):
-        if (
-            iprot._fast_decode is not None
-            and isinstance(iprot.trans, TTransport.CReadableTransport)
-            and self.thrift_spec is not None
-        ):
-            iprot._fast_decode(self, iprot, [self.__class__, self.thrift_spec])
-            return
-        iprot.readStructBegin()
-        while True:
-            (fname, ftype, fid) = iprot.readFieldBegin()
-            if ftype == TType.STOP:
-                break
-            else:
-                iprot.skip(ftype)
-            iprot.readFieldEnd()
-        iprot.readStructEnd()
+    _VALUES_TO_NAMES = {
+        1: "LONG",
+        2: "SHORT",
+    }
 
-    def write(self, oprot):
-        if oprot._fast_encode is not None and self.thrift_spec is not None:
-            oprot.trans.write(
-                oprot._fast_encode(self, [self.__class__, self.thrift_spec])
-            )
-            return
-        oprot.writeStructBegin("Empty")
-        oprot.writeFieldStop()
-        oprot.writeStructEnd()
+    _NAMES_TO_VALUES = {
+        "LONG": 1,
+        "SHORT": 2,
+    }
 
-    def validate(self):
-        return
 
-    def __repr__(self):
-        L = ["%s=%r" % (key, value) for key, value in self.__dict__.items()]
-        return "%s(%s)" % (self.__class__.__name__, ", ".join(L))
+class PositionMarginMode(object):
+    ISOLATED = 1
+    CROSS = 2
 
-    def __eq__(self, other):
-        return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
+    _VALUES_TO_NAMES = {
+        1: "ISOLATED",
+        2: "CROSS",
+    }
 
-    def __ne__(self, other):
-        return not (self == other)
+    _NAMES_TO_VALUES = {
+        "ISOLATED": 1,
+        "CROSS": 2,
+    }
 
 
 class Response(object):
     """
     Attributes:
      - status
-     - message
      - sequence
 
     """
@@ -121,11 +106,9 @@ class Response(object):
     def __init__(
         self,
         status=None,
-        message=None,
         sequence=None,
     ):
         self.status = status
-        self.message = message
         self.sequence = sequence
 
     def read(self, iprot):
@@ -147,15 +130,6 @@ class Response(object):
                 else:
                     iprot.skip(ftype)
             elif fid == 2:
-                if ftype == TType.STRING:
-                    self.message = (
-                        iprot.readString().decode("utf-8", errors="replace")
-                        if sys.version_info[0] == 2
-                        else iprot.readString()
-                    )
-                else:
-                    iprot.skip(ftype)
-            elif fid == 3:
                 if ftype == TType.I64:
                     self.sequence = iprot.readI64()
                 else:
@@ -176,16 +150,8 @@ class Response(object):
             oprot.writeFieldBegin("status", TType.I32, 1)
             oprot.writeI32(self.status)
             oprot.writeFieldEnd()
-        if self.message is not None:
-            oprot.writeFieldBegin("message", TType.STRING, 2)
-            oprot.writeString(
-                self.message.encode("utf-8")
-                if sys.version_info[0] == 2
-                else self.message
-            )
-            oprot.writeFieldEnd()
         if self.sequence is not None:
-            oprot.writeFieldBegin("sequence", TType.I64, 3)
+            oprot.writeFieldBegin("sequence", TType.I64, 2)
             oprot.writeI64(self.sequence)
             oprot.writeFieldEnd()
         oprot.writeFieldStop()
@@ -673,8 +639,6 @@ class Trader(object):
         return not (self == other)
 
 
-all_structs.append(Empty)
-Empty.thrift_spec = ()
 all_structs.append(Response)
 Response.thrift_spec = (
     None,  # 0
@@ -687,18 +651,11 @@ Response.thrift_spec = (
     ),  # 1
     (
         2,
-        TType.STRING,
-        "message",
-        "UTF8",
-        None,
-    ),  # 2
-    (
-        3,
         TType.I64,
         "sequence",
         None,
         None,
-    ),  # 3
+    ),  # 2
 )
 all_structs.append(Currency)
 Currency.thrift_spec = (

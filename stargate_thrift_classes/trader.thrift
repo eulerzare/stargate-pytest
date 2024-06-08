@@ -14,9 +14,8 @@ struct AddTrader {
 
 struct TraderResponse {
   1: i32 status,
-  2: string message,
-  3: i64 sequence,
-  4: base.Trader trader,
+  2: i64 sequence,
+  3: base.Trader trader,
 }
 
 struct BlockTrader {
@@ -30,16 +29,14 @@ struct GetTraderAsset {
 
 struct TraderAssetResponse {
   1: i32 status,
-  2: string message,
-  3: i64 sequence,
-  4: list<base.Asset> assets,
+  2: i64 sequence,
+  3: list<base.Asset> assets,
 }
 
 struct TransferAssetResponse {
   1: i32 status,
-  2: string message,
-  3: i64 sequence,
-  4: base.Asset asset,
+  2: i64 sequence,
+  3: base.Asset asset,
 }
 
 struct TransferAsset {

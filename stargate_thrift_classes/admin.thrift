@@ -22,9 +22,8 @@ struct GetCurrencyRequest {
 
 struct GetCurrencyResponse {
   1: i32 status,
-  2: string message,
-  3: i64 sequence,
-  4: list<base.Currency> currencies,
+  2: i64 sequence,
+  3: list<base.Currency> currencies,
 }
 
 struct ChangeCurrencyScaleRequest {
@@ -49,9 +48,8 @@ struct GetContractRequest {
 
 struct GetContractResponse {
   1: i32 status,
-  2: string message,
-  3: i64 sequence,
-  4: list<base.Contract> contracts,
+  2: i64 sequence,
+  3: list<base.Contract> contracts,
 }
 
 struct ChangeContractScaleRequest {

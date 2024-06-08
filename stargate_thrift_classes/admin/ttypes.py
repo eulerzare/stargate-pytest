@@ -202,7 +202,6 @@ class GetCurrencyResponse(object):
     """
     Attributes:
      - status
-     - message
      - sequence
      - currencies
 
@@ -211,12 +210,10 @@ class GetCurrencyResponse(object):
     def __init__(
         self,
         status=None,
-        message=None,
         sequence=None,
         currencies=None,
     ):
         self.status = status
-        self.message = message
         self.sequence = sequence
         self.currencies = currencies
 
@@ -239,20 +236,11 @@ class GetCurrencyResponse(object):
                 else:
                     iprot.skip(ftype)
             elif fid == 2:
-                if ftype == TType.STRING:
-                    self.message = (
-                        iprot.readString().decode("utf-8", errors="replace")
-                        if sys.version_info[0] == 2
-                        else iprot.readString()
-                    )
-                else:
-                    iprot.skip(ftype)
-            elif fid == 3:
                 if ftype == TType.I64:
                     self.sequence = iprot.readI64()
                 else:
                     iprot.skip(ftype)
-            elif fid == 4:
+            elif fid == 3:
                 if ftype == TType.LIST:
                     self.currencies = []
                     (_etype10, _size7) = iprot.readListBegin()
@@ -279,20 +267,12 @@ class GetCurrencyResponse(object):
             oprot.writeFieldBegin("status", TType.I32, 1)
             oprot.writeI32(self.status)
             oprot.writeFieldEnd()
-        if self.message is not None:
-            oprot.writeFieldBegin("message", TType.STRING, 2)
-            oprot.writeString(
-                self.message.encode("utf-8")
-                if sys.version_info[0] == 2
-                else self.message
-            )
-            oprot.writeFieldEnd()
         if self.sequence is not None:
-            oprot.writeFieldBegin("sequence", TType.I64, 3)
+            oprot.writeFieldBegin("sequence", TType.I64, 2)
             oprot.writeI64(self.sequence)
             oprot.writeFieldEnd()
         if self.currencies is not None:
-            oprot.writeFieldBegin("currencies", TType.LIST, 4)
+            oprot.writeFieldBegin("currencies", TType.LIST, 3)
             oprot.writeListBegin(TType.STRUCT, len(self.currencies))
             for iter13 in self.currencies:
                 iter13.write(oprot)
@@ -645,7 +625,6 @@ class GetContractResponse(object):
     """
     Attributes:
      - status
-     - message
      - sequence
      - contracts
 
@@ -654,12 +633,10 @@ class GetContractResponse(object):
     def __init__(
         self,
         status=None,
-        message=None,
         sequence=None,
         contracts=None,
     ):
         self.status = status
-        self.message = message
         self.sequence = sequence
         self.contracts = contracts
 
@@ -682,20 +659,11 @@ class GetContractResponse(object):
                 else:
                     iprot.skip(ftype)
             elif fid == 2:
-                if ftype == TType.STRING:
-                    self.message = (
-                        iprot.readString().decode("utf-8", errors="replace")
-                        if sys.version_info[0] == 2
-                        else iprot.readString()
-                    )
-                else:
-                    iprot.skip(ftype)
-            elif fid == 3:
                 if ftype == TType.I64:
                     self.sequence = iprot.readI64()
                 else:
                     iprot.skip(ftype)
-            elif fid == 4:
+            elif fid == 3:
                 if ftype == TType.LIST:
                     self.contracts = []
                     (_etype24, _size21) = iprot.readListBegin()
@@ -722,20 +690,12 @@ class GetContractResponse(object):
             oprot.writeFieldBegin("status", TType.I32, 1)
             oprot.writeI32(self.status)
             oprot.writeFieldEnd()
-        if self.message is not None:
-            oprot.writeFieldBegin("message", TType.STRING, 2)
-            oprot.writeString(
-                self.message.encode("utf-8")
-                if sys.version_info[0] == 2
-                else self.message
-            )
-            oprot.writeFieldEnd()
         if self.sequence is not None:
-            oprot.writeFieldBegin("sequence", TType.I64, 3)
+            oprot.writeFieldBegin("sequence", TType.I64, 2)
             oprot.writeI64(self.sequence)
             oprot.writeFieldEnd()
         if self.contracts is not None:
-            oprot.writeFieldBegin("contracts", TType.LIST, 4)
+            oprot.writeFieldBegin("contracts", TType.LIST, 3)
             oprot.writeListBegin(TType.STRUCT, len(self.contracts))
             for iter27 in self.contracts:
                 iter27.write(oprot)
@@ -900,25 +860,18 @@ GetCurrencyResponse.thrift_spec = (
     ),  # 1
     (
         2,
-        TType.STRING,
-        "message",
-        "UTF8",
-        None,
-    ),  # 2
-    (
-        3,
         TType.I64,
         "sequence",
         None,
         None,
-    ),  # 3
+    ),  # 2
     (
-        4,
+        3,
         TType.LIST,
         "currencies",
         (TType.STRUCT, [stargate_thrift_classes.base.ttypes.Currency, None], False),
         None,
-    ),  # 4
+    ),  # 3
 )
 all_structs.append(ChangeCurrencyScaleRequest)
 ChangeCurrencyScaleRequest.thrift_spec = (
@@ -1021,25 +974,18 @@ GetContractResponse.thrift_spec = (
     ),  # 1
     (
         2,
-        TType.STRING,
-        "message",
-        "UTF8",
-        None,
-    ),  # 2
-    (
-        3,
         TType.I64,
         "sequence",
         None,
         None,
-    ),  # 3
+    ),  # 2
     (
-        4,
+        3,
         TType.LIST,
         "contracts",
         (TType.STRUCT, [stargate_thrift_classes.base.ttypes.Contract, None], False),
         None,
-    ),  # 4
+    ),  # 3
 )
 all_structs.append(ChangeContractScaleRequest)
 ChangeContractScaleRequest.thrift_spec = (

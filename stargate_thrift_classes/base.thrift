@@ -1,11 +1,3 @@
-struct Empty {}
-
-struct Response {
-  1: i32 status,
-  2: string message,
-  3: i64 sequence,
-}
-
 enum MarketType {
   PERPETUAL_USDM = 1,
   PERPETUAL_COINM = 2,
@@ -18,6 +10,21 @@ enum OrderType {
 enum OrderSide {
   BID = 1,
   ASK = 2,
+}
+
+enum PositionSide {
+  LONG = 1,
+  SHORT = 2,
+}
+
+enum PositionMarginMode {
+  ISOLATED = 1,
+  CROSS = 2,
+}
+
+struct Response {
+  1: i32 status,
+  2: i64 sequence,
 }
 
 struct Currency {

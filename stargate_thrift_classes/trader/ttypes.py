@@ -94,7 +94,6 @@ class TraderResponse(object):
     """
     Attributes:
      - status
-     - message
      - sequence
      - trader
 
@@ -103,12 +102,10 @@ class TraderResponse(object):
     def __init__(
         self,
         status=None,
-        message=None,
         sequence=None,
         trader=None,
     ):
         self.status = status
-        self.message = message
         self.sequence = sequence
         self.trader = trader
 
@@ -131,20 +128,11 @@ class TraderResponse(object):
                 else:
                     iprot.skip(ftype)
             elif fid == 2:
-                if ftype == TType.STRING:
-                    self.message = (
-                        iprot.readString().decode("utf-8", errors="replace")
-                        if sys.version_info[0] == 2
-                        else iprot.readString()
-                    )
-                else:
-                    iprot.skip(ftype)
-            elif fid == 3:
                 if ftype == TType.I64:
                     self.sequence = iprot.readI64()
                 else:
                     iprot.skip(ftype)
-            elif fid == 4:
+            elif fid == 3:
                 if ftype == TType.STRUCT:
                     self.trader = stargate_thrift_classes.base.ttypes.Trader()
                     self.trader.read(iprot)
@@ -166,20 +154,12 @@ class TraderResponse(object):
             oprot.writeFieldBegin("status", TType.I32, 1)
             oprot.writeI32(self.status)
             oprot.writeFieldEnd()
-        if self.message is not None:
-            oprot.writeFieldBegin("message", TType.STRING, 2)
-            oprot.writeString(
-                self.message.encode("utf-8")
-                if sys.version_info[0] == 2
-                else self.message
-            )
-            oprot.writeFieldEnd()
         if self.sequence is not None:
-            oprot.writeFieldBegin("sequence", TType.I64, 3)
+            oprot.writeFieldBegin("sequence", TType.I64, 2)
             oprot.writeI64(self.sequence)
             oprot.writeFieldEnd()
         if self.trader is not None:
-            oprot.writeFieldBegin("trader", TType.STRUCT, 4)
+            oprot.writeFieldBegin("trader", TType.STRUCT, 3)
             self.trader.write(oprot)
             oprot.writeFieldEnd()
         oprot.writeFieldStop()
@@ -349,7 +329,6 @@ class TraderAssetResponse(object):
     """
     Attributes:
      - status
-     - message
      - sequence
      - assets
 
@@ -358,12 +337,10 @@ class TraderAssetResponse(object):
     def __init__(
         self,
         status=None,
-        message=None,
         sequence=None,
         assets=None,
     ):
         self.status = status
-        self.message = message
         self.sequence = sequence
         self.assets = assets
 
@@ -386,20 +363,11 @@ class TraderAssetResponse(object):
                 else:
                     iprot.skip(ftype)
             elif fid == 2:
-                if ftype == TType.STRING:
-                    self.message = (
-                        iprot.readString().decode("utf-8", errors="replace")
-                        if sys.version_info[0] == 2
-                        else iprot.readString()
-                    )
-                else:
-                    iprot.skip(ftype)
-            elif fid == 3:
                 if ftype == TType.I64:
                     self.sequence = iprot.readI64()
                 else:
                     iprot.skip(ftype)
-            elif fid == 4:
+            elif fid == 3:
                 if ftype == TType.LIST:
                     self.assets = []
                     (_etype3, _size0) = iprot.readListBegin()
@@ -426,20 +394,12 @@ class TraderAssetResponse(object):
             oprot.writeFieldBegin("status", TType.I32, 1)
             oprot.writeI32(self.status)
             oprot.writeFieldEnd()
-        if self.message is not None:
-            oprot.writeFieldBegin("message", TType.STRING, 2)
-            oprot.writeString(
-                self.message.encode("utf-8")
-                if sys.version_info[0] == 2
-                else self.message
-            )
-            oprot.writeFieldEnd()
         if self.sequence is not None:
-            oprot.writeFieldBegin("sequence", TType.I64, 3)
+            oprot.writeFieldBegin("sequence", TType.I64, 2)
             oprot.writeI64(self.sequence)
             oprot.writeFieldEnd()
         if self.assets is not None:
-            oprot.writeFieldBegin("assets", TType.LIST, 4)
+            oprot.writeFieldBegin("assets", TType.LIST, 3)
             oprot.writeListBegin(TType.STRUCT, len(self.assets))
             for iter6 in self.assets:
                 iter6.write(oprot)
@@ -466,7 +426,6 @@ class TransferAssetResponse(object):
     """
     Attributes:
      - status
-     - message
      - sequence
      - asset
 
@@ -475,12 +434,10 @@ class TransferAssetResponse(object):
     def __init__(
         self,
         status=None,
-        message=None,
         sequence=None,
         asset=None,
     ):
         self.status = status
-        self.message = message
         self.sequence = sequence
         self.asset = asset
 
@@ -503,20 +460,11 @@ class TransferAssetResponse(object):
                 else:
                     iprot.skip(ftype)
             elif fid == 2:
-                if ftype == TType.STRING:
-                    self.message = (
-                        iprot.readString().decode("utf-8", errors="replace")
-                        if sys.version_info[0] == 2
-                        else iprot.readString()
-                    )
-                else:
-                    iprot.skip(ftype)
-            elif fid == 3:
                 if ftype == TType.I64:
                     self.sequence = iprot.readI64()
                 else:
                     iprot.skip(ftype)
-            elif fid == 4:
+            elif fid == 3:
                 if ftype == TType.STRUCT:
                     self.asset = stargate_thrift_classes.base.ttypes.Asset()
                     self.asset.read(iprot)
@@ -538,20 +486,12 @@ class TransferAssetResponse(object):
             oprot.writeFieldBegin("status", TType.I32, 1)
             oprot.writeI32(self.status)
             oprot.writeFieldEnd()
-        if self.message is not None:
-            oprot.writeFieldBegin("message", TType.STRING, 2)
-            oprot.writeString(
-                self.message.encode("utf-8")
-                if sys.version_info[0] == 2
-                else self.message
-            )
-            oprot.writeFieldEnd()
         if self.sequence is not None:
-            oprot.writeFieldBegin("sequence", TType.I64, 3)
+            oprot.writeFieldBegin("sequence", TType.I64, 2)
             oprot.writeI64(self.sequence)
             oprot.writeFieldEnd()
         if self.asset is not None:
-            oprot.writeFieldBegin("asset", TType.STRUCT, 4)
+            oprot.writeFieldBegin("asset", TType.STRUCT, 3)
             self.asset.write(oprot)
             oprot.writeFieldEnd()
         oprot.writeFieldStop()
@@ -926,25 +866,18 @@ TraderResponse.thrift_spec = (
     ),  # 1
     (
         2,
-        TType.STRING,
-        "message",
-        "UTF8",
-        None,
-    ),  # 2
-    (
-        3,
         TType.I64,
         "sequence",
         None,
         None,
-    ),  # 3
+    ),  # 2
     (
-        4,
+        3,
         TType.STRUCT,
         "trader",
         [stargate_thrift_classes.base.ttypes.Trader, None],
         None,
-    ),  # 4
+    ),  # 3
 )
 all_structs.append(BlockTrader)
 BlockTrader.thrift_spec = (
@@ -987,25 +920,18 @@ TraderAssetResponse.thrift_spec = (
     ),  # 1
     (
         2,
-        TType.STRING,
-        "message",
-        "UTF8",
-        None,
-    ),  # 2
-    (
-        3,
         TType.I64,
         "sequence",
         None,
         None,
-    ),  # 3
+    ),  # 2
     (
-        4,
+        3,
         TType.LIST,
         "assets",
         (TType.STRUCT, [stargate_thrift_classes.base.ttypes.Asset, None], False),
         None,
-    ),  # 4
+    ),  # 3
 )
 all_structs.append(TransferAssetResponse)
 TransferAssetResponse.thrift_spec = (
@@ -1019,25 +945,18 @@ TransferAssetResponse.thrift_spec = (
     ),  # 1
     (
         2,
-        TType.STRING,
-        "message",
-        "UTF8",
-        None,
-    ),  # 2
-    (
-        3,
         TType.I64,
         "sequence",
         None,
         None,
-    ),  # 3
+    ),  # 2
     (
-        4,
+        3,
         TType.STRUCT,
         "asset",
         [stargate_thrift_classes.base.ttypes.Asset, None],
         None,
-    ),  # 4
+    ),  # 3
 )
 all_structs.append(TransferAsset)
 TransferAsset.thrift_spec = (
