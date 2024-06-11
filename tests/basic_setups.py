@@ -10,7 +10,7 @@ from stargate_thrift_classes.admin.ttypes import AddCurrency, GetCurrencyRequest
 from stargate_thrift_classes.base.ttypes import Response, MarketType, OrderType, OrderSide, PositionMarginMode
 from stargate_thrift_classes.trader.TraderService import Client as TraderClient
 from stargate_thrift_classes.trader.ttypes import AddTrader, TraderAssetResponse, GetTraderAsset, TransferAsset, \
-    PlaceOrder, ChangeTraderHedgeMode, TraderResponse, ChangeTraderUsdmMultiAssetMode
+    PlaceOrder, ChangeTraderHedgeMode, TraderResponse, ChangeTraderUsdmMultiAssetMode, ChangeTraderFee
 from utils.test_constants import ADD_CURRENCY_ALL, ADD_TRADER_ALL, CONTRACTS_ALL, ADD_TRADER_01, ADD_CURRENCY_USDT, \
     ADD_TRADER_02, CONTRACT_BTCUSDT_PERPETUAL, ADD_TRADER_03, ADD_TRADER_04, ADD_TRADER_05
 
@@ -75,6 +75,13 @@ class BasicSetups(unittest.TestCase):
         trader: AddTrader = ADD_TRADER_01
         response: TraderResponse = trader_client.changeTraderUsdmMultiAssetMode(
             ChangeTraderUsdmMultiAssetMode(traderId=trader.id, usdmMultiAssetModeActivate=True)
+        )
+        print(response)
+
+    def test_change_trader_fee(self):
+        trader: AddTrader = ADD_TRADER_01
+        response: TraderResponse = trader_client.changeTraderFee(
+            ChangeTraderFee(traderId=trader.id, makerFee="0.0015", takerFee="0.00032")
         )
         print(response)
 
