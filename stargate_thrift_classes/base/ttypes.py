@@ -51,17 +51,29 @@ class OrderType(object):
 
 
 class OrderSide(object):
-    BID = 1
-    ASK = 2
+    BUY = 1
+    SELL = 2
+    OPEN_LONG = 3
+    CLOSE_LONG = 4
+    OPEN_SHORT = 5
+    CLOSE_SHORT = 6
 
     _VALUES_TO_NAMES = {
-        1: "BID",
-        2: "ASK",
+        1: "BUY",
+        2: "SELL",
+        3: "OPEN_LONG",
+        4: "CLOSE_LONG",
+        5: "OPEN_SHORT",
+        6: "CLOSE_SHORT",
     }
 
     _NAMES_TO_VALUES = {
-        "BID": 1,
-        "ASK": 2,
+        "BUY": 1,
+        "SELL": 2,
+        "OPEN_LONG": 3,
+        "CLOSE_LONG": 4,
+        "OPEN_SHORT": 5,
+        "CLOSE_SHORT": 6,
     }
 
 

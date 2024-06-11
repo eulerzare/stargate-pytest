@@ -7,7 +7,7 @@ from thrift.transport import TSocket, TTransport
 from stargate_thrift_classes.admin.AdminService import Client as AdminClient
 from stargate_thrift_classes.admin.ttypes import AddCurrency, GetCurrencyRequest, GetContractRequest, \
     AddContractRequest, GetCurrencyResponse, GetContractResponse
-from stargate_thrift_classes.base.ttypes import Response, MarketType, OrderType, OrderSide
+from stargate_thrift_classes.base.ttypes import Response, MarketType, OrderType, OrderSide, PositionMarginMode
 from stargate_thrift_classes.trader.TraderService import Client as TraderClient
 from stargate_thrift_classes.trader.ttypes import AddTrader, TraderAssetResponse, GetTraderAsset, TransferAsset, \
     PlaceOrder
@@ -70,49 +70,49 @@ class BasicSetups(unittest.TestCase):
             traderId=ADD_TRADER_01.id,
             marketType=MarketType.PERPETUAL_USDM,
             currencyId=ADD_CURRENCY_USDT.id,
-            amount="100000.45436609"
+            amount="100000"
         )))
         print(trader_client.transferAsset(TransferAsset(
             uniqueId=2,
             traderId=ADD_TRADER_02.id,
             marketType=MarketType.PERPETUAL_USDM,
             currencyId=ADD_CURRENCY_USDT.id,
-            amount="100000.436436"
+            amount="100000"
         )))
         print(trader_client.transferAsset(TransferAsset(
             uniqueId=3,
             traderId=ADD_TRADER_03.id,
             marketType=MarketType.PERPETUAL_USDM,
             currencyId=ADD_CURRENCY_USDT.id,
-            amount="80000.436436"
+            amount="100000"
         )))
         print(trader_client.transferAsset(TransferAsset(
             uniqueId=4,
             traderId=ADD_TRADER_04.id,
             marketType=MarketType.PERPETUAL_USDM,
             currencyId=ADD_CURRENCY_USDT.id,
-            amount="90000.436436"
+            amount="100000"
         )))
         print(trader_client.transferAsset(TransferAsset(
             uniqueId=5,
             traderId=ADD_TRADER_05.id,
             marketType=MarketType.PERPETUAL_USDM,
             currencyId=ADD_CURRENCY_USDT.id,
-            amount="91234.87654321"
+            amount="100000"
         )))
 
     def test_place_order(self):
         print(trader_client.placeOrder(PlaceOrder(
-            id=1,
-            traderId=ADD_TRADER_01.id,
+            id=7,
+            traderId=ADD_TRADER_04.id,
             contractId=CONTRACT_BTCUSDT_PERPETUAL.id,
             orderType=OrderType.LIMIT,
-            orderSide=OrderSide.ASK,
-            price="59990.0",
-            size="1000",
+            orderSide=OrderSide.BUY,
+            price="59600",
+            size="19966",
             isSizeInBaseCurrency=False,
-            leverage=5,
-            isCrossMargin=False,
+            leverage=3,
+            marginMode=PositionMarginMode.ISOLATED,
         )))
 
     def tearDown(self):

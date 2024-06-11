@@ -8,8 +8,12 @@ enum OrderType {
 }
 
 enum OrderSide {
-  BID = 1,
-  ASK = 2,
+  BUY = 1,
+  SELL = 2,
+  OPEN_LONG = 3,
+  CLOSE_LONG = 4,
+  OPEN_SHORT = 5,
+  CLOSE_SHORT = 6,
 }
 
 enum PositionSide {

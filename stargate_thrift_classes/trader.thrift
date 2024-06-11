@@ -57,5 +57,5 @@ struct PlaceOrder {
   7: required string size,
   8: required bool isSizeInBaseCurrency,
   9: required i16 leverage,
-  10: required bool isCrossMargin,
+  10: required base.PositionMarginMode marginMode,
 }

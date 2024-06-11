@@ -651,7 +651,7 @@ class PlaceOrder(object):
      - size
      - isSizeInBaseCurrency
      - leverage
-     - isCrossMargin
+     - marginMode
 
     """
 
@@ -666,7 +666,7 @@ class PlaceOrder(object):
         size=None,
         isSizeInBaseCurrency=None,
         leverage=None,
-        isCrossMargin=None,
+        marginMode=None,
     ):
         self.id = id
         self.traderId = traderId
@@ -677,7 +677,7 @@ class PlaceOrder(object):
         self.size = size
         self.isSizeInBaseCurrency = isSizeInBaseCurrency
         self.leverage = leverage
-        self.isCrossMargin = isCrossMargin
+        self.marginMode = marginMode
 
     def read(self, iprot):
         if (
@@ -746,8 +746,8 @@ class PlaceOrder(object):
                 else:
                     iprot.skip(ftype)
             elif fid == 10:
-                if ftype == TType.BOOL:
-                    self.isCrossMargin = iprot.readBool()
+                if ftype == TType.I32:
+                    self.marginMode = iprot.readI32()
                 else:
                     iprot.skip(ftype)
             else:
@@ -802,9 +802,9 @@ class PlaceOrder(object):
             oprot.writeFieldBegin("leverage", TType.I16, 9)
             oprot.writeI16(self.leverage)
             oprot.writeFieldEnd()
-        if self.isCrossMargin is not None:
-            oprot.writeFieldBegin("isCrossMargin", TType.BOOL, 10)
-            oprot.writeBool(self.isCrossMargin)
+        if self.marginMode is not None:
+            oprot.writeFieldBegin("marginMode", TType.I32, 10)
+            oprot.writeI32(self.marginMode)
             oprot.writeFieldEnd()
         oprot.writeFieldStop()
         oprot.writeStructEnd()
@@ -828,8 +828,8 @@ class PlaceOrder(object):
             )
         if self.leverage is None:
             raise TProtocolException(message="Required field leverage is unset!")
-        if self.isCrossMargin is None:
-            raise TProtocolException(message="Required field isCrossMargin is unset!")
+        if self.marginMode is None:
+            raise TProtocolException(message="Required field marginMode is unset!")
         return
 
     def __repr__(self):
@@ -1065,8 +1065,8 @@ PlaceOrder.thrift_spec = (
     ),  # 9
     (
         10,
-        TType.BOOL,
-        "isCrossMargin",
+        TType.I32,
+        "marginMode",
         None,
         None,
     ),  # 10
