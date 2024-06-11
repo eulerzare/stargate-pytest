@@ -26,6 +26,9 @@ if len(sys.argv) <= 1 or sys.argv[1] == '--help':
     print('Functions:')
     print('  TraderResponse addTrader(AddTrader addTrader)')
     print('  TraderResponse blockTrader(BlockTrader blockTrader)')
+    print('  TraderResponse changeTraderFee(ChangeTraderFee changeTraderFee)')
+    print('  TraderResponse changeTraderHedgeMode(ChangeTraderHedgeMode changeTraderHedgeMode)')
+    print('  TraderResponse changeTraderUsdmMultiAssetMode(ChangeTraderUsdmMultiAssetMode changeTraderUsdmMultiAssetMode)')
     print('  TraderAssetResponse getTraderAsset(GetTraderAsset getTraderAsset)')
     print('  TransferAssetResponse transferAsset(TransferAsset transferAsset)')
     print('  Response placeOrder(PlaceOrder placeOrder)')
@@ -119,6 +122,24 @@ elif cmd == 'blockTrader':
         print('blockTrader requires 1 args')
         sys.exit(1)
     pp.pprint(client.blockTrader(eval(args[0]),))
+
+elif cmd == 'changeTraderFee':
+    if len(args) != 1:
+        print('changeTraderFee requires 1 args')
+        sys.exit(1)
+    pp.pprint(client.changeTraderFee(eval(args[0]),))
+
+elif cmd == 'changeTraderHedgeMode':
+    if len(args) != 1:
+        print('changeTraderHedgeMode requires 1 args')
+        sys.exit(1)
+    pp.pprint(client.changeTraderHedgeMode(eval(args[0]),))
+
+elif cmd == 'changeTraderUsdmMultiAssetMode':
+    if len(args) != 1:
+        print('changeTraderUsdmMultiAssetMode requires 1 args')
+        sys.exit(1)
+    pp.pprint(client.changeTraderUsdmMultiAssetMode(eval(args[0]),))
 
 elif cmd == 'getTraderAsset':
     if len(args) != 1:

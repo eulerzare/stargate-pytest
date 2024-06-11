@@ -19,11 +19,11 @@ ADD_CURRENCY_ALL = [
     ADD_CURRENCY_LTC, ADD_CURRENCY_SHIB
 ]
 
-ADD_TRADER_01 = AddTrader(id=1)
-ADD_TRADER_02 = AddTrader(id=2)
-ADD_TRADER_03 = AddTrader(id=3)
-ADD_TRADER_04 = AddTrader(id=4)
-ADD_TRADER_05 = AddTrader(id=5)
+ADD_TRADER_01 = AddTrader(id=1, makerFee="0.0001", takerFee="0.0002")
+ADD_TRADER_02 = AddTrader(id=2, makerFee="0.0001", takerFee="0.0002")
+ADD_TRADER_03 = AddTrader(id=3, makerFee="0.0001", takerFee="0.0002")
+ADD_TRADER_04 = AddTrader(id=4, makerFee="0.0001", takerFee="0.0002")
+ADD_TRADER_05 = AddTrader(id=5, makerFee="0.0001", takerFee="0.0002")
 
 ADD_TRADER_ALL = [
     ADD_TRADER_01, ADD_TRADER_02, ADD_TRADER_03, ADD_TRADER_04, ADD_TRADER_05

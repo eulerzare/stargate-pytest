@@ -576,6 +576,10 @@ class Trader(object):
     Attributes:
      - id
      - active
+     - hedgeMode
+     - usdmMultiAssetMode
+     - makerFee
+     - takerFee
 
     """
 
@@ -583,9 +587,17 @@ class Trader(object):
         self,
         id=None,
         active=None,
+        hedgeMode=None,
+        usdmMultiAssetMode=None,
+        makerFee=None,
+        takerFee=None,
     ):
         self.id = id
         self.active = active
+        self.hedgeMode = hedgeMode
+        self.usdmMultiAssetMode = usdmMultiAssetMode
+        self.makerFee = makerFee
+        self.takerFee = takerFee
 
     def read(self, iprot):
         if (
@@ -610,6 +622,34 @@ class Trader(object):
                     self.active = iprot.readBool()
                 else:
                     iprot.skip(ftype)
+            elif fid == 3:
+                if ftype == TType.BOOL:
+                    self.hedgeMode = iprot.readBool()
+                else:
+                    iprot.skip(ftype)
+            elif fid == 4:
+                if ftype == TType.BOOL:
+                    self.usdmMultiAssetMode = iprot.readBool()
+                else:
+                    iprot.skip(ftype)
+            elif fid == 5:
+                if ftype == TType.STRING:
+                    self.makerFee = (
+                        iprot.readString().decode("utf-8", errors="replace")
+                        if sys.version_info[0] == 2
+                        else iprot.readString()
+                    )
+                else:
+                    iprot.skip(ftype)
+            elif fid == 6:
+                if ftype == TType.STRING:
+                    self.takerFee = (
+                        iprot.readString().decode("utf-8", errors="replace")
+                        if sys.version_info[0] == 2
+                        else iprot.readString()
+                    )
+                else:
+                    iprot.skip(ftype)
             else:
                 iprot.skip(ftype)
             iprot.readFieldEnd()
@@ -630,6 +670,30 @@ class Trader(object):
             oprot.writeFieldBegin("active", TType.BOOL, 2)
             oprot.writeBool(self.active)
             oprot.writeFieldEnd()
+        if self.hedgeMode is not None:
+            oprot.writeFieldBegin("hedgeMode", TType.BOOL, 3)
+            oprot.writeBool(self.hedgeMode)
+            oprot.writeFieldEnd()
+        if self.usdmMultiAssetMode is not None:
+            oprot.writeFieldBegin("usdmMultiAssetMode", TType.BOOL, 4)
+            oprot.writeBool(self.usdmMultiAssetMode)
+            oprot.writeFieldEnd()
+        if self.makerFee is not None:
+            oprot.writeFieldBegin("makerFee", TType.STRING, 5)
+            oprot.writeString(
+                self.makerFee.encode("utf-8")
+                if sys.version_info[0] == 2
+                else self.makerFee
+            )
+            oprot.writeFieldEnd()
+        if self.takerFee is not None:
+            oprot.writeFieldBegin("takerFee", TType.STRING, 6)
+            oprot.writeString(
+                self.takerFee.encode("utf-8")
+                if sys.version_info[0] == 2
+                else self.takerFee
+            )
+            oprot.writeFieldEnd()
         oprot.writeFieldStop()
         oprot.writeStructEnd()
 
@@ -638,6 +702,16 @@ class Trader(object):
             raise TProtocolException(message="Required field id is unset!")
         if self.active is None:
             raise TProtocolException(message="Required field active is unset!")
+        if self.hedgeMode is None:
+            raise TProtocolException(message="Required field hedgeMode is unset!")
+        if self.usdmMultiAssetMode is None:
+            raise TProtocolException(
+                message="Required field usdmMultiAssetMode is unset!"
+            )
+        if self.makerFee is None:
+            raise TProtocolException(message="Required field makerFee is unset!")
+        if self.takerFee is None:
+            raise TProtocolException(message="Required field takerFee is unset!")
         return
 
     def __repr__(self):
@@ -803,6 +877,34 @@ Trader.thrift_spec = (
         None,
         None,
     ),  # 2
+    (
+        3,
+        TType.BOOL,
+        "hedgeMode",
+        None,
+        None,
+    ),  # 3
+    (
+        4,
+        TType.BOOL,
+        "usdmMultiAssetMode",
+        None,
+        None,
+    ),  # 4
+    (
+        5,
+        TType.STRING,
+        "makerFee",
+        "UTF8",
+        None,
+    ),  # 5
+    (
+        6,
+        TType.STRING,
+        "takerFee",
+        "UTF8",
+        None,
+    ),  # 6
 )
 fix_spec(all_structs)
 del all_structs

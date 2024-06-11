@@ -28,14 +28,20 @@ class AddTrader(object):
     """
     Attributes:
      - id
+     - makerFee
+     - takerFee
 
     """
 
     def __init__(
         self,
         id=None,
+        makerFee=None,
+        takerFee=None,
     ):
         self.id = id
+        self.makerFee = makerFee
+        self.takerFee = takerFee
 
     def read(self, iprot):
         if (
@@ -55,6 +61,24 @@ class AddTrader(object):
                     self.id = iprot.readI64()
                 else:
                     iprot.skip(ftype)
+            elif fid == 2:
+                if ftype == TType.STRING:
+                    self.makerFee = (
+                        iprot.readString().decode("utf-8", errors="replace")
+                        if sys.version_info[0] == 2
+                        else iprot.readString()
+                    )
+                else:
+                    iprot.skip(ftype)
+            elif fid == 3:
+                if ftype == TType.STRING:
+                    self.takerFee = (
+                        iprot.readString().decode("utf-8", errors="replace")
+                        if sys.version_info[0] == 2
+                        else iprot.readString()
+                    )
+                else:
+                    iprot.skip(ftype)
             else:
                 iprot.skip(ftype)
             iprot.readFieldEnd()
@@ -71,12 +95,32 @@ class AddTrader(object):
             oprot.writeFieldBegin("id", TType.I64, 1)
             oprot.writeI64(self.id)
             oprot.writeFieldEnd()
+        if self.makerFee is not None:
+            oprot.writeFieldBegin("makerFee", TType.STRING, 2)
+            oprot.writeString(
+                self.makerFee.encode("utf-8")
+                if sys.version_info[0] == 2
+                else self.makerFee
+            )
+            oprot.writeFieldEnd()
+        if self.takerFee is not None:
+            oprot.writeFieldBegin("takerFee", TType.STRING, 3)
+            oprot.writeString(
+                self.takerFee.encode("utf-8")
+                if sys.version_info[0] == 2
+                else self.takerFee
+            )
+            oprot.writeFieldEnd()
         oprot.writeFieldStop()
         oprot.writeStructEnd()
 
     def validate(self):
         if self.id is None:
             raise TProtocolException(message="Required field id is unset!")
+        if self.makerFee is None:
+            raise TProtocolException(message="Required field makerFee is unset!")
+        if self.takerFee is None:
+            raise TProtocolException(message="Required field takerFee is unset!")
         return
 
     def __repr__(self):
@@ -246,6 +290,276 @@ class BlockTrader(object):
             raise TProtocolException(message="Required field id is unset!")
         if self.active is None:
             raise TProtocolException(message="Required field active is unset!")
+        return
+
+    def __repr__(self):
+        L = ["%s=%r" % (key, value) for key, value in self.__dict__.items()]
+        return "%s(%s)" % (self.__class__.__name__, ", ".join(L))
+
+    def __eq__(self, other):
+        return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        return not (self == other)
+
+
+class ChangeTraderFee(object):
+    """
+    Attributes:
+     - traderId
+     - makerFee
+     - takerFee
+
+    """
+
+    def __init__(
+        self,
+        traderId=None,
+        makerFee=None,
+        takerFee=None,
+    ):
+        self.traderId = traderId
+        self.makerFee = makerFee
+        self.takerFee = takerFee
+
+    def read(self, iprot):
+        if (
+            iprot._fast_decode is not None
+            and isinstance(iprot.trans, TTransport.CReadableTransport)
+            and self.thrift_spec is not None
+        ):
+            iprot._fast_decode(self, iprot, [self.__class__, self.thrift_spec])
+            return
+        iprot.readStructBegin()
+        while True:
+            (fname, ftype, fid) = iprot.readFieldBegin()
+            if ftype == TType.STOP:
+                break
+            if fid == 1:
+                if ftype == TType.I64:
+                    self.traderId = iprot.readI64()
+                else:
+                    iprot.skip(ftype)
+            elif fid == 2:
+                if ftype == TType.STRING:
+                    self.makerFee = (
+                        iprot.readString().decode("utf-8", errors="replace")
+                        if sys.version_info[0] == 2
+                        else iprot.readString()
+                    )
+                else:
+                    iprot.skip(ftype)
+            elif fid == 3:
+                if ftype == TType.STRING:
+                    self.takerFee = (
+                        iprot.readString().decode("utf-8", errors="replace")
+                        if sys.version_info[0] == 2
+                        else iprot.readString()
+                    )
+                else:
+                    iprot.skip(ftype)
+            else:
+                iprot.skip(ftype)
+            iprot.readFieldEnd()
+        iprot.readStructEnd()
+
+    def write(self, oprot):
+        if oprot._fast_encode is not None and self.thrift_spec is not None:
+            oprot.trans.write(
+                oprot._fast_encode(self, [self.__class__, self.thrift_spec])
+            )
+            return
+        oprot.writeStructBegin("ChangeTraderFee")
+        if self.traderId is not None:
+            oprot.writeFieldBegin("traderId", TType.I64, 1)
+            oprot.writeI64(self.traderId)
+            oprot.writeFieldEnd()
+        if self.makerFee is not None:
+            oprot.writeFieldBegin("makerFee", TType.STRING, 2)
+            oprot.writeString(
+                self.makerFee.encode("utf-8")
+                if sys.version_info[0] == 2
+                else self.makerFee
+            )
+            oprot.writeFieldEnd()
+        if self.takerFee is not None:
+            oprot.writeFieldBegin("takerFee", TType.STRING, 3)
+            oprot.writeString(
+                self.takerFee.encode("utf-8")
+                if sys.version_info[0] == 2
+                else self.takerFee
+            )
+            oprot.writeFieldEnd()
+        oprot.writeFieldStop()
+        oprot.writeStructEnd()
+
+    def validate(self):
+        if self.traderId is None:
+            raise TProtocolException(message="Required field traderId is unset!")
+        return
+
+    def __repr__(self):
+        L = ["%s=%r" % (key, value) for key, value in self.__dict__.items()]
+        return "%s(%s)" % (self.__class__.__name__, ", ".join(L))
+
+    def __eq__(self, other):
+        return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        return not (self == other)
+
+
+class ChangeTraderHedgeMode(object):
+    """
+    Attributes:
+     - traderId
+     - hedgeModeActivate
+
+    """
+
+    def __init__(
+        self,
+        traderId=None,
+        hedgeModeActivate=None,
+    ):
+        self.traderId = traderId
+        self.hedgeModeActivate = hedgeModeActivate
+
+    def read(self, iprot):
+        if (
+            iprot._fast_decode is not None
+            and isinstance(iprot.trans, TTransport.CReadableTransport)
+            and self.thrift_spec is not None
+        ):
+            iprot._fast_decode(self, iprot, [self.__class__, self.thrift_spec])
+            return
+        iprot.readStructBegin()
+        while True:
+            (fname, ftype, fid) = iprot.readFieldBegin()
+            if ftype == TType.STOP:
+                break
+            if fid == 1:
+                if ftype == TType.I64:
+                    self.traderId = iprot.readI64()
+                else:
+                    iprot.skip(ftype)
+            elif fid == 2:
+                if ftype == TType.BOOL:
+                    self.hedgeModeActivate = iprot.readBool()
+                else:
+                    iprot.skip(ftype)
+            else:
+                iprot.skip(ftype)
+            iprot.readFieldEnd()
+        iprot.readStructEnd()
+
+    def write(self, oprot):
+        if oprot._fast_encode is not None and self.thrift_spec is not None:
+            oprot.trans.write(
+                oprot._fast_encode(self, [self.__class__, self.thrift_spec])
+            )
+            return
+        oprot.writeStructBegin("ChangeTraderHedgeMode")
+        if self.traderId is not None:
+            oprot.writeFieldBegin("traderId", TType.I64, 1)
+            oprot.writeI64(self.traderId)
+            oprot.writeFieldEnd()
+        if self.hedgeModeActivate is not None:
+            oprot.writeFieldBegin("hedgeModeActivate", TType.BOOL, 2)
+            oprot.writeBool(self.hedgeModeActivate)
+            oprot.writeFieldEnd()
+        oprot.writeFieldStop()
+        oprot.writeStructEnd()
+
+    def validate(self):
+        if self.traderId is None:
+            raise TProtocolException(message="Required field traderId is unset!")
+        if self.hedgeModeActivate is None:
+            raise TProtocolException(
+                message="Required field hedgeModeActivate is unset!"
+            )
+        return
+
+    def __repr__(self):
+        L = ["%s=%r" % (key, value) for key, value in self.__dict__.items()]
+        return "%s(%s)" % (self.__class__.__name__, ", ".join(L))
+
+    def __eq__(self, other):
+        return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        return not (self == other)
+
+
+class ChangeTraderUsdmMultiAssetMode(object):
+    """
+    Attributes:
+     - traderId
+     - usdmMultiAssetModeActivate
+
+    """
+
+    def __init__(
+        self,
+        traderId=None,
+        usdmMultiAssetModeActivate=None,
+    ):
+        self.traderId = traderId
+        self.usdmMultiAssetModeActivate = usdmMultiAssetModeActivate
+
+    def read(self, iprot):
+        if (
+            iprot._fast_decode is not None
+            and isinstance(iprot.trans, TTransport.CReadableTransport)
+            and self.thrift_spec is not None
+        ):
+            iprot._fast_decode(self, iprot, [self.__class__, self.thrift_spec])
+            return
+        iprot.readStructBegin()
+        while True:
+            (fname, ftype, fid) = iprot.readFieldBegin()
+            if ftype == TType.STOP:
+                break
+            if fid == 1:
+                if ftype == TType.I64:
+                    self.traderId = iprot.readI64()
+                else:
+                    iprot.skip(ftype)
+            elif fid == 2:
+                if ftype == TType.BOOL:
+                    self.usdmMultiAssetModeActivate = iprot.readBool()
+                else:
+                    iprot.skip(ftype)
+            else:
+                iprot.skip(ftype)
+            iprot.readFieldEnd()
+        iprot.readStructEnd()
+
+    def write(self, oprot):
+        if oprot._fast_encode is not None and self.thrift_spec is not None:
+            oprot.trans.write(
+                oprot._fast_encode(self, [self.__class__, self.thrift_spec])
+            )
+            return
+        oprot.writeStructBegin("ChangeTraderUsdmMultiAssetMode")
+        if self.traderId is not None:
+            oprot.writeFieldBegin("traderId", TType.I64, 1)
+            oprot.writeI64(self.traderId)
+            oprot.writeFieldEnd()
+        if self.usdmMultiAssetModeActivate is not None:
+            oprot.writeFieldBegin("usdmMultiAssetModeActivate", TType.BOOL, 2)
+            oprot.writeBool(self.usdmMultiAssetModeActivate)
+            oprot.writeFieldEnd()
+        oprot.writeFieldStop()
+        oprot.writeStructEnd()
+
+    def validate(self):
+        if self.traderId is None:
+            raise TProtocolException(message="Required field traderId is unset!")
+        if self.usdmMultiAssetModeActivate is None:
+            raise TProtocolException(
+                message="Required field usdmMultiAssetModeActivate is unset!"
+            )
         return
 
     def __repr__(self):
@@ -853,6 +1167,20 @@ AddTrader.thrift_spec = (
         None,
         None,
     ),  # 1
+    (
+        2,
+        TType.STRING,
+        "makerFee",
+        "UTF8",
+        None,
+    ),  # 2
+    (
+        3,
+        TType.STRING,
+        "takerFee",
+        "UTF8",
+        None,
+    ),  # 3
 )
 all_structs.append(TraderResponse)
 TraderResponse.thrift_spec = (
@@ -893,6 +1221,67 @@ BlockTrader.thrift_spec = (
         2,
         TType.BOOL,
         "active",
+        None,
+        None,
+    ),  # 2
+)
+all_structs.append(ChangeTraderFee)
+ChangeTraderFee.thrift_spec = (
+    None,  # 0
+    (
+        1,
+        TType.I64,
+        "traderId",
+        None,
+        None,
+    ),  # 1
+    (
+        2,
+        TType.STRING,
+        "makerFee",
+        "UTF8",
+        None,
+    ),  # 2
+    (
+        3,
+        TType.STRING,
+        "takerFee",
+        "UTF8",
+        None,
+    ),  # 3
+)
+all_structs.append(ChangeTraderHedgeMode)
+ChangeTraderHedgeMode.thrift_spec = (
+    None,  # 0
+    (
+        1,
+        TType.I64,
+        "traderId",
+        None,
+        None,
+    ),  # 1
+    (
+        2,
+        TType.BOOL,
+        "hedgeModeActivate",
+        None,
+        None,
+    ),  # 2
+)
+all_structs.append(ChangeTraderUsdmMultiAssetMode)
+ChangeTraderUsdmMultiAssetMode.thrift_spec = (
+    None,  # 0
+    (
+        1,
+        TType.I64,
+        "traderId",
+        None,
+        None,
+    ),  # 1
+    (
+        2,
+        TType.BOOL,
+        "usdmMultiAssetModeActivate",
         None,
         None,
     ),  # 2

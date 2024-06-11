@@ -42,6 +42,30 @@ class Iface(object):
         """
         pass
 
+    def changeTraderFee(self, changeTraderFee):
+        """
+        Parameters:
+         - changeTraderFee
+
+        """
+        pass
+
+    def changeTraderHedgeMode(self, changeTraderHedgeMode):
+        """
+        Parameters:
+         - changeTraderHedgeMode
+
+        """
+        pass
+
+    def changeTraderUsdmMultiAssetMode(self, changeTraderUsdmMultiAssetMode):
+        """
+        Parameters:
+         - changeTraderUsdmMultiAssetMode
+
+        """
+        pass
+
     def getTraderAsset(self, getTraderAsset):
         """
         Parameters:
@@ -140,6 +164,115 @@ class Client(Iface):
             return result.success
         raise TApplicationException(
             TApplicationException.MISSING_RESULT, "blockTrader failed: unknown result"
+        )
+
+    def changeTraderFee(self, changeTraderFee):
+        """
+        Parameters:
+         - changeTraderFee
+
+        """
+        self.send_changeTraderFee(changeTraderFee)
+        return self.recv_changeTraderFee()
+
+    def send_changeTraderFee(self, changeTraderFee):
+        self._oprot.writeMessageBegin("changeTraderFee", TMessageType.CALL, self._seqid)
+        args = changeTraderFee_args()
+        args.changeTraderFee = changeTraderFee
+        args.write(self._oprot)
+        self._oprot.writeMessageEnd()
+        self._oprot.trans.flush()
+
+    def recv_changeTraderFee(self):
+        iprot = self._iprot
+        (fname, mtype, rseqid) = iprot.readMessageBegin()
+        if mtype == TMessageType.EXCEPTION:
+            x = TApplicationException()
+            x.read(iprot)
+            iprot.readMessageEnd()
+            raise x
+        result = changeTraderFee_result()
+        result.read(iprot)
+        iprot.readMessageEnd()
+        if result.success is not None:
+            return result.success
+        raise TApplicationException(
+            TApplicationException.MISSING_RESULT,
+            "changeTraderFee failed: unknown result",
+        )
+
+    def changeTraderHedgeMode(self, changeTraderHedgeMode):
+        """
+        Parameters:
+         - changeTraderHedgeMode
+
+        """
+        self.send_changeTraderHedgeMode(changeTraderHedgeMode)
+        return self.recv_changeTraderHedgeMode()
+
+    def send_changeTraderHedgeMode(self, changeTraderHedgeMode):
+        self._oprot.writeMessageBegin(
+            "changeTraderHedgeMode", TMessageType.CALL, self._seqid
+        )
+        args = changeTraderHedgeMode_args()
+        args.changeTraderHedgeMode = changeTraderHedgeMode
+        args.write(self._oprot)
+        self._oprot.writeMessageEnd()
+        self._oprot.trans.flush()
+
+    def recv_changeTraderHedgeMode(self):
+        iprot = self._iprot
+        (fname, mtype, rseqid) = iprot.readMessageBegin()
+        if mtype == TMessageType.EXCEPTION:
+            x = TApplicationException()
+            x.read(iprot)
+            iprot.readMessageEnd()
+            raise x
+        result = changeTraderHedgeMode_result()
+        result.read(iprot)
+        iprot.readMessageEnd()
+        if result.success is not None:
+            return result.success
+        raise TApplicationException(
+            TApplicationException.MISSING_RESULT,
+            "changeTraderHedgeMode failed: unknown result",
+        )
+
+    def changeTraderUsdmMultiAssetMode(self, changeTraderUsdmMultiAssetMode):
+        """
+        Parameters:
+         - changeTraderUsdmMultiAssetMode
+
+        """
+        self.send_changeTraderUsdmMultiAssetMode(changeTraderUsdmMultiAssetMode)
+        return self.recv_changeTraderUsdmMultiAssetMode()
+
+    def send_changeTraderUsdmMultiAssetMode(self, changeTraderUsdmMultiAssetMode):
+        self._oprot.writeMessageBegin(
+            "changeTraderUsdmMultiAssetMode", TMessageType.CALL, self._seqid
+        )
+        args = changeTraderUsdmMultiAssetMode_args()
+        args.changeTraderUsdmMultiAssetMode = changeTraderUsdmMultiAssetMode
+        args.write(self._oprot)
+        self._oprot.writeMessageEnd()
+        self._oprot.trans.flush()
+
+    def recv_changeTraderUsdmMultiAssetMode(self):
+        iprot = self._iprot
+        (fname, mtype, rseqid) = iprot.readMessageBegin()
+        if mtype == TMessageType.EXCEPTION:
+            x = TApplicationException()
+            x.read(iprot)
+            iprot.readMessageEnd()
+            raise x
+        result = changeTraderUsdmMultiAssetMode_result()
+        result.read(iprot)
+        iprot.readMessageEnd()
+        if result.success is not None:
+            return result.success
+        raise TApplicationException(
+            TApplicationException.MISSING_RESULT,
+            "changeTraderUsdmMultiAssetMode failed: unknown result",
         )
 
     def getTraderAsset(self, getTraderAsset):
@@ -252,6 +385,13 @@ class Processor(Iface, TProcessor):
         self._processMap = {}
         self._processMap["addTrader"] = Processor.process_addTrader
         self._processMap["blockTrader"] = Processor.process_blockTrader
+        self._processMap["changeTraderFee"] = Processor.process_changeTraderFee
+        self._processMap["changeTraderHedgeMode"] = (
+            Processor.process_changeTraderHedgeMode
+        )
+        self._processMap["changeTraderUsdmMultiAssetMode"] = (
+            Processor.process_changeTraderUsdmMultiAssetMode
+        )
         self._processMap["getTraderAsset"] = Processor.process_getTraderAsset
         self._processMap["transferAsset"] = Processor.process_transferAsset
         self._processMap["placeOrder"] = Processor.process_placeOrder
@@ -325,6 +465,85 @@ class Processor(Iface, TProcessor):
                 TApplicationException.INTERNAL_ERROR, "Internal error"
             )
         oprot.writeMessageBegin("blockTrader", msg_type, seqid)
+        result.write(oprot)
+        oprot.writeMessageEnd()
+        oprot.trans.flush()
+
+    def process_changeTraderFee(self, seqid, iprot, oprot):
+        args = changeTraderFee_args()
+        args.read(iprot)
+        iprot.readMessageEnd()
+        result = changeTraderFee_result()
+        try:
+            result.success = self._handler.changeTraderFee(args.changeTraderFee)
+            msg_type = TMessageType.REPLY
+        except TTransport.TTransportException:
+            raise
+        except TApplicationException as ex:
+            logging.exception("TApplication exception in handler")
+            msg_type = TMessageType.EXCEPTION
+            result = ex
+        except Exception:
+            logging.exception("Unexpected exception in handler")
+            msg_type = TMessageType.EXCEPTION
+            result = TApplicationException(
+                TApplicationException.INTERNAL_ERROR, "Internal error"
+            )
+        oprot.writeMessageBegin("changeTraderFee", msg_type, seqid)
+        result.write(oprot)
+        oprot.writeMessageEnd()
+        oprot.trans.flush()
+
+    def process_changeTraderHedgeMode(self, seqid, iprot, oprot):
+        args = changeTraderHedgeMode_args()
+        args.read(iprot)
+        iprot.readMessageEnd()
+        result = changeTraderHedgeMode_result()
+        try:
+            result.success = self._handler.changeTraderHedgeMode(
+                args.changeTraderHedgeMode
+            )
+            msg_type = TMessageType.REPLY
+        except TTransport.TTransportException:
+            raise
+        except TApplicationException as ex:
+            logging.exception("TApplication exception in handler")
+            msg_type = TMessageType.EXCEPTION
+            result = ex
+        except Exception:
+            logging.exception("Unexpected exception in handler")
+            msg_type = TMessageType.EXCEPTION
+            result = TApplicationException(
+                TApplicationException.INTERNAL_ERROR, "Internal error"
+            )
+        oprot.writeMessageBegin("changeTraderHedgeMode", msg_type, seqid)
+        result.write(oprot)
+        oprot.writeMessageEnd()
+        oprot.trans.flush()
+
+    def process_changeTraderUsdmMultiAssetMode(self, seqid, iprot, oprot):
+        args = changeTraderUsdmMultiAssetMode_args()
+        args.read(iprot)
+        iprot.readMessageEnd()
+        result = changeTraderUsdmMultiAssetMode_result()
+        try:
+            result.success = self._handler.changeTraderUsdmMultiAssetMode(
+                args.changeTraderUsdmMultiAssetMode
+            )
+            msg_type = TMessageType.REPLY
+        except TTransport.TTransportException:
+            raise
+        except TApplicationException as ex:
+            logging.exception("TApplication exception in handler")
+            msg_type = TMessageType.EXCEPTION
+            result = ex
+        except Exception:
+            logging.exception("Unexpected exception in handler")
+            msg_type = TMessageType.EXCEPTION
+            result = TApplicationException(
+                TApplicationException.INTERNAL_ERROR, "Internal error"
+            )
+        oprot.writeMessageBegin("changeTraderUsdmMultiAssetMode", msg_type, seqid)
         result.write(oprot)
         oprot.writeMessageEnd()
         oprot.trans.flush()
@@ -708,6 +927,473 @@ class blockTrader_result(object):
 
 all_structs.append(blockTrader_result)
 blockTrader_result.thrift_spec = (
+    (
+        0,
+        TType.STRUCT,
+        "success",
+        [TraderResponse, None],
+        None,
+    ),  # 0
+)
+
+
+class changeTraderFee_args(object):
+    """
+    Attributes:
+     - changeTraderFee
+
+    """
+
+    def __init__(
+        self,
+        changeTraderFee=None,
+    ):
+        self.changeTraderFee = changeTraderFee
+
+    def read(self, iprot):
+        if (
+            iprot._fast_decode is not None
+            and isinstance(iprot.trans, TTransport.CReadableTransport)
+            and self.thrift_spec is not None
+        ):
+            iprot._fast_decode(self, iprot, [self.__class__, self.thrift_spec])
+            return
+        iprot.readStructBegin()
+        while True:
+            (fname, ftype, fid) = iprot.readFieldBegin()
+            if ftype == TType.STOP:
+                break
+            if fid == 1:
+                if ftype == TType.STRUCT:
+                    self.changeTraderFee = ChangeTraderFee()
+                    self.changeTraderFee.read(iprot)
+                else:
+                    iprot.skip(ftype)
+            else:
+                iprot.skip(ftype)
+            iprot.readFieldEnd()
+        iprot.readStructEnd()
+
+    def write(self, oprot):
+        if oprot._fast_encode is not None and self.thrift_spec is not None:
+            oprot.trans.write(
+                oprot._fast_encode(self, [self.__class__, self.thrift_spec])
+            )
+            return
+        oprot.writeStructBegin("changeTraderFee_args")
+        if self.changeTraderFee is not None:
+            oprot.writeFieldBegin("changeTraderFee", TType.STRUCT, 1)
+            self.changeTraderFee.write(oprot)
+            oprot.writeFieldEnd()
+        oprot.writeFieldStop()
+        oprot.writeStructEnd()
+
+    def validate(self):
+        return
+
+    def __repr__(self):
+        L = ["%s=%r" % (key, value) for key, value in self.__dict__.items()]
+        return "%s(%s)" % (self.__class__.__name__, ", ".join(L))
+
+    def __eq__(self, other):
+        return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        return not (self == other)
+
+
+all_structs.append(changeTraderFee_args)
+changeTraderFee_args.thrift_spec = (
+    None,  # 0
+    (
+        1,
+        TType.STRUCT,
+        "changeTraderFee",
+        [ChangeTraderFee, None],
+        None,
+    ),  # 1
+)
+
+
+class changeTraderFee_result(object):
+    """
+    Attributes:
+     - success
+
+    """
+
+    def __init__(
+        self,
+        success=None,
+    ):
+        self.success = success
+
+    def read(self, iprot):
+        if (
+            iprot._fast_decode is not None
+            and isinstance(iprot.trans, TTransport.CReadableTransport)
+            and self.thrift_spec is not None
+        ):
+            iprot._fast_decode(self, iprot, [self.__class__, self.thrift_spec])
+            return
+        iprot.readStructBegin()
+        while True:
+            (fname, ftype, fid) = iprot.readFieldBegin()
+            if ftype == TType.STOP:
+                break
+            if fid == 0:
+                if ftype == TType.STRUCT:
+                    self.success = TraderResponse()
+                    self.success.read(iprot)
+                else:
+                    iprot.skip(ftype)
+            else:
+                iprot.skip(ftype)
+            iprot.readFieldEnd()
+        iprot.readStructEnd()
+
+    def write(self, oprot):
+        if oprot._fast_encode is not None and self.thrift_spec is not None:
+            oprot.trans.write(
+                oprot._fast_encode(self, [self.__class__, self.thrift_spec])
+            )
+            return
+        oprot.writeStructBegin("changeTraderFee_result")
+        if self.success is not None:
+            oprot.writeFieldBegin("success", TType.STRUCT, 0)
+            self.success.write(oprot)
+            oprot.writeFieldEnd()
+        oprot.writeFieldStop()
+        oprot.writeStructEnd()
+
+    def validate(self):
+        return
+
+    def __repr__(self):
+        L = ["%s=%r" % (key, value) for key, value in self.__dict__.items()]
+        return "%s(%s)" % (self.__class__.__name__, ", ".join(L))
+
+    def __eq__(self, other):
+        return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        return not (self == other)
+
+
+all_structs.append(changeTraderFee_result)
+changeTraderFee_result.thrift_spec = (
+    (
+        0,
+        TType.STRUCT,
+        "success",
+        [TraderResponse, None],
+        None,
+    ),  # 0
+)
+
+
+class changeTraderHedgeMode_args(object):
+    """
+    Attributes:
+     - changeTraderHedgeMode
+
+    """
+
+    def __init__(
+        self,
+        changeTraderHedgeMode=None,
+    ):
+        self.changeTraderHedgeMode = changeTraderHedgeMode
+
+    def read(self, iprot):
+        if (
+            iprot._fast_decode is not None
+            and isinstance(iprot.trans, TTransport.CReadableTransport)
+            and self.thrift_spec is not None
+        ):
+            iprot._fast_decode(self, iprot, [self.__class__, self.thrift_spec])
+            return
+        iprot.readStructBegin()
+        while True:
+            (fname, ftype, fid) = iprot.readFieldBegin()
+            if ftype == TType.STOP:
+                break
+            if fid == 1:
+                if ftype == TType.STRUCT:
+                    self.changeTraderHedgeMode = ChangeTraderHedgeMode()
+                    self.changeTraderHedgeMode.read(iprot)
+                else:
+                    iprot.skip(ftype)
+            else:
+                iprot.skip(ftype)
+            iprot.readFieldEnd()
+        iprot.readStructEnd()
+
+    def write(self, oprot):
+        if oprot._fast_encode is not None and self.thrift_spec is not None:
+            oprot.trans.write(
+                oprot._fast_encode(self, [self.__class__, self.thrift_spec])
+            )
+            return
+        oprot.writeStructBegin("changeTraderHedgeMode_args")
+        if self.changeTraderHedgeMode is not None:
+            oprot.writeFieldBegin("changeTraderHedgeMode", TType.STRUCT, 1)
+            self.changeTraderHedgeMode.write(oprot)
+            oprot.writeFieldEnd()
+        oprot.writeFieldStop()
+        oprot.writeStructEnd()
+
+    def validate(self):
+        return
+
+    def __repr__(self):
+        L = ["%s=%r" % (key, value) for key, value in self.__dict__.items()]
+        return "%s(%s)" % (self.__class__.__name__, ", ".join(L))
+
+    def __eq__(self, other):
+        return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        return not (self == other)
+
+
+all_structs.append(changeTraderHedgeMode_args)
+changeTraderHedgeMode_args.thrift_spec = (
+    None,  # 0
+    (
+        1,
+        TType.STRUCT,
+        "changeTraderHedgeMode",
+        [ChangeTraderHedgeMode, None],
+        None,
+    ),  # 1
+)
+
+
+class changeTraderHedgeMode_result(object):
+    """
+    Attributes:
+     - success
+
+    """
+
+    def __init__(
+        self,
+        success=None,
+    ):
+        self.success = success
+
+    def read(self, iprot):
+        if (
+            iprot._fast_decode is not None
+            and isinstance(iprot.trans, TTransport.CReadableTransport)
+            and self.thrift_spec is not None
+        ):
+            iprot._fast_decode(self, iprot, [self.__class__, self.thrift_spec])
+            return
+        iprot.readStructBegin()
+        while True:
+            (fname, ftype, fid) = iprot.readFieldBegin()
+            if ftype == TType.STOP:
+                break
+            if fid == 0:
+                if ftype == TType.STRUCT:
+                    self.success = TraderResponse()
+                    self.success.read(iprot)
+                else:
+                    iprot.skip(ftype)
+            else:
+                iprot.skip(ftype)
+            iprot.readFieldEnd()
+        iprot.readStructEnd()
+
+    def write(self, oprot):
+        if oprot._fast_encode is not None and self.thrift_spec is not None:
+            oprot.trans.write(
+                oprot._fast_encode(self, [self.__class__, self.thrift_spec])
+            )
+            return
+        oprot.writeStructBegin("changeTraderHedgeMode_result")
+        if self.success is not None:
+            oprot.writeFieldBegin("success", TType.STRUCT, 0)
+            self.success.write(oprot)
+            oprot.writeFieldEnd()
+        oprot.writeFieldStop()
+        oprot.writeStructEnd()
+
+    def validate(self):
+        return
+
+    def __repr__(self):
+        L = ["%s=%r" % (key, value) for key, value in self.__dict__.items()]
+        return "%s(%s)" % (self.__class__.__name__, ", ".join(L))
+
+    def __eq__(self, other):
+        return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        return not (self == other)
+
+
+all_structs.append(changeTraderHedgeMode_result)
+changeTraderHedgeMode_result.thrift_spec = (
+    (
+        0,
+        TType.STRUCT,
+        "success",
+        [TraderResponse, None],
+        None,
+    ),  # 0
+)
+
+
+class changeTraderUsdmMultiAssetMode_args(object):
+    """
+    Attributes:
+     - changeTraderUsdmMultiAssetMode
+
+    """
+
+    def __init__(
+        self,
+        changeTraderUsdmMultiAssetMode=None,
+    ):
+        self.changeTraderUsdmMultiAssetMode = changeTraderUsdmMultiAssetMode
+
+    def read(self, iprot):
+        if (
+            iprot._fast_decode is not None
+            and isinstance(iprot.trans, TTransport.CReadableTransport)
+            and self.thrift_spec is not None
+        ):
+            iprot._fast_decode(self, iprot, [self.__class__, self.thrift_spec])
+            return
+        iprot.readStructBegin()
+        while True:
+            (fname, ftype, fid) = iprot.readFieldBegin()
+            if ftype == TType.STOP:
+                break
+            if fid == 1:
+                if ftype == TType.STRUCT:
+                    self.changeTraderUsdmMultiAssetMode = (
+                        ChangeTraderUsdmMultiAssetMode()
+                    )
+                    self.changeTraderUsdmMultiAssetMode.read(iprot)
+                else:
+                    iprot.skip(ftype)
+            else:
+                iprot.skip(ftype)
+            iprot.readFieldEnd()
+        iprot.readStructEnd()
+
+    def write(self, oprot):
+        if oprot._fast_encode is not None and self.thrift_spec is not None:
+            oprot.trans.write(
+                oprot._fast_encode(self, [self.__class__, self.thrift_spec])
+            )
+            return
+        oprot.writeStructBegin("changeTraderUsdmMultiAssetMode_args")
+        if self.changeTraderUsdmMultiAssetMode is not None:
+            oprot.writeFieldBegin("changeTraderUsdmMultiAssetMode", TType.STRUCT, 1)
+            self.changeTraderUsdmMultiAssetMode.write(oprot)
+            oprot.writeFieldEnd()
+        oprot.writeFieldStop()
+        oprot.writeStructEnd()
+
+    def validate(self):
+        return
+
+    def __repr__(self):
+        L = ["%s=%r" % (key, value) for key, value in self.__dict__.items()]
+        return "%s(%s)" % (self.__class__.__name__, ", ".join(L))
+
+    def __eq__(self, other):
+        return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        return not (self == other)
+
+
+all_structs.append(changeTraderUsdmMultiAssetMode_args)
+changeTraderUsdmMultiAssetMode_args.thrift_spec = (
+    None,  # 0
+    (
+        1,
+        TType.STRUCT,
+        "changeTraderUsdmMultiAssetMode",
+        [ChangeTraderUsdmMultiAssetMode, None],
+        None,
+    ),  # 1
+)
+
+
+class changeTraderUsdmMultiAssetMode_result(object):
+    """
+    Attributes:
+     - success
+
+    """
+
+    def __init__(
+        self,
+        success=None,
+    ):
+        self.success = success
+
+    def read(self, iprot):
+        if (
+            iprot._fast_decode is not None
+            and isinstance(iprot.trans, TTransport.CReadableTransport)
+            and self.thrift_spec is not None
+        ):
+            iprot._fast_decode(self, iprot, [self.__class__, self.thrift_spec])
+            return
+        iprot.readStructBegin()
+        while True:
+            (fname, ftype, fid) = iprot.readFieldBegin()
+            if ftype == TType.STOP:
+                break
+            if fid == 0:
+                if ftype == TType.STRUCT:
+                    self.success = TraderResponse()
+                    self.success.read(iprot)
+                else:
+                    iprot.skip(ftype)
+            else:
+                iprot.skip(ftype)
+            iprot.readFieldEnd()
+        iprot.readStructEnd()
+
+    def write(self, oprot):
+        if oprot._fast_encode is not None and self.thrift_spec is not None:
+            oprot.trans.write(
+                oprot._fast_encode(self, [self.__class__, self.thrift_spec])
+            )
+            return
+        oprot.writeStructBegin("changeTraderUsdmMultiAssetMode_result")
+        if self.success is not None:
+            oprot.writeFieldBegin("success", TType.STRUCT, 0)
+            self.success.write(oprot)
+            oprot.writeFieldEnd()
+        oprot.writeFieldStop()
+        oprot.writeStructEnd()
+
+    def validate(self):
+        return
+
+    def __repr__(self):
+        L = ["%s=%r" % (key, value) for key, value in self.__dict__.items()]
+        return "%s(%s)" % (self.__class__.__name__, ", ".join(L))
+
+    def __eq__(self, other):
+        return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        return not (self == other)
+
+
+all_structs.append(changeTraderUsdmMultiAssetMode_result)
+changeTraderUsdmMultiAssetMode_result.thrift_spec = (
     (
         0,
         TType.STRUCT,

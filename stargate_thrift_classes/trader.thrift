@@ -3,6 +3,9 @@ include "base.thrift"
 service TraderService {
   TraderResponse addTrader(1:AddTrader addTrader),
   TraderResponse blockTrader(1:BlockTrader blockTrader),
+  TraderResponse changeTraderFee(1: ChangeTraderFee changeTraderFee),
+  TraderResponse changeTraderHedgeMode(1: ChangeTraderHedgeMode changeTraderHedgeMode),
+  TraderResponse changeTraderUsdmMultiAssetMode(1: ChangeTraderUsdmMultiAssetMode changeTraderUsdmMultiAssetMode),
   TraderAssetResponse getTraderAsset(1:GetTraderAsset getTraderAsset),
   TransferAssetResponse transferAsset(1:TransferAsset transferAsset),
   base.Response placeOrder(1:PlaceOrder placeOrder)
@@ -10,6 +13,8 @@ service TraderService {
 
 struct AddTrader {
   1: required i64 id,
+  2: required string makerFee,
+  3: required string takerFee,
 }
 
 struct TraderResponse {
@@ -21,6 +26,22 @@ struct TraderResponse {
 struct BlockTrader {
   1: required i64 id,
   2: required bool active,
+}
+
+struct ChangeTraderFee {
+  1: required i64 traderId,
+  2: string makerFee,
+  3: string takerFee,
+}
+
+struct ChangeTraderHedgeMode {
+  1: required i64 traderId,
+  2: required bool hedgeModeActivate,
+}
+
+struct ChangeTraderUsdmMultiAssetMode {
+  1: required i64 traderId,
+  2: required bool usdmMultiAssetModeActivate,
 }
 
 struct GetTraderAsset {

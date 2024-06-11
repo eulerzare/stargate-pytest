@@ -58,4 +58,8 @@ struct Contract {
 struct Trader {
   1: required i64 id,
   2: required bool active,
+  3: required bool hedgeMode,
+  4: required bool usdmMultiAssetMode,
+  5: required string makerFee,
+  6: required string takerFee,
 }

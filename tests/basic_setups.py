@@ -10,7 +10,7 @@ from stargate_thrift_classes.admin.ttypes import AddCurrency, GetCurrencyRequest
 from stargate_thrift_classes.base.ttypes import Response, MarketType, OrderType, OrderSide, PositionMarginMode
 from stargate_thrift_classes.trader.TraderService import Client as TraderClient
 from stargate_thrift_classes.trader.ttypes import AddTrader, TraderAssetResponse, GetTraderAsset, TransferAsset, \
-    PlaceOrder
+    PlaceOrder, ChangeTraderHedgeMode, TraderResponse, ChangeTraderUsdmMultiAssetMode
 from utils.test_constants import ADD_CURRENCY_ALL, ADD_TRADER_ALL, CONTRACTS_ALL, ADD_TRADER_01, ADD_CURRENCY_USDT, \
     ADD_TRADER_02, CONTRACT_BTCUSDT_PERPETUAL, ADD_TRADER_03, ADD_TRADER_04, ADD_TRADER_05
 
@@ -39,7 +39,7 @@ class BasicSetups(unittest.TestCase):
     def test_define_trader(self):
         for trader in ADD_TRADER_ALL:
             trader: AddTrader
-            response: Response = trader_client.addTrader(trader)
+            response: TraderResponse = trader_client.addTrader(trader)
             print(response)
 
     def test_add_contracts(self):
@@ -63,6 +63,20 @@ class BasicSetups(unittest.TestCase):
             trader: AddTrader
             response: TraderAssetResponse = trader_client.getTraderAsset(GetTraderAsset(id=trader.id))
             print(response.assets)
+
+    def test_change_hedge_mode(self):
+        trader: AddTrader = ADD_TRADER_01
+        response: TraderResponse = trader_client.changeTraderHedgeMode(
+            ChangeTraderHedgeMode(traderId=trader.id, hedgeModeActivate=True)
+        )
+        print(response)
+
+    def test_change_usdm_multi_asset_mode(self):
+        trader: AddTrader = ADD_TRADER_01
+        response: TraderResponse = trader_client.changeTraderUsdmMultiAssetMode(
+            ChangeTraderUsdmMultiAssetMode(traderId=trader.id, usdmMultiAssetModeActivate=True)
+        )
+        print(response)
 
     def test_transfer_asset(self):
         print(trader_client.transferAsset(TransferAsset(
@@ -103,8 +117,8 @@ class BasicSetups(unittest.TestCase):
 
     def test_place_order(self):
         print(trader_client.placeOrder(PlaceOrder(
-            id=7,
-            traderId=ADD_TRADER_04.id,
+            id=2,
+            traderId=ADD_TRADER_01.id,
             contractId=CONTRACT_BTCUSDT_PERPETUAL.id,
             orderType=OrderType.LIMIT,
             orderSide=OrderSide.BUY,
