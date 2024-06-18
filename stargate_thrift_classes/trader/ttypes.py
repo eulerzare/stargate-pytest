@@ -1157,6 +1157,86 @@ class PlaceOrder(object):
         return not (self == other)
 
 
+class CancelOrder(object):
+    """
+    Attributes:
+     - orderId
+     - contractId
+
+    """
+
+    def __init__(
+        self,
+        orderId=None,
+        contractId=None,
+    ):
+        self.orderId = orderId
+        self.contractId = contractId
+
+    def read(self, iprot):
+        if (
+            iprot._fast_decode is not None
+            and isinstance(iprot.trans, TTransport.CReadableTransport)
+            and self.thrift_spec is not None
+        ):
+            iprot._fast_decode(self, iprot, [self.__class__, self.thrift_spec])
+            return
+        iprot.readStructBegin()
+        while True:
+            (fname, ftype, fid) = iprot.readFieldBegin()
+            if ftype == TType.STOP:
+                break
+            if fid == 1:
+                if ftype == TType.I64:
+                    self.orderId = iprot.readI64()
+                else:
+                    iprot.skip(ftype)
+            elif fid == 2:
+                if ftype == TType.I16:
+                    self.contractId = iprot.readI16()
+                else:
+                    iprot.skip(ftype)
+            else:
+                iprot.skip(ftype)
+            iprot.readFieldEnd()
+        iprot.readStructEnd()
+
+    def write(self, oprot):
+        if oprot._fast_encode is not None and self.thrift_spec is not None:
+            oprot.trans.write(
+                oprot._fast_encode(self, [self.__class__, self.thrift_spec])
+            )
+            return
+        oprot.writeStructBegin("CancelOrder")
+        if self.orderId is not None:
+            oprot.writeFieldBegin("orderId", TType.I64, 1)
+            oprot.writeI64(self.orderId)
+            oprot.writeFieldEnd()
+        if self.contractId is not None:
+            oprot.writeFieldBegin("contractId", TType.I16, 2)
+            oprot.writeI16(self.contractId)
+            oprot.writeFieldEnd()
+        oprot.writeFieldStop()
+        oprot.writeStructEnd()
+
+    def validate(self):
+        if self.orderId is None:
+            raise TProtocolException(message="Required field orderId is unset!")
+        if self.contractId is None:
+            raise TProtocolException(message="Required field contractId is unset!")
+        return
+
+    def __repr__(self):
+        L = ["%s=%r" % (key, value) for key, value in self.__dict__.items()]
+        return "%s(%s)" % (self.__class__.__name__, ", ".join(L))
+
+    def __eq__(self, other):
+        return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        return not (self == other)
+
+
 all_structs.append(AddTrader)
 AddTrader.thrift_spec = (
     None,  # 0
@@ -1459,6 +1539,24 @@ PlaceOrder.thrift_spec = (
         None,
         None,
     ),  # 10
+)
+all_structs.append(CancelOrder)
+CancelOrder.thrift_spec = (
+    None,  # 0
+    (
+        1,
+        TType.I64,
+        "orderId",
+        None,
+        None,
+    ),  # 1
+    (
+        2,
+        TType.I16,
+        "contractId",
+        None,
+        None,
+    ),  # 2
 )
 fix_spec(all_structs)
 del all_structs

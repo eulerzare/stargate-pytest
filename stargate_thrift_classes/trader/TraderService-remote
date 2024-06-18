@@ -32,6 +32,7 @@ if len(sys.argv) <= 1 or sys.argv[1] == '--help':
     print('  TraderAssetResponse getTraderAsset(GetTraderAsset getTraderAsset)')
     print('  TransferAssetResponse transferAsset(TransferAsset transferAsset)')
     print('  Response placeOrder(PlaceOrder placeOrder)')
+    print('  Response cancelOrder(CancelOrder cancelOrder)')
     print('')
     sys.exit(0)
 
@@ -158,6 +159,12 @@ elif cmd == 'placeOrder':
         print('placeOrder requires 1 args')
         sys.exit(1)
     pp.pprint(client.placeOrder(eval(args[0]),))
+
+elif cmd == 'cancelOrder':
+    if len(args) != 1:
+        print('cancelOrder requires 1 args')
+        sys.exit(1)
+    pp.pprint(client.cancelOrder(eval(args[0]),))
 
 else:
     print('Unrecognized method %s' % cmd)

@@ -90,6 +90,14 @@ class Iface(object):
         """
         pass
 
+    def cancelOrder(self, cancelOrder):
+        """
+        Parameters:
+         - cancelOrder
+
+        """
+        pass
+
 
 class Client(Iface):
     def __init__(self, iprot, oprot=None):
@@ -378,6 +386,40 @@ class Client(Iface):
             TApplicationException.MISSING_RESULT, "placeOrder failed: unknown result"
         )
 
+    def cancelOrder(self, cancelOrder):
+        """
+        Parameters:
+         - cancelOrder
+
+        """
+        self.send_cancelOrder(cancelOrder)
+        return self.recv_cancelOrder()
+
+    def send_cancelOrder(self, cancelOrder):
+        self._oprot.writeMessageBegin("cancelOrder", TMessageType.CALL, self._seqid)
+        args = cancelOrder_args()
+        args.cancelOrder = cancelOrder
+        args.write(self._oprot)
+        self._oprot.writeMessageEnd()
+        self._oprot.trans.flush()
+
+    def recv_cancelOrder(self):
+        iprot = self._iprot
+        (fname, mtype, rseqid) = iprot.readMessageBegin()
+        if mtype == TMessageType.EXCEPTION:
+            x = TApplicationException()
+            x.read(iprot)
+            iprot.readMessageEnd()
+            raise x
+        result = cancelOrder_result()
+        result.read(iprot)
+        iprot.readMessageEnd()
+        if result.success is not None:
+            return result.success
+        raise TApplicationException(
+            TApplicationException.MISSING_RESULT, "cancelOrder failed: unknown result"
+        )
+
 
 class Processor(Iface, TProcessor):
     def __init__(self, handler):
@@ -395,6 +437,7 @@ class Processor(Iface, TProcessor):
         self._processMap["getTraderAsset"] = Processor.process_getTraderAsset
         self._processMap["transferAsset"] = Processor.process_transferAsset
         self._processMap["placeOrder"] = Processor.process_placeOrder
+        self._processMap["cancelOrder"] = Processor.process_cancelOrder
         self._on_message_begin = None
 
     def on_message_begin(self, func):
@@ -619,6 +662,31 @@ class Processor(Iface, TProcessor):
                 TApplicationException.INTERNAL_ERROR, "Internal error"
             )
         oprot.writeMessageBegin("placeOrder", msg_type, seqid)
+        result.write(oprot)
+        oprot.writeMessageEnd()
+        oprot.trans.flush()
+
+    def process_cancelOrder(self, seqid, iprot, oprot):
+        args = cancelOrder_args()
+        args.read(iprot)
+        iprot.readMessageEnd()
+        result = cancelOrder_result()
+        try:
+            result.success = self._handler.cancelOrder(args.cancelOrder)
+            msg_type = TMessageType.REPLY
+        except TTransport.TTransportException:
+            raise
+        except TApplicationException as ex:
+            logging.exception("TApplication exception in handler")
+            msg_type = TMessageType.EXCEPTION
+            result = ex
+        except Exception:
+            logging.exception("Unexpected exception in handler")
+            msg_type = TMessageType.EXCEPTION
+            result = TApplicationException(
+                TApplicationException.INTERNAL_ERROR, "Internal error"
+            )
+        oprot.writeMessageBegin("cancelOrder", msg_type, seqid)
         result.write(oprot)
         oprot.writeMessageEnd()
         oprot.trans.flush()
@@ -1859,6 +1927,161 @@ class placeOrder_result(object):
 
 all_structs.append(placeOrder_result)
 placeOrder_result.thrift_spec = (
+    (
+        0,
+        TType.STRUCT,
+        "success",
+        [stargate_thrift_classes.base.ttypes.Response, None],
+        None,
+    ),  # 0
+)
+
+
+class cancelOrder_args(object):
+    """
+    Attributes:
+     - cancelOrder
+
+    """
+
+    def __init__(
+        self,
+        cancelOrder=None,
+    ):
+        self.cancelOrder = cancelOrder
+
+    def read(self, iprot):
+        if (
+            iprot._fast_decode is not None
+            and isinstance(iprot.trans, TTransport.CReadableTransport)
+            and self.thrift_spec is not None
+        ):
+            iprot._fast_decode(self, iprot, [self.__class__, self.thrift_spec])
+            return
+        iprot.readStructBegin()
+        while True:
+            (fname, ftype, fid) = iprot.readFieldBegin()
+            if ftype == TType.STOP:
+                break
+            if fid == 1:
+                if ftype == TType.STRUCT:
+                    self.cancelOrder = CancelOrder()
+                    self.cancelOrder.read(iprot)
+                else:
+                    iprot.skip(ftype)
+            else:
+                iprot.skip(ftype)
+            iprot.readFieldEnd()
+        iprot.readStructEnd()
+
+    def write(self, oprot):
+        if oprot._fast_encode is not None and self.thrift_spec is not None:
+            oprot.trans.write(
+                oprot._fast_encode(self, [self.__class__, self.thrift_spec])
+            )
+            return
+        oprot.writeStructBegin("cancelOrder_args")
+        if self.cancelOrder is not None:
+            oprot.writeFieldBegin("cancelOrder", TType.STRUCT, 1)
+            self.cancelOrder.write(oprot)
+            oprot.writeFieldEnd()
+        oprot.writeFieldStop()
+        oprot.writeStructEnd()
+
+    def validate(self):
+        return
+
+    def __repr__(self):
+        L = ["%s=%r" % (key, value) for key, value in self.__dict__.items()]
+        return "%s(%s)" % (self.__class__.__name__, ", ".join(L))
+
+    def __eq__(self, other):
+        return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        return not (self == other)
+
+
+all_structs.append(cancelOrder_args)
+cancelOrder_args.thrift_spec = (
+    None,  # 0
+    (
+        1,
+        TType.STRUCT,
+        "cancelOrder",
+        [CancelOrder, None],
+        None,
+    ),  # 1
+)
+
+
+class cancelOrder_result(object):
+    """
+    Attributes:
+     - success
+
+    """
+
+    def __init__(
+        self,
+        success=None,
+    ):
+        self.success = success
+
+    def read(self, iprot):
+        if (
+            iprot._fast_decode is not None
+            and isinstance(iprot.trans, TTransport.CReadableTransport)
+            and self.thrift_spec is not None
+        ):
+            iprot._fast_decode(self, iprot, [self.__class__, self.thrift_spec])
+            return
+        iprot.readStructBegin()
+        while True:
+            (fname, ftype, fid) = iprot.readFieldBegin()
+            if ftype == TType.STOP:
+                break
+            if fid == 0:
+                if ftype == TType.STRUCT:
+                    self.success = stargate_thrift_classes.base.ttypes.Response()
+                    self.success.read(iprot)
+                else:
+                    iprot.skip(ftype)
+            else:
+                iprot.skip(ftype)
+            iprot.readFieldEnd()
+        iprot.readStructEnd()
+
+    def write(self, oprot):
+        if oprot._fast_encode is not None and self.thrift_spec is not None:
+            oprot.trans.write(
+                oprot._fast_encode(self, [self.__class__, self.thrift_spec])
+            )
+            return
+        oprot.writeStructBegin("cancelOrder_result")
+        if self.success is not None:
+            oprot.writeFieldBegin("success", TType.STRUCT, 0)
+            self.success.write(oprot)
+            oprot.writeFieldEnd()
+        oprot.writeFieldStop()
+        oprot.writeStructEnd()
+
+    def validate(self):
+        return
+
+    def __repr__(self):
+        L = ["%s=%r" % (key, value) for key, value in self.__dict__.items()]
+        return "%s(%s)" % (self.__class__.__name__, ", ".join(L))
+
+    def __eq__(self, other):
+        return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        return not (self == other)
+
+
+all_structs.append(cancelOrder_result)
+cancelOrder_result.thrift_spec = (
     (
         0,
         TType.STRUCT,

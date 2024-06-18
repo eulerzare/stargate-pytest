@@ -10,7 +10,7 @@ from stargate_thrift_classes.admin.ttypes import AddCurrency, GetCurrencyRequest
 from stargate_thrift_classes.base.ttypes import Response, MarketType, OrderType, OrderSide, PositionMarginMode
 from stargate_thrift_classes.trader.TraderService import Client as TraderClient
 from stargate_thrift_classes.trader.ttypes import AddTrader, TraderAssetResponse, GetTraderAsset, TransferAsset, \
-    PlaceOrder, ChangeTraderHedgeMode, TraderResponse, ChangeTraderUsdmMultiAssetMode, ChangeTraderFee
+    PlaceOrder, ChangeTraderHedgeMode, TraderResponse, ChangeTraderUsdmMultiAssetMode, ChangeTraderFee, CancelOrder
 from utils.test_constants import ADD_CURRENCY_ALL, ADD_TRADER_ALL, CONTRACTS_ALL, ADD_TRADER_01, ADD_CURRENCY_USDT, \
     ADD_TRADER_02, CONTRACT_BTCUSDT_PERPETUAL, ADD_TRADER_03, ADD_TRADER_04, ADD_TRADER_05
 
@@ -124,16 +124,22 @@ class BasicSetups(unittest.TestCase):
 
     def test_place_order(self):
         print(trader_client.placeOrder(PlaceOrder(
-            id=2,
+            id=5,
             traderId=ADD_TRADER_01.id,
             contractId=CONTRACT_BTCUSDT_PERPETUAL.id,
             orderType=OrderType.LIMIT,
-            orderSide=OrderSide.BUY,
-            price="59600",
-            size="19966",
+            orderSide=OrderSide.SELL,
+            price="63000",
+            size="63000",
             isSizeInBaseCurrency=False,
-            leverage=3,
+            leverage=2,
             marginMode=PositionMarginMode.ISOLATED,
+        )))
+
+    def test_cancel_order(self):
+        print(trader_client.cancelOrder(CancelOrder(
+            orderId=4,
+            contractId=CONTRACT_BTCUSDT_PERPETUAL.id,
         )))
 
     def tearDown(self):

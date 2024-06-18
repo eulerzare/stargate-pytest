@@ -8,7 +8,8 @@ service TraderService {
   TraderResponse changeTraderUsdmMultiAssetMode(1: ChangeTraderUsdmMultiAssetMode changeTraderUsdmMultiAssetMode),
   TraderAssetResponse getTraderAsset(1:GetTraderAsset getTraderAsset),
   TransferAssetResponse transferAsset(1:TransferAsset transferAsset),
-  base.Response placeOrder(1:PlaceOrder placeOrder)
+  base.Response placeOrder(1:PlaceOrder placeOrder),
+  base.Response cancelOrder(1:CancelOrder cancelOrder),
 }
 
 struct AddTrader {
@@ -79,4 +80,9 @@ struct PlaceOrder {
   8: required bool isSizeInBaseCurrency,
   9: required i16 leverage,
   10: required base.PositionMarginMode marginMode,
+}
+
+struct CancelOrder {
+  1: required i64 orderId,
+  2: required i16 contractId,
 }
