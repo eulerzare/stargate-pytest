@@ -50,6 +50,22 @@ class Iface(object):
         """
         pass
 
+    def changeTraderMarginMode(self, changeTraderMarginType):
+        """
+        Parameters:
+         - changeTraderMarginType
+
+        """
+        pass
+
+    def changeTraderLeverage(self, changeTraderLeverage):
+        """
+        Parameters:
+         - changeTraderLeverage
+
+        """
+        pass
+
     def changeTraderHedgeMode(self, changeTraderHedgeMode):
         """
         Parameters:
@@ -207,6 +223,80 @@ class Client(Iface):
         raise TApplicationException(
             TApplicationException.MISSING_RESULT,
             "changeTraderFee failed: unknown result",
+        )
+
+    def changeTraderMarginMode(self, changeTraderMarginType):
+        """
+        Parameters:
+         - changeTraderMarginType
+
+        """
+        self.send_changeTraderMarginMode(changeTraderMarginType)
+        return self.recv_changeTraderMarginMode()
+
+    def send_changeTraderMarginMode(self, changeTraderMarginType):
+        self._oprot.writeMessageBegin(
+            "changeTraderMarginMode", TMessageType.CALL, self._seqid
+        )
+        args = changeTraderMarginMode_args()
+        args.changeTraderMarginType = changeTraderMarginType
+        args.write(self._oprot)
+        self._oprot.writeMessageEnd()
+        self._oprot.trans.flush()
+
+    def recv_changeTraderMarginMode(self):
+        iprot = self._iprot
+        (fname, mtype, rseqid) = iprot.readMessageBegin()
+        if mtype == TMessageType.EXCEPTION:
+            x = TApplicationException()
+            x.read(iprot)
+            iprot.readMessageEnd()
+            raise x
+        result = changeTraderMarginMode_result()
+        result.read(iprot)
+        iprot.readMessageEnd()
+        if result.success is not None:
+            return result.success
+        raise TApplicationException(
+            TApplicationException.MISSING_RESULT,
+            "changeTraderMarginMode failed: unknown result",
+        )
+
+    def changeTraderLeverage(self, changeTraderLeverage):
+        """
+        Parameters:
+         - changeTraderLeverage
+
+        """
+        self.send_changeTraderLeverage(changeTraderLeverage)
+        return self.recv_changeTraderLeverage()
+
+    def send_changeTraderLeverage(self, changeTraderLeverage):
+        self._oprot.writeMessageBegin(
+            "changeTraderLeverage", TMessageType.CALL, self._seqid
+        )
+        args = changeTraderLeverage_args()
+        args.changeTraderLeverage = changeTraderLeverage
+        args.write(self._oprot)
+        self._oprot.writeMessageEnd()
+        self._oprot.trans.flush()
+
+    def recv_changeTraderLeverage(self):
+        iprot = self._iprot
+        (fname, mtype, rseqid) = iprot.readMessageBegin()
+        if mtype == TMessageType.EXCEPTION:
+            x = TApplicationException()
+            x.read(iprot)
+            iprot.readMessageEnd()
+            raise x
+        result = changeTraderLeverage_result()
+        result.read(iprot)
+        iprot.readMessageEnd()
+        if result.success is not None:
+            return result.success
+        raise TApplicationException(
+            TApplicationException.MISSING_RESULT,
+            "changeTraderLeverage failed: unknown result",
         )
 
     def changeTraderHedgeMode(self, changeTraderHedgeMode):
@@ -428,6 +518,12 @@ class Processor(Iface, TProcessor):
         self._processMap["addTrader"] = Processor.process_addTrader
         self._processMap["blockTrader"] = Processor.process_blockTrader
         self._processMap["changeTraderFee"] = Processor.process_changeTraderFee
+        self._processMap["changeTraderMarginMode"] = (
+            Processor.process_changeTraderMarginMode
+        )
+        self._processMap["changeTraderLeverage"] = (
+            Processor.process_changeTraderLeverage
+        )
         self._processMap["changeTraderHedgeMode"] = (
             Processor.process_changeTraderHedgeMode
         )
@@ -533,6 +629,60 @@ class Processor(Iface, TProcessor):
                 TApplicationException.INTERNAL_ERROR, "Internal error"
             )
         oprot.writeMessageBegin("changeTraderFee", msg_type, seqid)
+        result.write(oprot)
+        oprot.writeMessageEnd()
+        oprot.trans.flush()
+
+    def process_changeTraderMarginMode(self, seqid, iprot, oprot):
+        args = changeTraderMarginMode_args()
+        args.read(iprot)
+        iprot.readMessageEnd()
+        result = changeTraderMarginMode_result()
+        try:
+            result.success = self._handler.changeTraderMarginMode(
+                args.changeTraderMarginType
+            )
+            msg_type = TMessageType.REPLY
+        except TTransport.TTransportException:
+            raise
+        except TApplicationException as ex:
+            logging.exception("TApplication exception in handler")
+            msg_type = TMessageType.EXCEPTION
+            result = ex
+        except Exception:
+            logging.exception("Unexpected exception in handler")
+            msg_type = TMessageType.EXCEPTION
+            result = TApplicationException(
+                TApplicationException.INTERNAL_ERROR, "Internal error"
+            )
+        oprot.writeMessageBegin("changeTraderMarginMode", msg_type, seqid)
+        result.write(oprot)
+        oprot.writeMessageEnd()
+        oprot.trans.flush()
+
+    def process_changeTraderLeverage(self, seqid, iprot, oprot):
+        args = changeTraderLeverage_args()
+        args.read(iprot)
+        iprot.readMessageEnd()
+        result = changeTraderLeverage_result()
+        try:
+            result.success = self._handler.changeTraderLeverage(
+                args.changeTraderLeverage
+            )
+            msg_type = TMessageType.REPLY
+        except TTransport.TTransportException:
+            raise
+        except TApplicationException as ex:
+            logging.exception("TApplication exception in handler")
+            msg_type = TMessageType.EXCEPTION
+            result = ex
+        except Exception:
+            logging.exception("Unexpected exception in handler")
+            msg_type = TMessageType.EXCEPTION
+            result = TApplicationException(
+                TApplicationException.INTERNAL_ERROR, "Internal error"
+            )
+        oprot.writeMessageBegin("changeTraderLeverage", msg_type, seqid)
         result.write(oprot)
         oprot.writeMessageEnd()
         oprot.trans.flush()
@@ -1155,6 +1305,316 @@ changeTraderFee_result.thrift_spec = (
         TType.STRUCT,
         "success",
         [TraderResponse, None],
+        None,
+    ),  # 0
+)
+
+
+class changeTraderMarginMode_args(object):
+    """
+    Attributes:
+     - changeTraderMarginType
+
+    """
+
+    def __init__(
+        self,
+        changeTraderMarginType=None,
+    ):
+        self.changeTraderMarginType = changeTraderMarginType
+
+    def read(self, iprot):
+        if (
+            iprot._fast_decode is not None
+            and isinstance(iprot.trans, TTransport.CReadableTransport)
+            and self.thrift_spec is not None
+        ):
+            iprot._fast_decode(self, iprot, [self.__class__, self.thrift_spec])
+            return
+        iprot.readStructBegin()
+        while True:
+            (fname, ftype, fid) = iprot.readFieldBegin()
+            if ftype == TType.STOP:
+                break
+            if fid == 1:
+                if ftype == TType.STRUCT:
+                    self.changeTraderMarginType = ChangeTraderMarginMode()
+                    self.changeTraderMarginType.read(iprot)
+                else:
+                    iprot.skip(ftype)
+            else:
+                iprot.skip(ftype)
+            iprot.readFieldEnd()
+        iprot.readStructEnd()
+
+    def write(self, oprot):
+        if oprot._fast_encode is not None and self.thrift_spec is not None:
+            oprot.trans.write(
+                oprot._fast_encode(self, [self.__class__, self.thrift_spec])
+            )
+            return
+        oprot.writeStructBegin("changeTraderMarginMode_args")
+        if self.changeTraderMarginType is not None:
+            oprot.writeFieldBegin("changeTraderMarginType", TType.STRUCT, 1)
+            self.changeTraderMarginType.write(oprot)
+            oprot.writeFieldEnd()
+        oprot.writeFieldStop()
+        oprot.writeStructEnd()
+
+    def validate(self):
+        return
+
+    def __repr__(self):
+        L = ["%s=%r" % (key, value) for key, value in self.__dict__.items()]
+        return "%s(%s)" % (self.__class__.__name__, ", ".join(L))
+
+    def __eq__(self, other):
+        return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        return not (self == other)
+
+
+all_structs.append(changeTraderMarginMode_args)
+changeTraderMarginMode_args.thrift_spec = (
+    None,  # 0
+    (
+        1,
+        TType.STRUCT,
+        "changeTraderMarginType",
+        [ChangeTraderMarginMode, None],
+        None,
+    ),  # 1
+)
+
+
+class changeTraderMarginMode_result(object):
+    """
+    Attributes:
+     - success
+
+    """
+
+    def __init__(
+        self,
+        success=None,
+    ):
+        self.success = success
+
+    def read(self, iprot):
+        if (
+            iprot._fast_decode is not None
+            and isinstance(iprot.trans, TTransport.CReadableTransport)
+            and self.thrift_spec is not None
+        ):
+            iprot._fast_decode(self, iprot, [self.__class__, self.thrift_spec])
+            return
+        iprot.readStructBegin()
+        while True:
+            (fname, ftype, fid) = iprot.readFieldBegin()
+            if ftype == TType.STOP:
+                break
+            if fid == 0:
+                if ftype == TType.STRUCT:
+                    self.success = stargate_thrift_classes.base.ttypes.Response()
+                    self.success.read(iprot)
+                else:
+                    iprot.skip(ftype)
+            else:
+                iprot.skip(ftype)
+            iprot.readFieldEnd()
+        iprot.readStructEnd()
+
+    def write(self, oprot):
+        if oprot._fast_encode is not None and self.thrift_spec is not None:
+            oprot.trans.write(
+                oprot._fast_encode(self, [self.__class__, self.thrift_spec])
+            )
+            return
+        oprot.writeStructBegin("changeTraderMarginMode_result")
+        if self.success is not None:
+            oprot.writeFieldBegin("success", TType.STRUCT, 0)
+            self.success.write(oprot)
+            oprot.writeFieldEnd()
+        oprot.writeFieldStop()
+        oprot.writeStructEnd()
+
+    def validate(self):
+        return
+
+    def __repr__(self):
+        L = ["%s=%r" % (key, value) for key, value in self.__dict__.items()]
+        return "%s(%s)" % (self.__class__.__name__, ", ".join(L))
+
+    def __eq__(self, other):
+        return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        return not (self == other)
+
+
+all_structs.append(changeTraderMarginMode_result)
+changeTraderMarginMode_result.thrift_spec = (
+    (
+        0,
+        TType.STRUCT,
+        "success",
+        [stargate_thrift_classes.base.ttypes.Response, None],
+        None,
+    ),  # 0
+)
+
+
+class changeTraderLeverage_args(object):
+    """
+    Attributes:
+     - changeTraderLeverage
+
+    """
+
+    def __init__(
+        self,
+        changeTraderLeverage=None,
+    ):
+        self.changeTraderLeverage = changeTraderLeverage
+
+    def read(self, iprot):
+        if (
+            iprot._fast_decode is not None
+            and isinstance(iprot.trans, TTransport.CReadableTransport)
+            and self.thrift_spec is not None
+        ):
+            iprot._fast_decode(self, iprot, [self.__class__, self.thrift_spec])
+            return
+        iprot.readStructBegin()
+        while True:
+            (fname, ftype, fid) = iprot.readFieldBegin()
+            if ftype == TType.STOP:
+                break
+            if fid == 1:
+                if ftype == TType.STRUCT:
+                    self.changeTraderLeverage = ChangeTraderLeverage()
+                    self.changeTraderLeverage.read(iprot)
+                else:
+                    iprot.skip(ftype)
+            else:
+                iprot.skip(ftype)
+            iprot.readFieldEnd()
+        iprot.readStructEnd()
+
+    def write(self, oprot):
+        if oprot._fast_encode is not None and self.thrift_spec is not None:
+            oprot.trans.write(
+                oprot._fast_encode(self, [self.__class__, self.thrift_spec])
+            )
+            return
+        oprot.writeStructBegin("changeTraderLeverage_args")
+        if self.changeTraderLeverage is not None:
+            oprot.writeFieldBegin("changeTraderLeverage", TType.STRUCT, 1)
+            self.changeTraderLeverage.write(oprot)
+            oprot.writeFieldEnd()
+        oprot.writeFieldStop()
+        oprot.writeStructEnd()
+
+    def validate(self):
+        return
+
+    def __repr__(self):
+        L = ["%s=%r" % (key, value) for key, value in self.__dict__.items()]
+        return "%s(%s)" % (self.__class__.__name__, ", ".join(L))
+
+    def __eq__(self, other):
+        return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        return not (self == other)
+
+
+all_structs.append(changeTraderLeverage_args)
+changeTraderLeverage_args.thrift_spec = (
+    None,  # 0
+    (
+        1,
+        TType.STRUCT,
+        "changeTraderLeverage",
+        [ChangeTraderLeverage, None],
+        None,
+    ),  # 1
+)
+
+
+class changeTraderLeverage_result(object):
+    """
+    Attributes:
+     - success
+
+    """
+
+    def __init__(
+        self,
+        success=None,
+    ):
+        self.success = success
+
+    def read(self, iprot):
+        if (
+            iprot._fast_decode is not None
+            and isinstance(iprot.trans, TTransport.CReadableTransport)
+            and self.thrift_spec is not None
+        ):
+            iprot._fast_decode(self, iprot, [self.__class__, self.thrift_spec])
+            return
+        iprot.readStructBegin()
+        while True:
+            (fname, ftype, fid) = iprot.readFieldBegin()
+            if ftype == TType.STOP:
+                break
+            if fid == 0:
+                if ftype == TType.STRUCT:
+                    self.success = stargate_thrift_classes.base.ttypes.Response()
+                    self.success.read(iprot)
+                else:
+                    iprot.skip(ftype)
+            else:
+                iprot.skip(ftype)
+            iprot.readFieldEnd()
+        iprot.readStructEnd()
+
+    def write(self, oprot):
+        if oprot._fast_encode is not None and self.thrift_spec is not None:
+            oprot.trans.write(
+                oprot._fast_encode(self, [self.__class__, self.thrift_spec])
+            )
+            return
+        oprot.writeStructBegin("changeTraderLeverage_result")
+        if self.success is not None:
+            oprot.writeFieldBegin("success", TType.STRUCT, 0)
+            self.success.write(oprot)
+            oprot.writeFieldEnd()
+        oprot.writeFieldStop()
+        oprot.writeStructEnd()
+
+    def validate(self):
+        return
+
+    def __repr__(self):
+        L = ["%s=%r" % (key, value) for key, value in self.__dict__.items()]
+        return "%s(%s)" % (self.__class__.__name__, ", ".join(L))
+
+    def __eq__(self, other):
+        return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        return not (self == other)
+
+
+all_structs.append(changeTraderLeverage_result)
+changeTraderLeverage_result.thrift_spec = (
+    (
+        0,
+        TType.STRUCT,
+        "success",
+        [stargate_thrift_classes.base.ttypes.Response, None],
         None,
     ),  # 0
 )

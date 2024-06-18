@@ -10,7 +10,8 @@ from stargate_thrift_classes.admin.ttypes import AddCurrency, GetCurrencyRequest
 from stargate_thrift_classes.base.ttypes import Response, MarketType, OrderType, OrderSide, PositionMarginMode
 from stargate_thrift_classes.trader.TraderService import Client as TraderClient
 from stargate_thrift_classes.trader.ttypes import AddTrader, TraderAssetResponse, GetTraderAsset, TransferAsset, \
-    PlaceOrder, ChangeTraderHedgeMode, TraderResponse, ChangeTraderUsdmMultiAssetMode, ChangeTraderFee, CancelOrder
+    PlaceOrder, ChangeTraderHedgeMode, TraderResponse, ChangeTraderUsdmMultiAssetMode, ChangeTraderFee, CancelOrder, \
+    ChangeTraderLeverage
 from utils.test_constants import ADD_CURRENCY_ALL, ADD_TRADER_ALL, CONTRACTS_ALL, ADD_TRADER_01, ADD_CURRENCY_USDT, \
     ADD_TRADER_02, CONTRACT_BTCUSDT_PERPETUAL, ADD_TRADER_03, ADD_TRADER_04, ADD_TRADER_05
 
@@ -85,6 +86,20 @@ class BasicSetups(unittest.TestCase):
         )
         print(response)
 
+    def test_change_trader_leverage(self):
+        trader: AddTrader = ADD_TRADER_01
+        response: Response = trader_client.changeTraderLeverage(ChangeTraderLeverage(
+            traderId=trader.id, contractId=CONTRACT_BTCUSDT_PERPETUAL.id, leverage=3
+        ))
+        print(response)
+
+    def test_change_trader_hedge_mode(self):
+        trader: AddTrader = ADD_TRADER_01
+        response: Response = trader_client.changeTraderHedgeMode(ChangeTraderHedgeMode(
+            traderId=trader.id, hedgeModeActivate=False
+        ))
+        print(response)
+
     def test_transfer_asset(self):
         print(trader_client.transferAsset(TransferAsset(
             uniqueId=1,
@@ -124,16 +139,14 @@ class BasicSetups(unittest.TestCase):
 
     def test_place_order(self):
         print(trader_client.placeOrder(PlaceOrder(
-            id=5,
+            id=1,
             traderId=ADD_TRADER_01.id,
             contractId=CONTRACT_BTCUSDT_PERPETUAL.id,
             orderType=OrderType.LIMIT,
-            orderSide=OrderSide.SELL,
-            price="63000",
-            size="63000",
+            orderSide=OrderSide.BUY,
+            price="60000",
+            size="60000",
             isSizeInBaseCurrency=False,
-            leverage=2,
-            marginMode=PositionMarginMode.ISOLATED,
         )))
 
     def test_cancel_order(self):

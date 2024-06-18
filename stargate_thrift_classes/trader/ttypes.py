@@ -409,6 +409,194 @@ class ChangeTraderFee(object):
         return not (self == other)
 
 
+class ChangeTraderMarginMode(object):
+    """
+    Attributes:
+     - traderId
+     - contractId
+     - marginMode
+
+    """
+
+    def __init__(
+        self,
+        traderId=None,
+        contractId=None,
+        marginMode=None,
+    ):
+        self.traderId = traderId
+        self.contractId = contractId
+        self.marginMode = marginMode
+
+    def read(self, iprot):
+        if (
+            iprot._fast_decode is not None
+            and isinstance(iprot.trans, TTransport.CReadableTransport)
+            and self.thrift_spec is not None
+        ):
+            iprot._fast_decode(self, iprot, [self.__class__, self.thrift_spec])
+            return
+        iprot.readStructBegin()
+        while True:
+            (fname, ftype, fid) = iprot.readFieldBegin()
+            if ftype == TType.STOP:
+                break
+            if fid == 1:
+                if ftype == TType.I64:
+                    self.traderId = iprot.readI64()
+                else:
+                    iprot.skip(ftype)
+            elif fid == 2:
+                if ftype == TType.I16:
+                    self.contractId = iprot.readI16()
+                else:
+                    iprot.skip(ftype)
+            elif fid == 3:
+                if ftype == TType.I32:
+                    self.marginMode = iprot.readI32()
+                else:
+                    iprot.skip(ftype)
+            else:
+                iprot.skip(ftype)
+            iprot.readFieldEnd()
+        iprot.readStructEnd()
+
+    def write(self, oprot):
+        if oprot._fast_encode is not None and self.thrift_spec is not None:
+            oprot.trans.write(
+                oprot._fast_encode(self, [self.__class__, self.thrift_spec])
+            )
+            return
+        oprot.writeStructBegin("ChangeTraderMarginMode")
+        if self.traderId is not None:
+            oprot.writeFieldBegin("traderId", TType.I64, 1)
+            oprot.writeI64(self.traderId)
+            oprot.writeFieldEnd()
+        if self.contractId is not None:
+            oprot.writeFieldBegin("contractId", TType.I16, 2)
+            oprot.writeI16(self.contractId)
+            oprot.writeFieldEnd()
+        if self.marginMode is not None:
+            oprot.writeFieldBegin("marginMode", TType.I32, 3)
+            oprot.writeI32(self.marginMode)
+            oprot.writeFieldEnd()
+        oprot.writeFieldStop()
+        oprot.writeStructEnd()
+
+    def validate(self):
+        if self.traderId is None:
+            raise TProtocolException(message="Required field traderId is unset!")
+        if self.contractId is None:
+            raise TProtocolException(message="Required field contractId is unset!")
+        if self.marginMode is None:
+            raise TProtocolException(message="Required field marginMode is unset!")
+        return
+
+    def __repr__(self):
+        L = ["%s=%r" % (key, value) for key, value in self.__dict__.items()]
+        return "%s(%s)" % (self.__class__.__name__, ", ".join(L))
+
+    def __eq__(self, other):
+        return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        return not (self == other)
+
+
+class ChangeTraderLeverage(object):
+    """
+    Attributes:
+     - traderId
+     - contractId
+     - leverage
+
+    """
+
+    def __init__(
+        self,
+        traderId=None,
+        contractId=None,
+        leverage=None,
+    ):
+        self.traderId = traderId
+        self.contractId = contractId
+        self.leverage = leverage
+
+    def read(self, iprot):
+        if (
+            iprot._fast_decode is not None
+            and isinstance(iprot.trans, TTransport.CReadableTransport)
+            and self.thrift_spec is not None
+        ):
+            iprot._fast_decode(self, iprot, [self.__class__, self.thrift_spec])
+            return
+        iprot.readStructBegin()
+        while True:
+            (fname, ftype, fid) = iprot.readFieldBegin()
+            if ftype == TType.STOP:
+                break
+            if fid == 1:
+                if ftype == TType.I64:
+                    self.traderId = iprot.readI64()
+                else:
+                    iprot.skip(ftype)
+            elif fid == 2:
+                if ftype == TType.I16:
+                    self.contractId = iprot.readI16()
+                else:
+                    iprot.skip(ftype)
+            elif fid == 3:
+                if ftype == TType.I16:
+                    self.leverage = iprot.readI16()
+                else:
+                    iprot.skip(ftype)
+            else:
+                iprot.skip(ftype)
+            iprot.readFieldEnd()
+        iprot.readStructEnd()
+
+    def write(self, oprot):
+        if oprot._fast_encode is not None and self.thrift_spec is not None:
+            oprot.trans.write(
+                oprot._fast_encode(self, [self.__class__, self.thrift_spec])
+            )
+            return
+        oprot.writeStructBegin("ChangeTraderLeverage")
+        if self.traderId is not None:
+            oprot.writeFieldBegin("traderId", TType.I64, 1)
+            oprot.writeI64(self.traderId)
+            oprot.writeFieldEnd()
+        if self.contractId is not None:
+            oprot.writeFieldBegin("contractId", TType.I16, 2)
+            oprot.writeI16(self.contractId)
+            oprot.writeFieldEnd()
+        if self.leverage is not None:
+            oprot.writeFieldBegin("leverage", TType.I16, 3)
+            oprot.writeI16(self.leverage)
+            oprot.writeFieldEnd()
+        oprot.writeFieldStop()
+        oprot.writeStructEnd()
+
+    def validate(self):
+        if self.traderId is None:
+            raise TProtocolException(message="Required field traderId is unset!")
+        if self.contractId is None:
+            raise TProtocolException(message="Required field contractId is unset!")
+        if self.leverage is None:
+            raise TProtocolException(message="Required field leverage is unset!")
+        return
+
+    def __repr__(self):
+        L = ["%s=%r" % (key, value) for key, value in self.__dict__.items()]
+        return "%s(%s)" % (self.__class__.__name__, ", ".join(L))
+
+    def __eq__(self, other):
+        return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        return not (self == other)
+
+
 class ChangeTraderHedgeMode(object):
     """
     Attributes:
@@ -964,8 +1152,6 @@ class PlaceOrder(object):
      - price
      - size
      - isSizeInBaseCurrency
-     - leverage
-     - marginMode
 
     """
 
@@ -979,8 +1165,6 @@ class PlaceOrder(object):
         price=None,
         size=None,
         isSizeInBaseCurrency=None,
-        leverage=None,
-        marginMode=None,
     ):
         self.id = id
         self.traderId = traderId
@@ -990,8 +1174,6 @@ class PlaceOrder(object):
         self.price = price
         self.size = size
         self.isSizeInBaseCurrency = isSizeInBaseCurrency
-        self.leverage = leverage
-        self.marginMode = marginMode
 
     def read(self, iprot):
         if (
@@ -1054,16 +1236,6 @@ class PlaceOrder(object):
                     self.isSizeInBaseCurrency = iprot.readBool()
                 else:
                     iprot.skip(ftype)
-            elif fid == 9:
-                if ftype == TType.I16:
-                    self.leverage = iprot.readI16()
-                else:
-                    iprot.skip(ftype)
-            elif fid == 10:
-                if ftype == TType.I32:
-                    self.marginMode = iprot.readI32()
-                else:
-                    iprot.skip(ftype)
             else:
                 iprot.skip(ftype)
             iprot.readFieldEnd()
@@ -1112,14 +1284,6 @@ class PlaceOrder(object):
             oprot.writeFieldBegin("isSizeInBaseCurrency", TType.BOOL, 8)
             oprot.writeBool(self.isSizeInBaseCurrency)
             oprot.writeFieldEnd()
-        if self.leverage is not None:
-            oprot.writeFieldBegin("leverage", TType.I16, 9)
-            oprot.writeI16(self.leverage)
-            oprot.writeFieldEnd()
-        if self.marginMode is not None:
-            oprot.writeFieldBegin("marginMode", TType.I32, 10)
-            oprot.writeI32(self.marginMode)
-            oprot.writeFieldEnd()
         oprot.writeFieldStop()
         oprot.writeStructEnd()
 
@@ -1140,10 +1304,6 @@ class PlaceOrder(object):
             raise TProtocolException(
                 message="Required field isSizeInBaseCurrency is unset!"
             )
-        if self.leverage is None:
-            raise TProtocolException(message="Required field leverage is unset!")
-        if self.marginMode is None:
-            raise TProtocolException(message="Required field marginMode is unset!")
         return
 
     def __repr__(self):
@@ -1327,6 +1487,56 @@ ChangeTraderFee.thrift_spec = (
         TType.STRING,
         "takerFee",
         "UTF8",
+        None,
+    ),  # 3
+)
+all_structs.append(ChangeTraderMarginMode)
+ChangeTraderMarginMode.thrift_spec = (
+    None,  # 0
+    (
+        1,
+        TType.I64,
+        "traderId",
+        None,
+        None,
+    ),  # 1
+    (
+        2,
+        TType.I16,
+        "contractId",
+        None,
+        None,
+    ),  # 2
+    (
+        3,
+        TType.I32,
+        "marginMode",
+        None,
+        None,
+    ),  # 3
+)
+all_structs.append(ChangeTraderLeverage)
+ChangeTraderLeverage.thrift_spec = (
+    None,  # 0
+    (
+        1,
+        TType.I64,
+        "traderId",
+        None,
+        None,
+    ),  # 1
+    (
+        2,
+        TType.I16,
+        "contractId",
+        None,
+        None,
+    ),  # 2
+    (
+        3,
+        TType.I16,
+        "leverage",
+        None,
         None,
     ),  # 3
 )
@@ -1525,20 +1735,6 @@ PlaceOrder.thrift_spec = (
         None,
         None,
     ),  # 8
-    (
-        9,
-        TType.I16,
-        "leverage",
-        None,
-        None,
-    ),  # 9
-    (
-        10,
-        TType.I32,
-        "marginMode",
-        None,
-        None,
-    ),  # 10
 )
 all_structs.append(CancelOrder)
 CancelOrder.thrift_spec = (

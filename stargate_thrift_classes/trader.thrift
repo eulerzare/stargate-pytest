@@ -4,6 +4,8 @@ service TraderService {
   TraderResponse addTrader(1:AddTrader addTrader),
   TraderResponse blockTrader(1:BlockTrader blockTrader),
   TraderResponse changeTraderFee(1: ChangeTraderFee changeTraderFee),
+  base.Response changeTraderMarginMode(1: ChangeTraderMarginMode changeTraderMarginType),
+  base.Response changeTraderLeverage(1: ChangeTraderLeverage changeTraderLeverage),
   TraderResponse changeTraderHedgeMode(1: ChangeTraderHedgeMode changeTraderHedgeMode),
   TraderResponse changeTraderUsdmMultiAssetMode(1: ChangeTraderUsdmMultiAssetMode changeTraderUsdmMultiAssetMode),
   TraderAssetResponse getTraderAsset(1:GetTraderAsset getTraderAsset),
@@ -33,6 +35,18 @@ struct ChangeTraderFee {
   1: required i64 traderId,
   2: string makerFee,
   3: string takerFee,
+}
+
+struct ChangeTraderMarginMode {
+  1: required i64 traderId,
+  2: required i16 contractId,
+  3: required base.PositionMarginMode marginMode,
+}
+
+struct ChangeTraderLeverage {
+  1: required i64 traderId,
+  2: required i16 contractId,
+  3: required i16 leverage,
 }
 
 struct ChangeTraderHedgeMode {
@@ -78,8 +92,6 @@ struct PlaceOrder {
   6: string price,
   7: required string size,
   8: required bool isSizeInBaseCurrency,
-  9: required i16 leverage,
-  10: required base.PositionMarginMode marginMode,
 }
 
 struct CancelOrder {

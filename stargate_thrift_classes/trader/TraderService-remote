@@ -27,6 +27,8 @@ if len(sys.argv) <= 1 or sys.argv[1] == '--help':
     print('  TraderResponse addTrader(AddTrader addTrader)')
     print('  TraderResponse blockTrader(BlockTrader blockTrader)')
     print('  TraderResponse changeTraderFee(ChangeTraderFee changeTraderFee)')
+    print('  Response changeTraderMarginMode(ChangeTraderMarginMode changeTraderMarginType)')
+    print('  Response changeTraderLeverage(ChangeTraderLeverage changeTraderLeverage)')
     print('  TraderResponse changeTraderHedgeMode(ChangeTraderHedgeMode changeTraderHedgeMode)')
     print('  TraderResponse changeTraderUsdmMultiAssetMode(ChangeTraderUsdmMultiAssetMode changeTraderUsdmMultiAssetMode)')
     print('  TraderAssetResponse getTraderAsset(GetTraderAsset getTraderAsset)')
@@ -129,6 +131,18 @@ elif cmd == 'changeTraderFee':
         print('changeTraderFee requires 1 args')
         sys.exit(1)
     pp.pprint(client.changeTraderFee(eval(args[0]),))
+
+elif cmd == 'changeTraderMarginMode':
+    if len(args) != 1:
+        print('changeTraderMarginMode requires 1 args')
+        sys.exit(1)
+    pp.pprint(client.changeTraderMarginMode(eval(args[0]),))
+
+elif cmd == 'changeTraderLeverage':
+    if len(args) != 1:
+        print('changeTraderLeverage requires 1 args')
+        sys.exit(1)
+    pp.pprint(client.changeTraderLeverage(eval(args[0]),))
 
 elif cmd == 'changeTraderHedgeMode':
     if len(args) != 1:
