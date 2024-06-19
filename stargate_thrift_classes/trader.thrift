@@ -95,6 +95,6 @@ struct PlaceOrder {
 }
 
 struct CancelOrder {
-  1: required i64 orderId,
-  2: required i16 contractId,
+  1: required i64 traderId,
+  2: required i64 orderId,
 }

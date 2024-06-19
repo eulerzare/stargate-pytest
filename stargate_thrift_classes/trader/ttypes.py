@@ -1320,18 +1320,18 @@ class PlaceOrder(object):
 class CancelOrder(object):
     """
     Attributes:
+     - traderId
      - orderId
-     - contractId
 
     """
 
     def __init__(
         self,
+        traderId=None,
         orderId=None,
-        contractId=None,
     ):
+        self.traderId = traderId
         self.orderId = orderId
-        self.contractId = contractId
 
     def read(self, iprot):
         if (
@@ -1348,12 +1348,12 @@ class CancelOrder(object):
                 break
             if fid == 1:
                 if ftype == TType.I64:
-                    self.orderId = iprot.readI64()
+                    self.traderId = iprot.readI64()
                 else:
                     iprot.skip(ftype)
             elif fid == 2:
-                if ftype == TType.I16:
-                    self.contractId = iprot.readI16()
+                if ftype == TType.I64:
+                    self.orderId = iprot.readI64()
                 else:
                     iprot.skip(ftype)
             else:
@@ -1368,22 +1368,22 @@ class CancelOrder(object):
             )
             return
         oprot.writeStructBegin("CancelOrder")
-        if self.orderId is not None:
-            oprot.writeFieldBegin("orderId", TType.I64, 1)
-            oprot.writeI64(self.orderId)
+        if self.traderId is not None:
+            oprot.writeFieldBegin("traderId", TType.I64, 1)
+            oprot.writeI64(self.traderId)
             oprot.writeFieldEnd()
-        if self.contractId is not None:
-            oprot.writeFieldBegin("contractId", TType.I16, 2)
-            oprot.writeI16(self.contractId)
+        if self.orderId is not None:
+            oprot.writeFieldBegin("orderId", TType.I64, 2)
+            oprot.writeI64(self.orderId)
             oprot.writeFieldEnd()
         oprot.writeFieldStop()
         oprot.writeStructEnd()
 
     def validate(self):
+        if self.traderId is None:
+            raise TProtocolException(message="Required field traderId is unset!")
         if self.orderId is None:
             raise TProtocolException(message="Required field orderId is unset!")
-        if self.contractId is None:
-            raise TProtocolException(message="Required field contractId is unset!")
         return
 
     def __repr__(self):
@@ -1742,14 +1742,14 @@ CancelOrder.thrift_spec = (
     (
         1,
         TType.I64,
-        "orderId",
+        "traderId",
         None,
         None,
     ),  # 1
     (
         2,
-        TType.I16,
-        "contractId",
+        TType.I64,
+        "orderId",
         None,
         None,
     ),  # 2
