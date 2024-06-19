@@ -1397,6 +1397,142 @@ class CancelOrder(object):
         return not (self == other)
 
 
+class ModifyOrder(object):
+    """
+    Attributes:
+     - traderId
+     - orderId
+     - price
+     - size
+     - isSizeInBaseCurrency
+
+    """
+
+    def __init__(
+        self,
+        traderId=None,
+        orderId=None,
+        price=None,
+        size=None,
+        isSizeInBaseCurrency=None,
+    ):
+        self.traderId = traderId
+        self.orderId = orderId
+        self.price = price
+        self.size = size
+        self.isSizeInBaseCurrency = isSizeInBaseCurrency
+
+    def read(self, iprot):
+        if (
+            iprot._fast_decode is not None
+            and isinstance(iprot.trans, TTransport.CReadableTransport)
+            and self.thrift_spec is not None
+        ):
+            iprot._fast_decode(self, iprot, [self.__class__, self.thrift_spec])
+            return
+        iprot.readStructBegin()
+        while True:
+            (fname, ftype, fid) = iprot.readFieldBegin()
+            if ftype == TType.STOP:
+                break
+            if fid == 1:
+                if ftype == TType.I64:
+                    self.traderId = iprot.readI64()
+                else:
+                    iprot.skip(ftype)
+            elif fid == 2:
+                if ftype == TType.I64:
+                    self.orderId = iprot.readI64()
+                else:
+                    iprot.skip(ftype)
+            elif fid == 3:
+                if ftype == TType.STRING:
+                    self.price = (
+                        iprot.readString().decode("utf-8", errors="replace")
+                        if sys.version_info[0] == 2
+                        else iprot.readString()
+                    )
+                else:
+                    iprot.skip(ftype)
+            elif fid == 4:
+                if ftype == TType.STRING:
+                    self.size = (
+                        iprot.readString().decode("utf-8", errors="replace")
+                        if sys.version_info[0] == 2
+                        else iprot.readString()
+                    )
+                else:
+                    iprot.skip(ftype)
+            elif fid == 5:
+                if ftype == TType.BOOL:
+                    self.isSizeInBaseCurrency = iprot.readBool()
+                else:
+                    iprot.skip(ftype)
+            else:
+                iprot.skip(ftype)
+            iprot.readFieldEnd()
+        iprot.readStructEnd()
+
+    def write(self, oprot):
+        if oprot._fast_encode is not None and self.thrift_spec is not None:
+            oprot.trans.write(
+                oprot._fast_encode(self, [self.__class__, self.thrift_spec])
+            )
+            return
+        oprot.writeStructBegin("ModifyOrder")
+        if self.traderId is not None:
+            oprot.writeFieldBegin("traderId", TType.I64, 1)
+            oprot.writeI64(self.traderId)
+            oprot.writeFieldEnd()
+        if self.orderId is not None:
+            oprot.writeFieldBegin("orderId", TType.I64, 2)
+            oprot.writeI64(self.orderId)
+            oprot.writeFieldEnd()
+        if self.price is not None:
+            oprot.writeFieldBegin("price", TType.STRING, 3)
+            oprot.writeString(
+                self.price.encode("utf-8") if sys.version_info[0] == 2 else self.price
+            )
+            oprot.writeFieldEnd()
+        if self.size is not None:
+            oprot.writeFieldBegin("size", TType.STRING, 4)
+            oprot.writeString(
+                self.size.encode("utf-8") if sys.version_info[0] == 2 else self.size
+            )
+            oprot.writeFieldEnd()
+        if self.isSizeInBaseCurrency is not None:
+            oprot.writeFieldBegin("isSizeInBaseCurrency", TType.BOOL, 5)
+            oprot.writeBool(self.isSizeInBaseCurrency)
+            oprot.writeFieldEnd()
+        oprot.writeFieldStop()
+        oprot.writeStructEnd()
+
+    def validate(self):
+        if self.traderId is None:
+            raise TProtocolException(message="Required field traderId is unset!")
+        if self.orderId is None:
+            raise TProtocolException(message="Required field orderId is unset!")
+        if self.price is None:
+            raise TProtocolException(message="Required field price is unset!")
+        if self.size is None:
+            raise TProtocolException(message="Required field size is unset!")
+        if self.isSizeInBaseCurrency is None:
+            raise TProtocolException(
+                message="Required field isSizeInBaseCurrency is unset!"
+            )
+        return
+
+    def __repr__(self):
+        L = ["%s=%r" % (key, value) for key, value in self.__dict__.items()]
+        return "%s(%s)" % (self.__class__.__name__, ", ".join(L))
+
+    def __eq__(self, other):
+        return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        return not (self == other)
+
+
 all_structs.append(AddTrader)
 AddTrader.thrift_spec = (
     None,  # 0
@@ -1753,6 +1889,45 @@ CancelOrder.thrift_spec = (
         None,
         None,
     ),  # 2
+)
+all_structs.append(ModifyOrder)
+ModifyOrder.thrift_spec = (
+    None,  # 0
+    (
+        1,
+        TType.I64,
+        "traderId",
+        None,
+        None,
+    ),  # 1
+    (
+        2,
+        TType.I64,
+        "orderId",
+        None,
+        None,
+    ),  # 2
+    (
+        3,
+        TType.STRING,
+        "price",
+        "UTF8",
+        None,
+    ),  # 3
+    (
+        4,
+        TType.STRING,
+        "size",
+        "UTF8",
+        None,
+    ),  # 4
+    (
+        5,
+        TType.BOOL,
+        "isSizeInBaseCurrency",
+        None,
+        None,
+    ),  # 5
 )
 fix_spec(all_structs)
 del all_structs

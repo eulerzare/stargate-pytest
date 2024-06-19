@@ -12,6 +12,7 @@ service TraderService {
   TransferAssetResponse transferAsset(1:TransferAsset transferAsset),
   base.Response placeOrder(1:PlaceOrder placeOrder),
   base.Response cancelOrder(1:CancelOrder cancelOrder),
+  base.Response modifyOrder(1:ModifyOrder modifyOrder),
 }
 
 struct AddTrader {
@@ -97,4 +98,12 @@ struct PlaceOrder {
 struct CancelOrder {
   1: required i64 traderId,
   2: required i64 orderId,
+}
+
+struct ModifyOrder {
+  1: required i64 traderId,
+  2: required i64 orderId,
+  3: required string price,
+  4: required string size,
+  5: required bool isSizeInBaseCurrency,
 }

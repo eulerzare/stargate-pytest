@@ -35,6 +35,7 @@ if len(sys.argv) <= 1 or sys.argv[1] == '--help':
     print('  TransferAssetResponse transferAsset(TransferAsset transferAsset)')
     print('  Response placeOrder(PlaceOrder placeOrder)')
     print('  Response cancelOrder(CancelOrder cancelOrder)')
+    print('  Response modifyOrder(ModifyOrder modifyOrder)')
     print('')
     sys.exit(0)
 
@@ -179,6 +180,12 @@ elif cmd == 'cancelOrder':
         print('cancelOrder requires 1 args')
         sys.exit(1)
     pp.pprint(client.cancelOrder(eval(args[0]),))
+
+elif cmd == 'modifyOrder':
+    if len(args) != 1:
+        print('modifyOrder requires 1 args')
+        sys.exit(1)
+    pp.pprint(client.modifyOrder(eval(args[0]),))
 
 else:
     print('Unrecognized method %s' % cmd)

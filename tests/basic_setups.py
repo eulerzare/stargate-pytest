@@ -11,7 +11,7 @@ from stargate_thrift_classes.base.ttypes import Response, MarketType, OrderType,
 from stargate_thrift_classes.trader.TraderService import Client as TraderClient
 from stargate_thrift_classes.trader.ttypes import AddTrader, TraderAssetResponse, GetTraderAsset, TransferAsset, \
     PlaceOrder, ChangeTraderHedgeMode, TraderResponse, ChangeTraderUsdmMultiAssetMode, ChangeTraderFee, CancelOrder, \
-    ChangeTraderLeverage
+    ChangeTraderLeverage, ModifyOrder
 from utils.test_constants import ADD_CURRENCY_ALL, ADD_TRADER_ALL, CONTRACTS_ALL, ADD_TRADER_01, ADD_CURRENCY_USDT, \
     ADD_TRADER_02, CONTRACT_BTCUSDT_PERPETUAL, ADD_TRADER_03, ADD_TRADER_04, ADD_TRADER_05, CONTRACT_ETHUSDT_PERPETUAL
 
@@ -37,7 +37,7 @@ class BasicSetups(unittest.TestCase):
             response: Response = admin_client.addCurrency(currency)
             print(response)
 
-    def test_define_trader(self):
+    def test_define_traders(self):
         for trader in ADD_TRADER_ALL:
             trader: AddTrader
             response: TraderResponse = trader_client.addTrader(trader)
@@ -87,16 +87,14 @@ class BasicSetups(unittest.TestCase):
         print(response)
 
     def test_change_trader_leverage(self):
-        trader: AddTrader = ADD_TRADER_01
         response: Response = trader_client.changeTraderLeverage(ChangeTraderLeverage(
-            traderId=trader.id, contractId=CONTRACT_ETHUSDT_PERPETUAL.id, leverage=3
+            traderId=ADD_TRADER_01.id, contractId=CONTRACT_BTCUSDT_PERPETUAL.id, leverage=2
         ))
         print(response)
 
     def test_change_trader_hedge_mode(self):
-        trader: AddTrader = ADD_TRADER_02
         response: Response = trader_client.changeTraderHedgeMode(ChangeTraderHedgeMode(
-            traderId=trader.id, hedgeModeActivate=True
+            traderId=ADD_TRADER_02.id, hedgeModeActivate=True
         ))
         print(response)
 
@@ -139,13 +137,13 @@ class BasicSetups(unittest.TestCase):
 
     def test_place_order(self):
         print(trader_client.placeOrder(PlaceOrder(
-            id=3,
+            id=7,
             traderId=ADD_TRADER_02.id,
             contractId=CONTRACT_BTCUSDT_PERPETUAL.id,
             orderType=OrderType.LIMIT,
-            orderSide=OrderSide.SELL,
-            price="65000",
-            size="2.122",
+            orderSide=OrderSide.OPEN_LONG,
+            price="64000",
+            size="0.5",
             isSizeInBaseCurrency=True,
         )))
 
@@ -153,6 +151,15 @@ class BasicSetups(unittest.TestCase):
         print(trader_client.cancelOrder(CancelOrder(
             traderId=ADD_TRADER_01.id,
             orderId=1,
+        )))
+
+    def test_modify_order(self):
+        print(trader_client.modifyOrder(ModifyOrder(
+            traderId=ADD_TRADER_01.id,
+            orderId=5,
+            price="63000",
+            size="2",
+            isSizeInBaseCurrency=True,
         )))
 
     def tearDown(self):
