@@ -11,7 +11,7 @@ from stargate_thrift_classes.base.ttypes import Response, MarketType, OrderType,
 from stargate_thrift_classes.trader.TraderService import Client as TraderClient
 from stargate_thrift_classes.trader.ttypes import AddTrader, TraderAssetResponse, GetTraderAsset, TransferAsset, \
     PlaceOrder, ChangeTraderHedgeMode, TraderResponse, ChangeTraderUsdmMultiAssetMode, ChangeTraderFee, CancelOrder, \
-    ChangeTraderLeverage, ModifyOrder
+    ChangeTraderLeverage, ModifyOrder, ChangeTraderMarginMode
 from utils.test_constants import ADD_CURRENCY_ALL, ADD_TRADER_ALL, CONTRACTS_ALL, ADD_TRADER_01, ADD_CURRENCY_USDT, \
     ADD_TRADER_02, CONTRACT_BTCUSDT_PERPETUAL, ADD_TRADER_03, ADD_TRADER_04, ADD_TRADER_05, CONTRACT_ETHUSDT_PERPETUAL
 
@@ -65,7 +65,7 @@ class BasicSetups(unittest.TestCase):
             response: TraderAssetResponse = trader_client.getTraderAsset(GetTraderAsset(id=trader.id))
             print(response.assets)
 
-    def test_change_hedge_mode(self):
+    def test_change_trader_hedge_mode(self):
         trader: AddTrader = ADD_TRADER_01
         response: TraderResponse = trader_client.changeTraderHedgeMode(
             ChangeTraderHedgeMode(traderId=trader.id, hedgeModeActivate=True)
@@ -92,9 +92,9 @@ class BasicSetups(unittest.TestCase):
         ))
         print(response)
 
-    def test_change_trader_hedge_mode(self):
-        response: Response = trader_client.changeTraderHedgeMode(ChangeTraderHedgeMode(
-            traderId=ADD_TRADER_02.id, hedgeModeActivate=True
+    def test_change_trader_margin_mode(self):
+        response: Response = trader_client.changeTraderMarginMode(ChangeTraderMarginMode(
+            traderId=ADD_TRADER_02.id, contractId=CONTRACT_BTCUSDT_PERPETUAL.id, marginMode=PositionMarginMode.CROSS
         ))
         print(response)
 
