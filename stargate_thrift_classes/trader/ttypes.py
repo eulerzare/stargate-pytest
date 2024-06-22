@@ -924,6 +924,190 @@ class TraderAssetResponse(object):
         return not (self == other)
 
 
+class GetTraderOrderPosition(object):
+    """
+    Attributes:
+     - id
+
+    """
+
+    def __init__(
+        self,
+        id=None,
+    ):
+        self.id = id
+
+    def read(self, iprot):
+        if (
+            iprot._fast_decode is not None
+            and isinstance(iprot.trans, TTransport.CReadableTransport)
+            and self.thrift_spec is not None
+        ):
+            iprot._fast_decode(self, iprot, [self.__class__, self.thrift_spec])
+            return
+        iprot.readStructBegin()
+        while True:
+            (fname, ftype, fid) = iprot.readFieldBegin()
+            if ftype == TType.STOP:
+                break
+            if fid == 1:
+                if ftype == TType.I64:
+                    self.id = iprot.readI64()
+                else:
+                    iprot.skip(ftype)
+            else:
+                iprot.skip(ftype)
+            iprot.readFieldEnd()
+        iprot.readStructEnd()
+
+    def write(self, oprot):
+        if oprot._fast_encode is not None and self.thrift_spec is not None:
+            oprot.trans.write(
+                oprot._fast_encode(self, [self.__class__, self.thrift_spec])
+            )
+            return
+        oprot.writeStructBegin("GetTraderOrderPosition")
+        if self.id is not None:
+            oprot.writeFieldBegin("id", TType.I64, 1)
+            oprot.writeI64(self.id)
+            oprot.writeFieldEnd()
+        oprot.writeFieldStop()
+        oprot.writeStructEnd()
+
+    def validate(self):
+        if self.id is None:
+            raise TProtocolException(message="Required field id is unset!")
+        return
+
+    def __repr__(self):
+        L = ["%s=%r" % (key, value) for key, value in self.__dict__.items()]
+        return "%s(%s)" % (self.__class__.__name__, ", ".join(L))
+
+    def __eq__(self, other):
+        return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        return not (self == other)
+
+
+class TraderOrderPositionResponse(object):
+    """
+    Attributes:
+     - status
+     - sequence
+     - orders
+     - positions
+
+    """
+
+    def __init__(
+        self,
+        status=None,
+        sequence=None,
+        orders=None,
+        positions=None,
+    ):
+        self.status = status
+        self.sequence = sequence
+        self.orders = orders
+        self.positions = positions
+
+    def read(self, iprot):
+        if (
+            iprot._fast_decode is not None
+            and isinstance(iprot.trans, TTransport.CReadableTransport)
+            and self.thrift_spec is not None
+        ):
+            iprot._fast_decode(self, iprot, [self.__class__, self.thrift_spec])
+            return
+        iprot.readStructBegin()
+        while True:
+            (fname, ftype, fid) = iprot.readFieldBegin()
+            if ftype == TType.STOP:
+                break
+            if fid == 1:
+                if ftype == TType.I32:
+                    self.status = iprot.readI32()
+                else:
+                    iprot.skip(ftype)
+            elif fid == 2:
+                if ftype == TType.I64:
+                    self.sequence = iprot.readI64()
+                else:
+                    iprot.skip(ftype)
+            elif fid == 3:
+                if ftype == TType.LIST:
+                    self.orders = []
+                    (_etype10, _size7) = iprot.readListBegin()
+                    for _i11 in range(_size7):
+                        _elem12 = stargate_thrift_classes.base.ttypes.Order()
+                        _elem12.read(iprot)
+                        self.orders.append(_elem12)
+                    iprot.readListEnd()
+                else:
+                    iprot.skip(ftype)
+            elif fid == 4:
+                if ftype == TType.LIST:
+                    self.positions = []
+                    (_etype16, _size13) = iprot.readListBegin()
+                    for _i17 in range(_size13):
+                        _elem18 = stargate_thrift_classes.base.ttypes.Position()
+                        _elem18.read(iprot)
+                        self.positions.append(_elem18)
+                    iprot.readListEnd()
+                else:
+                    iprot.skip(ftype)
+            else:
+                iprot.skip(ftype)
+            iprot.readFieldEnd()
+        iprot.readStructEnd()
+
+    def write(self, oprot):
+        if oprot._fast_encode is not None and self.thrift_spec is not None:
+            oprot.trans.write(
+                oprot._fast_encode(self, [self.__class__, self.thrift_spec])
+            )
+            return
+        oprot.writeStructBegin("TraderOrderPositionResponse")
+        if self.status is not None:
+            oprot.writeFieldBegin("status", TType.I32, 1)
+            oprot.writeI32(self.status)
+            oprot.writeFieldEnd()
+        if self.sequence is not None:
+            oprot.writeFieldBegin("sequence", TType.I64, 2)
+            oprot.writeI64(self.sequence)
+            oprot.writeFieldEnd()
+        if self.orders is not None:
+            oprot.writeFieldBegin("orders", TType.LIST, 3)
+            oprot.writeListBegin(TType.STRUCT, len(self.orders))
+            for iter19 in self.orders:
+                iter19.write(oprot)
+            oprot.writeListEnd()
+            oprot.writeFieldEnd()
+        if self.positions is not None:
+            oprot.writeFieldBegin("positions", TType.LIST, 4)
+            oprot.writeListBegin(TType.STRUCT, len(self.positions))
+            for iter20 in self.positions:
+                iter20.write(oprot)
+            oprot.writeListEnd()
+            oprot.writeFieldEnd()
+        oprot.writeFieldStop()
+        oprot.writeStructEnd()
+
+    def validate(self):
+        return
+
+    def __repr__(self):
+        L = ["%s=%r" % (key, value) for key, value in self.__dict__.items()]
+        return "%s(%s)" % (self.__class__.__name__, ", ".join(L))
+
+    def __eq__(self, other):
+        return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        return not (self == other)
+
+
 class TransferAssetResponse(object):
     """
     Attributes:
@@ -1747,6 +1931,49 @@ TraderAssetResponse.thrift_spec = (
         (TType.STRUCT, [stargate_thrift_classes.base.ttypes.Asset, None], False),
         None,
     ),  # 3
+)
+all_structs.append(GetTraderOrderPosition)
+GetTraderOrderPosition.thrift_spec = (
+    None,  # 0
+    (
+        1,
+        TType.I64,
+        "id",
+        None,
+        None,
+    ),  # 1
+)
+all_structs.append(TraderOrderPositionResponse)
+TraderOrderPositionResponse.thrift_spec = (
+    None,  # 0
+    (
+        1,
+        TType.I32,
+        "status",
+        None,
+        None,
+    ),  # 1
+    (
+        2,
+        TType.I64,
+        "sequence",
+        None,
+        None,
+    ),  # 2
+    (
+        3,
+        TType.LIST,
+        "orders",
+        (TType.STRUCT, [stargate_thrift_classes.base.ttypes.Order, None], False),
+        None,
+    ),  # 3
+    (
+        4,
+        TType.LIST,
+        "positions",
+        (TType.STRUCT, [stargate_thrift_classes.base.ttypes.Position, None], False),
+        None,
+    ),  # 4
 )
 all_structs.append(TransferAssetResponse)
 TransferAssetResponse.thrift_spec = (

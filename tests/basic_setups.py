@@ -11,7 +11,7 @@ from stargate_thrift_classes.base.ttypes import Response, MarketType, OrderType,
 from stargate_thrift_classes.trader.TraderService import Client as TraderClient
 from stargate_thrift_classes.trader.ttypes import AddTrader, TraderAssetResponse, GetTraderAsset, TransferAsset, \
     PlaceOrder, ChangeTraderHedgeMode, TraderResponse, ChangeTraderUsdmMultiAssetMode, ChangeTraderFee, CancelOrder, \
-    ChangeTraderLeverage, ModifyOrder, ChangeTraderMarginMode
+    ChangeTraderLeverage, ModifyOrder, ChangeTraderMarginMode, GetTraderOrderPosition, TraderOrderPositionResponse
 from utils.test_constants import ADD_CURRENCY_ALL, ADD_TRADER_ALL, CONTRACTS_ALL, ADD_TRADER_01, ADD_CURRENCY_USDT, \
     ADD_TRADER_02, CONTRACT_BTCUSDT_PERPETUAL, ADD_TRADER_03, ADD_TRADER_04, ADD_TRADER_05, CONTRACT_ETHUSDT_PERPETUAL
 
@@ -64,6 +64,13 @@ class BasicSetups(unittest.TestCase):
             trader: AddTrader
             response: TraderAssetResponse = trader_client.getTraderAsset(GetTraderAsset(id=trader.id))
             print(response.assets)
+
+    def test_get_trader_order_position(self):
+        for trader in ADD_TRADER_ALL:
+            trader: AddTrader
+            response: TraderOrderPositionResponse = trader_client.getTraderOrderPosition(GetTraderOrderPosition(id=trader.id))
+            print(response.orders)
+            print(response.positions)
 
     def test_change_trader_hedge_mode(self):
         trader: AddTrader = ADD_TRADER_01
@@ -137,13 +144,13 @@ class BasicSetups(unittest.TestCase):
 
     def test_place_order(self):
         print(trader_client.placeOrder(PlaceOrder(
-            id=7,
+            id=3,
             traderId=ADD_TRADER_02.id,
             contractId=CONTRACT_BTCUSDT_PERPETUAL.id,
             orderType=OrderType.LIMIT,
-            orderSide=OrderSide.OPEN_LONG,
-            price="64000",
-            size="0.5",
+            orderSide=OrderSide.SELL,
+            price="61000.245",
+            size="1.2",
             isSizeInBaseCurrency=True,
         )))
 

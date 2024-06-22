@@ -90,6 +90,14 @@ class Iface(object):
         """
         pass
 
+    def getTraderOrderPosition(self, getTraderOrderPosition):
+        """
+        Parameters:
+         - getTraderOrderPosition
+
+        """
+        pass
+
     def transferAsset(self, transferAsset):
         """
         Parameters:
@@ -416,6 +424,43 @@ class Client(Iface):
             "getTraderAsset failed: unknown result",
         )
 
+    def getTraderOrderPosition(self, getTraderOrderPosition):
+        """
+        Parameters:
+         - getTraderOrderPosition
+
+        """
+        self.send_getTraderOrderPosition(getTraderOrderPosition)
+        return self.recv_getTraderOrderPosition()
+
+    def send_getTraderOrderPosition(self, getTraderOrderPosition):
+        self._oprot.writeMessageBegin(
+            "getTraderOrderPosition", TMessageType.CALL, self._seqid
+        )
+        args = getTraderOrderPosition_args()
+        args.getTraderOrderPosition = getTraderOrderPosition
+        args.write(self._oprot)
+        self._oprot.writeMessageEnd()
+        self._oprot.trans.flush()
+
+    def recv_getTraderOrderPosition(self):
+        iprot = self._iprot
+        (fname, mtype, rseqid) = iprot.readMessageBegin()
+        if mtype == TMessageType.EXCEPTION:
+            x = TApplicationException()
+            x.read(iprot)
+            iprot.readMessageEnd()
+            raise x
+        result = getTraderOrderPosition_result()
+        result.read(iprot)
+        iprot.readMessageEnd()
+        if result.success is not None:
+            return result.success
+        raise TApplicationException(
+            TApplicationException.MISSING_RESULT,
+            "getTraderOrderPosition failed: unknown result",
+        )
+
     def transferAsset(self, transferAsset):
         """
         Parameters:
@@ -573,6 +618,9 @@ class Processor(Iface, TProcessor):
             Processor.process_changeTraderUsdmMultiAssetMode
         )
         self._processMap["getTraderAsset"] = Processor.process_getTraderAsset
+        self._processMap["getTraderOrderPosition"] = (
+            Processor.process_getTraderOrderPosition
+        )
         self._processMap["transferAsset"] = Processor.process_transferAsset
         self._processMap["placeOrder"] = Processor.process_placeOrder
         self._processMap["cancelOrder"] = Processor.process_cancelOrder
@@ -805,6 +853,33 @@ class Processor(Iface, TProcessor):
                 TApplicationException.INTERNAL_ERROR, "Internal error"
             )
         oprot.writeMessageBegin("getTraderAsset", msg_type, seqid)
+        result.write(oprot)
+        oprot.writeMessageEnd()
+        oprot.trans.flush()
+
+    def process_getTraderOrderPosition(self, seqid, iprot, oprot):
+        args = getTraderOrderPosition_args()
+        args.read(iprot)
+        iprot.readMessageEnd()
+        result = getTraderOrderPosition_result()
+        try:
+            result.success = self._handler.getTraderOrderPosition(
+                args.getTraderOrderPosition
+            )
+            msg_type = TMessageType.REPLY
+        except TTransport.TTransportException:
+            raise
+        except TApplicationException as ex:
+            logging.exception("TApplication exception in handler")
+            msg_type = TMessageType.EXCEPTION
+            result = ex
+        except Exception:
+            logging.exception("Unexpected exception in handler")
+            msg_type = TMessageType.EXCEPTION
+            result = TApplicationException(
+                TApplicationException.INTERNAL_ERROR, "Internal error"
+            )
+        oprot.writeMessageBegin("getTraderOrderPosition", msg_type, seqid)
         result.write(oprot)
         oprot.writeMessageEnd()
         oprot.trans.flush()
@@ -2150,6 +2225,161 @@ getTraderAsset_result.thrift_spec = (
         TType.STRUCT,
         "success",
         [TraderAssetResponse, None],
+        None,
+    ),  # 0
+)
+
+
+class getTraderOrderPosition_args(object):
+    """
+    Attributes:
+     - getTraderOrderPosition
+
+    """
+
+    def __init__(
+        self,
+        getTraderOrderPosition=None,
+    ):
+        self.getTraderOrderPosition = getTraderOrderPosition
+
+    def read(self, iprot):
+        if (
+            iprot._fast_decode is not None
+            and isinstance(iprot.trans, TTransport.CReadableTransport)
+            and self.thrift_spec is not None
+        ):
+            iprot._fast_decode(self, iprot, [self.__class__, self.thrift_spec])
+            return
+        iprot.readStructBegin()
+        while True:
+            (fname, ftype, fid) = iprot.readFieldBegin()
+            if ftype == TType.STOP:
+                break
+            if fid == 1:
+                if ftype == TType.STRUCT:
+                    self.getTraderOrderPosition = GetTraderOrderPosition()
+                    self.getTraderOrderPosition.read(iprot)
+                else:
+                    iprot.skip(ftype)
+            else:
+                iprot.skip(ftype)
+            iprot.readFieldEnd()
+        iprot.readStructEnd()
+
+    def write(self, oprot):
+        if oprot._fast_encode is not None and self.thrift_spec is not None:
+            oprot.trans.write(
+                oprot._fast_encode(self, [self.__class__, self.thrift_spec])
+            )
+            return
+        oprot.writeStructBegin("getTraderOrderPosition_args")
+        if self.getTraderOrderPosition is not None:
+            oprot.writeFieldBegin("getTraderOrderPosition", TType.STRUCT, 1)
+            self.getTraderOrderPosition.write(oprot)
+            oprot.writeFieldEnd()
+        oprot.writeFieldStop()
+        oprot.writeStructEnd()
+
+    def validate(self):
+        return
+
+    def __repr__(self):
+        L = ["%s=%r" % (key, value) for key, value in self.__dict__.items()]
+        return "%s(%s)" % (self.__class__.__name__, ", ".join(L))
+
+    def __eq__(self, other):
+        return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        return not (self == other)
+
+
+all_structs.append(getTraderOrderPosition_args)
+getTraderOrderPosition_args.thrift_spec = (
+    None,  # 0
+    (
+        1,
+        TType.STRUCT,
+        "getTraderOrderPosition",
+        [GetTraderOrderPosition, None],
+        None,
+    ),  # 1
+)
+
+
+class getTraderOrderPosition_result(object):
+    """
+    Attributes:
+     - success
+
+    """
+
+    def __init__(
+        self,
+        success=None,
+    ):
+        self.success = success
+
+    def read(self, iprot):
+        if (
+            iprot._fast_decode is not None
+            and isinstance(iprot.trans, TTransport.CReadableTransport)
+            and self.thrift_spec is not None
+        ):
+            iprot._fast_decode(self, iprot, [self.__class__, self.thrift_spec])
+            return
+        iprot.readStructBegin()
+        while True:
+            (fname, ftype, fid) = iprot.readFieldBegin()
+            if ftype == TType.STOP:
+                break
+            if fid == 0:
+                if ftype == TType.STRUCT:
+                    self.success = TraderOrderPositionResponse()
+                    self.success.read(iprot)
+                else:
+                    iprot.skip(ftype)
+            else:
+                iprot.skip(ftype)
+            iprot.readFieldEnd()
+        iprot.readStructEnd()
+
+    def write(self, oprot):
+        if oprot._fast_encode is not None and self.thrift_spec is not None:
+            oprot.trans.write(
+                oprot._fast_encode(self, [self.__class__, self.thrift_spec])
+            )
+            return
+        oprot.writeStructBegin("getTraderOrderPosition_result")
+        if self.success is not None:
+            oprot.writeFieldBegin("success", TType.STRUCT, 0)
+            self.success.write(oprot)
+            oprot.writeFieldEnd()
+        oprot.writeFieldStop()
+        oprot.writeStructEnd()
+
+    def validate(self):
+        return
+
+    def __repr__(self):
+        L = ["%s=%r" % (key, value) for key, value in self.__dict__.items()]
+        return "%s(%s)" % (self.__class__.__name__, ", ".join(L))
+
+    def __eq__(self, other):
+        return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        return not (self == other)
+
+
+all_structs.append(getTraderOrderPosition_result)
+getTraderOrderPosition_result.thrift_spec = (
+    (
+        0,
+        TType.STRUCT,
+        "success",
+        [TraderOrderPositionResponse, None],
         None,
     ),  # 0
 )

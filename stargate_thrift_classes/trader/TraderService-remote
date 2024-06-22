@@ -32,6 +32,7 @@ if len(sys.argv) <= 1 or sys.argv[1] == '--help':
     print('  TraderResponse changeTraderHedgeMode(ChangeTraderHedgeMode changeTraderHedgeMode)')
     print('  TraderResponse changeTraderUsdmMultiAssetMode(ChangeTraderUsdmMultiAssetMode changeTraderUsdmMultiAssetMode)')
     print('  TraderAssetResponse getTraderAsset(GetTraderAsset getTraderAsset)')
+    print('  TraderOrderPositionResponse getTraderOrderPosition(GetTraderOrderPosition getTraderOrderPosition)')
     print('  TransferAssetResponse transferAsset(TransferAsset transferAsset)')
     print('  Response placeOrder(PlaceOrder placeOrder)')
     print('  Response cancelOrder(CancelOrder cancelOrder)')
@@ -162,6 +163,12 @@ elif cmd == 'getTraderAsset':
         print('getTraderAsset requires 1 args')
         sys.exit(1)
     pp.pprint(client.getTraderAsset(eval(args[0]),))
+
+elif cmd == 'getTraderOrderPosition':
+    if len(args) != 1:
+        print('getTraderOrderPosition requires 1 args')
+        sys.exit(1)
+    pp.pprint(client.getTraderOrderPosition(eval(args[0]),))
 
 elif cmd == 'transferAsset':
     if len(args) != 1:

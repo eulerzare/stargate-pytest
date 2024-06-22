@@ -725,6 +725,412 @@ class Trader(object):
         return not (self == other)
 
 
+class Order(object):
+    """
+    Attributes:
+     - id
+     - creationTimeMs
+     - traderId
+     - contractId
+     - orderType
+     - orderSide
+     - price
+     - size
+     - filled
+
+    """
+
+    def __init__(
+        self,
+        id=None,
+        creationTimeMs=None,
+        traderId=None,
+        contractId=None,
+        orderType=None,
+        orderSide=None,
+        price=None,
+        size=None,
+        filled=None,
+    ):
+        self.id = id
+        self.creationTimeMs = creationTimeMs
+        self.traderId = traderId
+        self.contractId = contractId
+        self.orderType = orderType
+        self.orderSide = orderSide
+        self.price = price
+        self.size = size
+        self.filled = filled
+
+    def read(self, iprot):
+        if (
+            iprot._fast_decode is not None
+            and isinstance(iprot.trans, TTransport.CReadableTransport)
+            and self.thrift_spec is not None
+        ):
+            iprot._fast_decode(self, iprot, [self.__class__, self.thrift_spec])
+            return
+        iprot.readStructBegin()
+        while True:
+            (fname, ftype, fid) = iprot.readFieldBegin()
+            if ftype == TType.STOP:
+                break
+            if fid == 1:
+                if ftype == TType.I64:
+                    self.id = iprot.readI64()
+                else:
+                    iprot.skip(ftype)
+            elif fid == 2:
+                if ftype == TType.I64:
+                    self.creationTimeMs = iprot.readI64()
+                else:
+                    iprot.skip(ftype)
+            elif fid == 3:
+                if ftype == TType.I64:
+                    self.traderId = iprot.readI64()
+                else:
+                    iprot.skip(ftype)
+            elif fid == 4:
+                if ftype == TType.I64:
+                    self.contractId = iprot.readI64()
+                else:
+                    iprot.skip(ftype)
+            elif fid == 5:
+                if ftype == TType.I32:
+                    self.orderType = iprot.readI32()
+                else:
+                    iprot.skip(ftype)
+            elif fid == 6:
+                if ftype == TType.I32:
+                    self.orderSide = iprot.readI32()
+                else:
+                    iprot.skip(ftype)
+            elif fid == 7:
+                if ftype == TType.STRING:
+                    self.price = (
+                        iprot.readString().decode("utf-8", errors="replace")
+                        if sys.version_info[0] == 2
+                        else iprot.readString()
+                    )
+                else:
+                    iprot.skip(ftype)
+            elif fid == 8:
+                if ftype == TType.STRING:
+                    self.size = (
+                        iprot.readString().decode("utf-8", errors="replace")
+                        if sys.version_info[0] == 2
+                        else iprot.readString()
+                    )
+                else:
+                    iprot.skip(ftype)
+            elif fid == 9:
+                if ftype == TType.STRING:
+                    self.filled = (
+                        iprot.readString().decode("utf-8", errors="replace")
+                        if sys.version_info[0] == 2
+                        else iprot.readString()
+                    )
+                else:
+                    iprot.skip(ftype)
+            else:
+                iprot.skip(ftype)
+            iprot.readFieldEnd()
+        iprot.readStructEnd()
+
+    def write(self, oprot):
+        if oprot._fast_encode is not None and self.thrift_spec is not None:
+            oprot.trans.write(
+                oprot._fast_encode(self, [self.__class__, self.thrift_spec])
+            )
+            return
+        oprot.writeStructBegin("Order")
+        if self.id is not None:
+            oprot.writeFieldBegin("id", TType.I64, 1)
+            oprot.writeI64(self.id)
+            oprot.writeFieldEnd()
+        if self.creationTimeMs is not None:
+            oprot.writeFieldBegin("creationTimeMs", TType.I64, 2)
+            oprot.writeI64(self.creationTimeMs)
+            oprot.writeFieldEnd()
+        if self.traderId is not None:
+            oprot.writeFieldBegin("traderId", TType.I64, 3)
+            oprot.writeI64(self.traderId)
+            oprot.writeFieldEnd()
+        if self.contractId is not None:
+            oprot.writeFieldBegin("contractId", TType.I64, 4)
+            oprot.writeI64(self.contractId)
+            oprot.writeFieldEnd()
+        if self.orderType is not None:
+            oprot.writeFieldBegin("orderType", TType.I32, 5)
+            oprot.writeI32(self.orderType)
+            oprot.writeFieldEnd()
+        if self.orderSide is not None:
+            oprot.writeFieldBegin("orderSide", TType.I32, 6)
+            oprot.writeI32(self.orderSide)
+            oprot.writeFieldEnd()
+        if self.price is not None:
+            oprot.writeFieldBegin("price", TType.STRING, 7)
+            oprot.writeString(
+                self.price.encode("utf-8") if sys.version_info[0] == 2 else self.price
+            )
+            oprot.writeFieldEnd()
+        if self.size is not None:
+            oprot.writeFieldBegin("size", TType.STRING, 8)
+            oprot.writeString(
+                self.size.encode("utf-8") if sys.version_info[0] == 2 else self.size
+            )
+            oprot.writeFieldEnd()
+        if self.filled is not None:
+            oprot.writeFieldBegin("filled", TType.STRING, 9)
+            oprot.writeString(
+                self.filled.encode("utf-8") if sys.version_info[0] == 2 else self.filled
+            )
+            oprot.writeFieldEnd()
+        oprot.writeFieldStop()
+        oprot.writeStructEnd()
+
+    def validate(self):
+        if self.id is None:
+            raise TProtocolException(message="Required field id is unset!")
+        if self.creationTimeMs is None:
+            raise TProtocolException(message="Required field creationTimeMs is unset!")
+        if self.traderId is None:
+            raise TProtocolException(message="Required field traderId is unset!")
+        if self.contractId is None:
+            raise TProtocolException(message="Required field contractId is unset!")
+        if self.orderType is None:
+            raise TProtocolException(message="Required field orderType is unset!")
+        if self.orderSide is None:
+            raise TProtocolException(message="Required field orderSide is unset!")
+        if self.price is None:
+            raise TProtocolException(message="Required field price is unset!")
+        if self.size is None:
+            raise TProtocolException(message="Required field size is unset!")
+        if self.filled is None:
+            raise TProtocolException(message="Required field filled is unset!")
+        return
+
+    def __repr__(self):
+        L = ["%s=%r" % (key, value) for key, value in self.__dict__.items()]
+        return "%s(%s)" % (self.__class__.__name__, ", ".join(L))
+
+    def __eq__(self, other):
+        return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        return not (self == other)
+
+
+class Position(object):
+    """
+    Attributes:
+     - id
+     - traderId
+     - contractId
+     - positionSide
+     - positionMarginMode
+     - avgEntryPrice
+     - size
+     - margin
+     - maintenanceMargin
+
+    """
+
+    def __init__(
+        self,
+        id=None,
+        traderId=None,
+        contractId=None,
+        positionSide=None,
+        positionMarginMode=None,
+        avgEntryPrice=None,
+        size=None,
+        margin=None,
+        maintenanceMargin=None,
+    ):
+        self.id = id
+        self.traderId = traderId
+        self.contractId = contractId
+        self.positionSide = positionSide
+        self.positionMarginMode = positionMarginMode
+        self.avgEntryPrice = avgEntryPrice
+        self.size = size
+        self.margin = margin
+        self.maintenanceMargin = maintenanceMargin
+
+    def read(self, iprot):
+        if (
+            iprot._fast_decode is not None
+            and isinstance(iprot.trans, TTransport.CReadableTransport)
+            and self.thrift_spec is not None
+        ):
+            iprot._fast_decode(self, iprot, [self.__class__, self.thrift_spec])
+            return
+        iprot.readStructBegin()
+        while True:
+            (fname, ftype, fid) = iprot.readFieldBegin()
+            if ftype == TType.STOP:
+                break
+            if fid == 1:
+                if ftype == TType.I64:
+                    self.id = iprot.readI64()
+                else:
+                    iprot.skip(ftype)
+            elif fid == 3:
+                if ftype == TType.I64:
+                    self.traderId = iprot.readI64()
+                else:
+                    iprot.skip(ftype)
+            elif fid == 4:
+                if ftype == TType.I64:
+                    self.contractId = iprot.readI64()
+                else:
+                    iprot.skip(ftype)
+            elif fid == 5:
+                if ftype == TType.I32:
+                    self.positionSide = iprot.readI32()
+                else:
+                    iprot.skip(ftype)
+            elif fid == 6:
+                if ftype == TType.I32:
+                    self.positionMarginMode = iprot.readI32()
+                else:
+                    iprot.skip(ftype)
+            elif fid == 7:
+                if ftype == TType.STRING:
+                    self.avgEntryPrice = (
+                        iprot.readString().decode("utf-8", errors="replace")
+                        if sys.version_info[0] == 2
+                        else iprot.readString()
+                    )
+                else:
+                    iprot.skip(ftype)
+            elif fid == 8:
+                if ftype == TType.STRING:
+                    self.size = (
+                        iprot.readString().decode("utf-8", errors="replace")
+                        if sys.version_info[0] == 2
+                        else iprot.readString()
+                    )
+                else:
+                    iprot.skip(ftype)
+            elif fid == 9:
+                if ftype == TType.STRING:
+                    self.margin = (
+                        iprot.readString().decode("utf-8", errors="replace")
+                        if sys.version_info[0] == 2
+                        else iprot.readString()
+                    )
+                else:
+                    iprot.skip(ftype)
+            elif fid == 10:
+                if ftype == TType.STRING:
+                    self.maintenanceMargin = (
+                        iprot.readString().decode("utf-8", errors="replace")
+                        if sys.version_info[0] == 2
+                        else iprot.readString()
+                    )
+                else:
+                    iprot.skip(ftype)
+            else:
+                iprot.skip(ftype)
+            iprot.readFieldEnd()
+        iprot.readStructEnd()
+
+    def write(self, oprot):
+        if oprot._fast_encode is not None and self.thrift_spec is not None:
+            oprot.trans.write(
+                oprot._fast_encode(self, [self.__class__, self.thrift_spec])
+            )
+            return
+        oprot.writeStructBegin("Position")
+        if self.id is not None:
+            oprot.writeFieldBegin("id", TType.I64, 1)
+            oprot.writeI64(self.id)
+            oprot.writeFieldEnd()
+        if self.traderId is not None:
+            oprot.writeFieldBegin("traderId", TType.I64, 3)
+            oprot.writeI64(self.traderId)
+            oprot.writeFieldEnd()
+        if self.contractId is not None:
+            oprot.writeFieldBegin("contractId", TType.I64, 4)
+            oprot.writeI64(self.contractId)
+            oprot.writeFieldEnd()
+        if self.positionSide is not None:
+            oprot.writeFieldBegin("positionSide", TType.I32, 5)
+            oprot.writeI32(self.positionSide)
+            oprot.writeFieldEnd()
+        if self.positionMarginMode is not None:
+            oprot.writeFieldBegin("positionMarginMode", TType.I32, 6)
+            oprot.writeI32(self.positionMarginMode)
+            oprot.writeFieldEnd()
+        if self.avgEntryPrice is not None:
+            oprot.writeFieldBegin("avgEntryPrice", TType.STRING, 7)
+            oprot.writeString(
+                self.avgEntryPrice.encode("utf-8")
+                if sys.version_info[0] == 2
+                else self.avgEntryPrice
+            )
+            oprot.writeFieldEnd()
+        if self.size is not None:
+            oprot.writeFieldBegin("size", TType.STRING, 8)
+            oprot.writeString(
+                self.size.encode("utf-8") if sys.version_info[0] == 2 else self.size
+            )
+            oprot.writeFieldEnd()
+        if self.margin is not None:
+            oprot.writeFieldBegin("margin", TType.STRING, 9)
+            oprot.writeString(
+                self.margin.encode("utf-8") if sys.version_info[0] == 2 else self.margin
+            )
+            oprot.writeFieldEnd()
+        if self.maintenanceMargin is not None:
+            oprot.writeFieldBegin("maintenanceMargin", TType.STRING, 10)
+            oprot.writeString(
+                self.maintenanceMargin.encode("utf-8")
+                if sys.version_info[0] == 2
+                else self.maintenanceMargin
+            )
+            oprot.writeFieldEnd()
+        oprot.writeFieldStop()
+        oprot.writeStructEnd()
+
+    def validate(self):
+        if self.id is None:
+            raise TProtocolException(message="Required field id is unset!")
+        if self.traderId is None:
+            raise TProtocolException(message="Required field traderId is unset!")
+        if self.contractId is None:
+            raise TProtocolException(message="Required field contractId is unset!")
+        if self.positionSide is None:
+            raise TProtocolException(message="Required field positionSide is unset!")
+        if self.positionMarginMode is None:
+            raise TProtocolException(
+                message="Required field positionMarginMode is unset!"
+            )
+        if self.avgEntryPrice is None:
+            raise TProtocolException(message="Required field avgEntryPrice is unset!")
+        if self.size is None:
+            raise TProtocolException(message="Required field size is unset!")
+        if self.margin is None:
+            raise TProtocolException(message="Required field margin is unset!")
+        if self.maintenanceMargin is None:
+            raise TProtocolException(
+                message="Required field maintenanceMargin is unset!"
+            )
+        return
+
+    def __repr__(self):
+        L = ["%s=%r" % (key, value) for key, value in self.__dict__.items()]
+        return "%s(%s)" % (self.__class__.__name__, ", ".join(L))
+
+    def __eq__(self, other):
+        return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        return not (self == other)
+
+
 all_structs.append(Response)
 Response.thrift_spec = (
     None,  # 0
@@ -905,6 +1311,141 @@ Trader.thrift_spec = (
         "UTF8",
         None,
     ),  # 6
+)
+all_structs.append(Order)
+Order.thrift_spec = (
+    None,  # 0
+    (
+        1,
+        TType.I64,
+        "id",
+        None,
+        None,
+    ),  # 1
+    (
+        2,
+        TType.I64,
+        "creationTimeMs",
+        None,
+        None,
+    ),  # 2
+    (
+        3,
+        TType.I64,
+        "traderId",
+        None,
+        None,
+    ),  # 3
+    (
+        4,
+        TType.I64,
+        "contractId",
+        None,
+        None,
+    ),  # 4
+    (
+        5,
+        TType.I32,
+        "orderType",
+        None,
+        None,
+    ),  # 5
+    (
+        6,
+        TType.I32,
+        "orderSide",
+        None,
+        None,
+    ),  # 6
+    (
+        7,
+        TType.STRING,
+        "price",
+        "UTF8",
+        None,
+    ),  # 7
+    (
+        8,
+        TType.STRING,
+        "size",
+        "UTF8",
+        None,
+    ),  # 8
+    (
+        9,
+        TType.STRING,
+        "filled",
+        "UTF8",
+        None,
+    ),  # 9
+)
+all_structs.append(Position)
+Position.thrift_spec = (
+    None,  # 0
+    (
+        1,
+        TType.I64,
+        "id",
+        None,
+        None,
+    ),  # 1
+    None,  # 2
+    (
+        3,
+        TType.I64,
+        "traderId",
+        None,
+        None,
+    ),  # 3
+    (
+        4,
+        TType.I64,
+        "contractId",
+        None,
+        None,
+    ),  # 4
+    (
+        5,
+        TType.I32,
+        "positionSide",
+        None,
+        None,
+    ),  # 5
+    (
+        6,
+        TType.I32,
+        "positionMarginMode",
+        None,
+        None,
+    ),  # 6
+    (
+        7,
+        TType.STRING,
+        "avgEntryPrice",
+        "UTF8",
+        None,
+    ),  # 7
+    (
+        8,
+        TType.STRING,
+        "size",
+        "UTF8",
+        None,
+    ),  # 8
+    (
+        9,
+        TType.STRING,
+        "margin",
+        "UTF8",
+        None,
+    ),  # 9
+    (
+        10,
+        TType.STRING,
+        "maintenanceMargin",
+        "UTF8",
+        None,
+    ),  # 10
 )
 fix_spec(all_structs)
 del all_structs

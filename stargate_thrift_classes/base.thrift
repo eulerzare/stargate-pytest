@@ -63,3 +63,27 @@ struct Trader {
   5: required string makerFee,
   6: required string takerFee,
 }
+
+struct Order {
+  1: required i64 id,
+  2: required i64 creationTimeMs,
+  3: required i64 traderId,
+  4: required i64 contractId,
+  5: required OrderType orderType,
+  6: required OrderSide orderSide,
+  7: required string price,
+  8: required string size,
+  9: required string filled,
+}
+
+struct Position {
+  1: required i64 id,
+  3: required i64 traderId,
+  4: required i64 contractId,
+  5: required PositionSide positionSide,
+  6: required PositionMarginMode positionMarginMode,
+  7: required string avgEntryPrice,
+  8: required string size,
+  9: required string margin,
+  10: required string maintenanceMargin,
+}

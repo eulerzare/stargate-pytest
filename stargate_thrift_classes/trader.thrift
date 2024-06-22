@@ -9,6 +9,7 @@ service TraderService {
   TraderResponse changeTraderHedgeMode(1: ChangeTraderHedgeMode changeTraderHedgeMode),
   TraderResponse changeTraderUsdmMultiAssetMode(1: ChangeTraderUsdmMultiAssetMode changeTraderUsdmMultiAssetMode),
   TraderAssetResponse getTraderAsset(1:GetTraderAsset getTraderAsset),
+  TraderOrderPositionResponse getTraderOrderPosition(1:GetTraderOrderPosition getTraderOrderPosition),
   TransferAssetResponse transferAsset(1:TransferAsset transferAsset),
   base.Response placeOrder(1:PlaceOrder placeOrder),
   base.Response cancelOrder(1:CancelOrder cancelOrder),
@@ -68,6 +69,17 @@ struct TraderAssetResponse {
   1: i32 status,
   2: i64 sequence,
   3: list<base.Asset> assets,
+}
+
+struct GetTraderOrderPosition {
+  1: required i64 id,
+}
+
+struct TraderOrderPositionResponse {
+  1: i32 status,
+  2: i64 sequence,
+  3: list<base.Order> orders,
+  4: list<base.Position> positions,
 }
 
 struct TransferAssetResponse {
