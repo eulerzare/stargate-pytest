@@ -55,6 +55,12 @@ struct Contract {
   8: required i32 quoteScale,
 }
 
+struct TraderContractInfo {
+  1: required i16 contractId
+  2: required PositionMarginMode positionMarginMode,
+  3: required i16 leverage,
+}
+
 struct Trader {
   1: required i64 id,
   2: required bool active,
@@ -62,13 +68,14 @@ struct Trader {
   4: required bool usdmMultiAssetMode,
   5: required string makerFee,
   6: required string takerFee,
+  7: required list<TraderContractInfo> traderContractInfos,
 }
 
 struct Order {
   1: required i64 id,
   2: required i64 creationTimeMs,
   3: required i64 traderId,
-  4: required i64 contractId,
+  4: required i16 contractId,
   5: required OrderType orderType,
   6: required OrderSide orderSide,
   7: required string price,
@@ -79,7 +86,7 @@ struct Order {
 struct Position {
   1: required i64 id,
   3: required i64 traderId,
-  4: required i64 contractId,
+  4: required i16 contractId,
   5: required PositionSide positionSide,
   6: required PositionMarginMode positionMarginMode,
   7: required string avgEntryPrice,

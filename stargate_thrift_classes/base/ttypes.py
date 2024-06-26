@@ -571,6 +571,102 @@ class Contract(object):
         return not (self == other)
 
 
+class TraderContractInfo(object):
+    """
+    Attributes:
+     - contractId
+     - positionMarginMode
+     - leverage
+
+    """
+
+    def __init__(
+        self,
+        contractId=None,
+        positionMarginMode=None,
+        leverage=None,
+    ):
+        self.contractId = contractId
+        self.positionMarginMode = positionMarginMode
+        self.leverage = leverage
+
+    def read(self, iprot):
+        if (
+            iprot._fast_decode is not None
+            and isinstance(iprot.trans, TTransport.CReadableTransport)
+            and self.thrift_spec is not None
+        ):
+            iprot._fast_decode(self, iprot, [self.__class__, self.thrift_spec])
+            return
+        iprot.readStructBegin()
+        while True:
+            (fname, ftype, fid) = iprot.readFieldBegin()
+            if ftype == TType.STOP:
+                break
+            if fid == 1:
+                if ftype == TType.I16:
+                    self.contractId = iprot.readI16()
+                else:
+                    iprot.skip(ftype)
+            elif fid == 2:
+                if ftype == TType.I32:
+                    self.positionMarginMode = iprot.readI32()
+                else:
+                    iprot.skip(ftype)
+            elif fid == 3:
+                if ftype == TType.I16:
+                    self.leverage = iprot.readI16()
+                else:
+                    iprot.skip(ftype)
+            else:
+                iprot.skip(ftype)
+            iprot.readFieldEnd()
+        iprot.readStructEnd()
+
+    def write(self, oprot):
+        if oprot._fast_encode is not None and self.thrift_spec is not None:
+            oprot.trans.write(
+                oprot._fast_encode(self, [self.__class__, self.thrift_spec])
+            )
+            return
+        oprot.writeStructBegin("TraderContractInfo")
+        if self.contractId is not None:
+            oprot.writeFieldBegin("contractId", TType.I16, 1)
+            oprot.writeI16(self.contractId)
+            oprot.writeFieldEnd()
+        if self.positionMarginMode is not None:
+            oprot.writeFieldBegin("positionMarginMode", TType.I32, 2)
+            oprot.writeI32(self.positionMarginMode)
+            oprot.writeFieldEnd()
+        if self.leverage is not None:
+            oprot.writeFieldBegin("leverage", TType.I16, 3)
+            oprot.writeI16(self.leverage)
+            oprot.writeFieldEnd()
+        oprot.writeFieldStop()
+        oprot.writeStructEnd()
+
+    def validate(self):
+        if self.contractId is None:
+            raise TProtocolException(message="Required field contractId is unset!")
+        if self.positionMarginMode is None:
+            raise TProtocolException(
+                message="Required field positionMarginMode is unset!"
+            )
+        if self.leverage is None:
+            raise TProtocolException(message="Required field leverage is unset!")
+        return
+
+    def __repr__(self):
+        L = ["%s=%r" % (key, value) for key, value in self.__dict__.items()]
+        return "%s(%s)" % (self.__class__.__name__, ", ".join(L))
+
+    def __eq__(self, other):
+        return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        return not (self == other)
+
+
 class Trader(object):
     """
     Attributes:
@@ -580,6 +676,7 @@ class Trader(object):
      - usdmMultiAssetMode
      - makerFee
      - takerFee
+     - traderContractInfos
 
     """
 
@@ -591,6 +688,7 @@ class Trader(object):
         usdmMultiAssetMode=None,
         makerFee=None,
         takerFee=None,
+        traderContractInfos=None,
     ):
         self.id = id
         self.active = active
@@ -598,6 +696,7 @@ class Trader(object):
         self.usdmMultiAssetMode = usdmMultiAssetMode
         self.makerFee = makerFee
         self.takerFee = takerFee
+        self.traderContractInfos = traderContractInfos
 
     def read(self, iprot):
         if (
@@ -650,6 +749,17 @@ class Trader(object):
                     )
                 else:
                     iprot.skip(ftype)
+            elif fid == 7:
+                if ftype == TType.LIST:
+                    self.traderContractInfos = []
+                    (_etype3, _size0) = iprot.readListBegin()
+                    for _i4 in range(_size0):
+                        _elem5 = TraderContractInfo()
+                        _elem5.read(iprot)
+                        self.traderContractInfos.append(_elem5)
+                    iprot.readListEnd()
+                else:
+                    iprot.skip(ftype)
             else:
                 iprot.skip(ftype)
             iprot.readFieldEnd()
@@ -694,6 +804,13 @@ class Trader(object):
                 else self.takerFee
             )
             oprot.writeFieldEnd()
+        if self.traderContractInfos is not None:
+            oprot.writeFieldBegin("traderContractInfos", TType.LIST, 7)
+            oprot.writeListBegin(TType.STRUCT, len(self.traderContractInfos))
+            for iter6 in self.traderContractInfos:
+                iter6.write(oprot)
+            oprot.writeListEnd()
+            oprot.writeFieldEnd()
         oprot.writeFieldStop()
         oprot.writeStructEnd()
 
@@ -712,6 +829,10 @@ class Trader(object):
             raise TProtocolException(message="Required field makerFee is unset!")
         if self.takerFee is None:
             raise TProtocolException(message="Required field takerFee is unset!")
+        if self.traderContractInfos is None:
+            raise TProtocolException(
+                message="Required field traderContractInfos is unset!"
+            )
         return
 
     def __repr__(self):
@@ -791,8 +912,8 @@ class Order(object):
                 else:
                     iprot.skip(ftype)
             elif fid == 4:
-                if ftype == TType.I64:
-                    self.contractId = iprot.readI64()
+                if ftype == TType.I16:
+                    self.contractId = iprot.readI16()
                 else:
                     iprot.skip(ftype)
             elif fid == 5:
@@ -857,8 +978,8 @@ class Order(object):
             oprot.writeI64(self.traderId)
             oprot.writeFieldEnd()
         if self.contractId is not None:
-            oprot.writeFieldBegin("contractId", TType.I64, 4)
-            oprot.writeI64(self.contractId)
+            oprot.writeFieldBegin("contractId", TType.I16, 4)
+            oprot.writeI16(self.contractId)
             oprot.writeFieldEnd()
         if self.orderType is not None:
             oprot.writeFieldBegin("orderType", TType.I32, 5)
@@ -982,8 +1103,8 @@ class Position(object):
                 else:
                     iprot.skip(ftype)
             elif fid == 4:
-                if ftype == TType.I64:
-                    self.contractId = iprot.readI64()
+                if ftype == TType.I16:
+                    self.contractId = iprot.readI16()
                 else:
                     iprot.skip(ftype)
             elif fid == 5:
@@ -1053,8 +1174,8 @@ class Position(object):
             oprot.writeI64(self.traderId)
             oprot.writeFieldEnd()
         if self.contractId is not None:
-            oprot.writeFieldBegin("contractId", TType.I64, 4)
-            oprot.writeI64(self.contractId)
+            oprot.writeFieldBegin("contractId", TType.I16, 4)
+            oprot.writeI16(self.contractId)
             oprot.writeFieldEnd()
         if self.positionSide is not None:
             oprot.writeFieldBegin("positionSide", TType.I32, 5)
@@ -1266,6 +1387,31 @@ Contract.thrift_spec = (
         None,
     ),  # 8
 )
+all_structs.append(TraderContractInfo)
+TraderContractInfo.thrift_spec = (
+    None,  # 0
+    (
+        1,
+        TType.I16,
+        "contractId",
+        None,
+        None,
+    ),  # 1
+    (
+        2,
+        TType.I32,
+        "positionMarginMode",
+        None,
+        None,
+    ),  # 2
+    (
+        3,
+        TType.I16,
+        "leverage",
+        None,
+        None,
+    ),  # 3
+)
 all_structs.append(Trader)
 Trader.thrift_spec = (
     None,  # 0
@@ -1311,6 +1457,13 @@ Trader.thrift_spec = (
         "UTF8",
         None,
     ),  # 6
+    (
+        7,
+        TType.LIST,
+        "traderContractInfos",
+        (TType.STRUCT, [TraderContractInfo, None], False),
+        None,
+    ),  # 7
 )
 all_structs.append(Order)
 Order.thrift_spec = (
@@ -1338,7 +1491,7 @@ Order.thrift_spec = (
     ),  # 3
     (
         4,
-        TType.I64,
+        TType.I16,
         "contractId",
         None,
         None,
@@ -1399,7 +1552,7 @@ Position.thrift_spec = (
     ),  # 3
     (
         4,
-        TType.I64,
+        TType.I16,
         "contractId",
         None,
         None,
