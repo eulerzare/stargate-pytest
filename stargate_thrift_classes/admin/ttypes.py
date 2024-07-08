@@ -381,6 +381,7 @@ class AddContractRequest(object):
      - id
      - name
      - marketType
+     - priceSymbolCode
      - baseCurrencyId
      - quoteCurrencyId
      - settlementCurrencyId
@@ -394,6 +395,7 @@ class AddContractRequest(object):
         id=None,
         name=None,
         marketType=None,
+        priceSymbolCode=None,
         baseCurrencyId=None,
         quoteCurrencyId=None,
         settlementCurrencyId=None,
@@ -403,6 +405,7 @@ class AddContractRequest(object):
         self.id = id
         self.name = name
         self.marketType = marketType
+        self.priceSymbolCode = priceSymbolCode
         self.baseCurrencyId = baseCurrencyId
         self.quoteCurrencyId = quoteCurrencyId
         self.settlementCurrencyId = settlementCurrencyId
@@ -443,25 +446,30 @@ class AddContractRequest(object):
                     iprot.skip(ftype)
             elif fid == 4:
                 if ftype == TType.I16:
-                    self.baseCurrencyId = iprot.readI16()
+                    self.priceSymbolCode = iprot.readI16()
                 else:
                     iprot.skip(ftype)
             elif fid == 5:
                 if ftype == TType.I16:
-                    self.quoteCurrencyId = iprot.readI16()
+                    self.baseCurrencyId = iprot.readI16()
                 else:
                     iprot.skip(ftype)
             elif fid == 6:
                 if ftype == TType.I16:
-                    self.settlementCurrencyId = iprot.readI16()
+                    self.quoteCurrencyId = iprot.readI16()
                 else:
                     iprot.skip(ftype)
             elif fid == 7:
+                if ftype == TType.I16:
+                    self.settlementCurrencyId = iprot.readI16()
+                else:
+                    iprot.skip(ftype)
+            elif fid == 8:
                 if ftype == TType.I32:
                     self.baseScale = iprot.readI32()
                 else:
                     iprot.skip(ftype)
-            elif fid == 8:
+            elif fid == 9:
                 if ftype == TType.I32:
                     self.quoteScale = iprot.readI32()
                 else:
@@ -492,24 +500,28 @@ class AddContractRequest(object):
             oprot.writeFieldBegin("marketType", TType.I32, 3)
             oprot.writeI32(self.marketType)
             oprot.writeFieldEnd()
+        if self.priceSymbolCode is not None:
+            oprot.writeFieldBegin("priceSymbolCode", TType.I16, 4)
+            oprot.writeI16(self.priceSymbolCode)
+            oprot.writeFieldEnd()
         if self.baseCurrencyId is not None:
-            oprot.writeFieldBegin("baseCurrencyId", TType.I16, 4)
+            oprot.writeFieldBegin("baseCurrencyId", TType.I16, 5)
             oprot.writeI16(self.baseCurrencyId)
             oprot.writeFieldEnd()
         if self.quoteCurrencyId is not None:
-            oprot.writeFieldBegin("quoteCurrencyId", TType.I16, 5)
+            oprot.writeFieldBegin("quoteCurrencyId", TType.I16, 6)
             oprot.writeI16(self.quoteCurrencyId)
             oprot.writeFieldEnd()
         if self.settlementCurrencyId is not None:
-            oprot.writeFieldBegin("settlementCurrencyId", TType.I16, 6)
+            oprot.writeFieldBegin("settlementCurrencyId", TType.I16, 7)
             oprot.writeI16(self.settlementCurrencyId)
             oprot.writeFieldEnd()
         if self.baseScale is not None:
-            oprot.writeFieldBegin("baseScale", TType.I32, 7)
+            oprot.writeFieldBegin("baseScale", TType.I32, 8)
             oprot.writeI32(self.baseScale)
             oprot.writeFieldEnd()
         if self.quoteScale is not None:
-            oprot.writeFieldBegin("quoteScale", TType.I32, 8)
+            oprot.writeFieldBegin("quoteScale", TType.I32, 9)
             oprot.writeI32(self.quoteScale)
             oprot.writeFieldEnd()
         oprot.writeFieldStop()
@@ -522,6 +534,8 @@ class AddContractRequest(object):
             raise TProtocolException(message="Required field name is unset!")
         if self.marketType is None:
             raise TProtocolException(message="Required field marketType is unset!")
+        if self.priceSymbolCode is None:
+            raise TProtocolException(message="Required field priceSymbolCode is unset!")
         if self.baseCurrencyId is None:
             raise TProtocolException(message="Required field baseCurrencyId is unset!")
         if self.quoteCurrencyId is None:
@@ -918,38 +932,45 @@ AddContractRequest.thrift_spec = (
     (
         4,
         TType.I16,
-        "baseCurrencyId",
+        "priceSymbolCode",
         None,
         None,
     ),  # 4
     (
         5,
         TType.I16,
-        "quoteCurrencyId",
+        "baseCurrencyId",
         None,
         None,
     ),  # 5
     (
         6,
         TType.I16,
-        "settlementCurrencyId",
+        "quoteCurrencyId",
         None,
         None,
     ),  # 6
     (
         7,
-        TType.I32,
-        "baseScale",
+        TType.I16,
+        "settlementCurrencyId",
         None,
         None,
     ),  # 7
     (
         8,
         TType.I32,
-        "quoteScale",
+        "baseScale",
         None,
         None,
     ),  # 8
+    (
+        9,
+        TType.I32,
+        "quoteScale",
+        None,
+        None,
+    ),  # 9
 )
 all_structs.append(GetContractRequest)
 GetContractRequest.thrift_spec = (

@@ -105,6 +105,7 @@ struct PlaceOrder {
   6: string price,
   7: required string size,
   8: required bool isSizeInBaseCurrency,
+  9: i64 markPrice,
 }
 
 struct CancelOrder {
@@ -118,4 +119,5 @@ struct ModifyOrder {
   3: required string price,
   4: required string size,
   5: required bool isSizeInBaseCurrency,
+  6: i64 markPrice,
 }

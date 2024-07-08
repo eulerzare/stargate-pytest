@@ -35,11 +35,12 @@ struct AddContractRequest {
   1: required i16 id,
   2: required string name,
   3: required base.MarketType marketType,
-  4: required i16 baseCurrencyId,
-  5: required i16 quoteCurrencyId,
-  6: required i16 settlementCurrencyId,
-  7: required i32 baseScale,
-  8: required i32 quoteScale,
+  4: required i16 priceSymbolCode,
+  5: required i16 baseCurrencyId,
+  6: required i16 quoteCurrencyId,
+  7: required i16 settlementCurrencyId,
+  8: required i32 baseScale,
+  9: required i32 quoteScale,
 }
 
 struct GetContractRequest {

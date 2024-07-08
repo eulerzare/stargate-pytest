@@ -1336,6 +1336,7 @@ class PlaceOrder(object):
      - price
      - size
      - isSizeInBaseCurrency
+     - markPrice
 
     """
 
@@ -1349,6 +1350,7 @@ class PlaceOrder(object):
         price=None,
         size=None,
         isSizeInBaseCurrency=None,
+        markPrice=None,
     ):
         self.id = id
         self.traderId = traderId
@@ -1358,6 +1360,7 @@ class PlaceOrder(object):
         self.price = price
         self.size = size
         self.isSizeInBaseCurrency = isSizeInBaseCurrency
+        self.markPrice = markPrice
 
     def read(self, iprot):
         if (
@@ -1420,6 +1423,11 @@ class PlaceOrder(object):
                     self.isSizeInBaseCurrency = iprot.readBool()
                 else:
                     iprot.skip(ftype)
+            elif fid == 9:
+                if ftype == TType.I64:
+                    self.markPrice = iprot.readI64()
+                else:
+                    iprot.skip(ftype)
             else:
                 iprot.skip(ftype)
             iprot.readFieldEnd()
@@ -1467,6 +1475,10 @@ class PlaceOrder(object):
         if self.isSizeInBaseCurrency is not None:
             oprot.writeFieldBegin("isSizeInBaseCurrency", TType.BOOL, 8)
             oprot.writeBool(self.isSizeInBaseCurrency)
+            oprot.writeFieldEnd()
+        if self.markPrice is not None:
+            oprot.writeFieldBegin("markPrice", TType.I64, 9)
+            oprot.writeI64(self.markPrice)
             oprot.writeFieldEnd()
         oprot.writeFieldStop()
         oprot.writeStructEnd()
@@ -1589,6 +1601,7 @@ class ModifyOrder(object):
      - price
      - size
      - isSizeInBaseCurrency
+     - markPrice
 
     """
 
@@ -1599,12 +1612,14 @@ class ModifyOrder(object):
         price=None,
         size=None,
         isSizeInBaseCurrency=None,
+        markPrice=None,
     ):
         self.traderId = traderId
         self.orderId = orderId
         self.price = price
         self.size = size
         self.isSizeInBaseCurrency = isSizeInBaseCurrency
+        self.markPrice = markPrice
 
     def read(self, iprot):
         if (
@@ -1652,6 +1667,11 @@ class ModifyOrder(object):
                     self.isSizeInBaseCurrency = iprot.readBool()
                 else:
                     iprot.skip(ftype)
+            elif fid == 6:
+                if ftype == TType.I64:
+                    self.markPrice = iprot.readI64()
+                else:
+                    iprot.skip(ftype)
             else:
                 iprot.skip(ftype)
             iprot.readFieldEnd()
@@ -1687,6 +1707,10 @@ class ModifyOrder(object):
         if self.isSizeInBaseCurrency is not None:
             oprot.writeFieldBegin("isSizeInBaseCurrency", TType.BOOL, 5)
             oprot.writeBool(self.isSizeInBaseCurrency)
+            oprot.writeFieldEnd()
+        if self.markPrice is not None:
+            oprot.writeFieldBegin("markPrice", TType.I64, 6)
+            oprot.writeI64(self.markPrice)
             oprot.writeFieldEnd()
         oprot.writeFieldStop()
         oprot.writeStructEnd()
@@ -2098,6 +2122,13 @@ PlaceOrder.thrift_spec = (
         None,
         None,
     ),  # 8
+    (
+        9,
+        TType.I64,
+        "markPrice",
+        None,
+        None,
+    ),  # 9
 )
 all_structs.append(CancelOrder)
 CancelOrder.thrift_spec = (
@@ -2155,6 +2186,13 @@ ModifyOrder.thrift_spec = (
         None,
         None,
     ),  # 5
+    (
+        6,
+        TType.I64,
+        "markPrice",
+        None,
+        None,
+    ),  # 6
 )
 fix_spec(all_structs)
 del all_structs

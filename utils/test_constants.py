@@ -30,22 +30,22 @@ ADD_TRADER_ALL = [
 ]
 
 CONTRACT_BTCUSDT_PERPETUAL = AddContractRequest(
-    1, "BTCUSDT Perpetual", MarketType.PERPETUAL_USDM,
+    1, "BTCUSDT Perpetual", MarketType.PERPETUAL_USDM, 2,
     ADD_CURRENCY_BTC.id, ADD_CURRENCY_USDT.id, ADD_CURRENCY_USDT.id,
     3, 2
 )
 CONTRACT_ETHUSDT_PERPETUAL = AddContractRequest(
-    2, "ETHUSDT Perpetual", MarketType.PERPETUAL_USDM,
+    2, "ETHUSDT Perpetual", MarketType.PERPETUAL_USDM, 7,
     ADD_CURRENCY_ETH.id, ADD_CURRENCY_USDT.id, ADD_CURRENCY_USDT.id,
     4, 3
 )
 CONTRACT_TRXUSDT_PERPETUAL = AddContractRequest(
-    3, "TRXUSDT Perpetual", MarketType.PERPETUAL_USDM,
+    3, "TRXUSDT Perpetual", MarketType.PERPETUAL_USDM, 15,
     ADD_CURRENCY_TRX.id, ADD_CURRENCY_USDT.id, ADD_CURRENCY_USDT.id,
     5, 4
 )
 ADD_CONTRACT_EMPTY = AddContractRequest(
-    32767, "", MarketType.PERPETUAL_USDM,
+    32767, "", MarketType.PERPETUAL_USDM, 32766,
     ADD_CURRENCY_TRX.id, ADD_CURRENCY_USDT.id, ADD_CURRENCY_USDT.id,
     5, 4
 )
