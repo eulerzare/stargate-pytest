@@ -8,6 +8,8 @@ service AdminService {
   base.Response addContract(1:AddContractRequest addContractRequest),
   GetContractResponse getContract(1:GetContractRequest getContractRequest),
   base.Response changeContractScale(1:ChangeContractScaleRequest changeContractScaleRequest),
+  base.Response addOrModifyTierLevel(1: base.Tier addOrModifyTierRequest),
+  GetTiersResponse getTiers(),
 }
 
 struct AddCurrency {
@@ -57,4 +59,10 @@ struct ChangeContractScaleRequest {
   1: required i16 id,
   2: required i32 baseScale,
   3: required i32 quoteScale,
+}
+
+struct GetTiersResponse {
+  1: i32 status,
+  2: i64 sequence,
+  3: list<base.Tier> tiers,
 }

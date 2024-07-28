@@ -94,3 +94,10 @@ struct Position {
   9: required string margin,
   10: required string maintenanceMargin,
 }
+
+struct Tier {
+  1: required string bracketMax,
+  2: required i16 maxLeverage,
+  3: required string maintenanceMarginRate,
+  4: required string maintenanceAmountUsdt,
+}

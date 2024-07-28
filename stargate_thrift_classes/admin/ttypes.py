@@ -826,6 +826,103 @@ class ChangeContractScaleRequest(object):
         return not (self == other)
 
 
+class GetTiersResponse(object):
+    """
+    Attributes:
+     - status
+     - sequence
+     - tiers
+
+    """
+
+    def __init__(
+        self,
+        status=None,
+        sequence=None,
+        tiers=None,
+    ):
+        self.status = status
+        self.sequence = sequence
+        self.tiers = tiers
+
+    def read(self, iprot):
+        if (
+            iprot._fast_decode is not None
+            and isinstance(iprot.trans, TTransport.CReadableTransport)
+            and self.thrift_spec is not None
+        ):
+            iprot._fast_decode(self, iprot, [self.__class__, self.thrift_spec])
+            return
+        iprot.readStructBegin()
+        while True:
+            (fname, ftype, fid) = iprot.readFieldBegin()
+            if ftype == TType.STOP:
+                break
+            if fid == 1:
+                if ftype == TType.I32:
+                    self.status = iprot.readI32()
+                else:
+                    iprot.skip(ftype)
+            elif fid == 2:
+                if ftype == TType.I64:
+                    self.sequence = iprot.readI64()
+                else:
+                    iprot.skip(ftype)
+            elif fid == 3:
+                if ftype == TType.LIST:
+                    self.tiers = []
+                    (_etype31, _size28) = iprot.readListBegin()
+                    for _i32 in range(_size28):
+                        _elem33 = stargate_thrift_classes.base.ttypes.Tier()
+                        _elem33.read(iprot)
+                        self.tiers.append(_elem33)
+                    iprot.readListEnd()
+                else:
+                    iprot.skip(ftype)
+            else:
+                iprot.skip(ftype)
+            iprot.readFieldEnd()
+        iprot.readStructEnd()
+
+    def write(self, oprot):
+        if oprot._fast_encode is not None and self.thrift_spec is not None:
+            oprot.trans.write(
+                oprot._fast_encode(self, [self.__class__, self.thrift_spec])
+            )
+            return
+        oprot.writeStructBegin("GetTiersResponse")
+        if self.status is not None:
+            oprot.writeFieldBegin("status", TType.I32, 1)
+            oprot.writeI32(self.status)
+            oprot.writeFieldEnd()
+        if self.sequence is not None:
+            oprot.writeFieldBegin("sequence", TType.I64, 2)
+            oprot.writeI64(self.sequence)
+            oprot.writeFieldEnd()
+        if self.tiers is not None:
+            oprot.writeFieldBegin("tiers", TType.LIST, 3)
+            oprot.writeListBegin(TType.STRUCT, len(self.tiers))
+            for iter34 in self.tiers:
+                iter34.write(oprot)
+            oprot.writeListEnd()
+            oprot.writeFieldEnd()
+        oprot.writeFieldStop()
+        oprot.writeStructEnd()
+
+    def validate(self):
+        return
+
+    def __repr__(self):
+        L = ["%s=%r" % (key, value) for key, value in self.__dict__.items()]
+        return "%s(%s)" % (self.__class__.__name__, ", ".join(L))
+
+    def __eq__(self, other):
+        return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        return not (self == other)
+
+
 all_structs.append(AddCurrency)
 AddCurrency.thrift_spec = (
     None,  # 0
@@ -1030,6 +1127,31 @@ ChangeContractScaleRequest.thrift_spec = (
         TType.I32,
         "quoteScale",
         None,
+        None,
+    ),  # 3
+)
+all_structs.append(GetTiersResponse)
+GetTiersResponse.thrift_spec = (
+    None,  # 0
+    (
+        1,
+        TType.I32,
+        "status",
+        None,
+        None,
+    ),  # 1
+    (
+        2,
+        TType.I64,
+        "sequence",
+        None,
+        None,
+    ),  # 2
+    (
+        3,
+        TType.LIST,
+        "tiers",
+        (TType.STRUCT, [stargate_thrift_classes.base.ttypes.Tier, None], False),
         None,
     ),  # 3
 )

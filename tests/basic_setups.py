@@ -6,8 +6,8 @@ from thrift.transport import TSocket, TTransport
 
 from stargate_thrift_classes.admin.AdminService import Client as AdminClient
 from stargate_thrift_classes.admin.ttypes import AddCurrency, GetCurrencyRequest, GetContractRequest, \
-    AddContractRequest, GetCurrencyResponse, GetContractResponse
-from stargate_thrift_classes.base.ttypes import Response, MarketType, OrderType, OrderSide, PositionMarginMode
+    AddContractRequest, GetCurrencyResponse, GetContractResponse, GetTiersResponse
+from stargate_thrift_classes.base.ttypes import Response, MarketType, OrderType, OrderSide, PositionMarginMode, Tier
 from stargate_thrift_classes.trader.TraderService import Client as TraderClient
 from stargate_thrift_classes.trader.ttypes import AddTrader, TraderAssetResponse, GetTraderAsset, TransferAsset, \
     PlaceOrder, ChangeTraderHedgeMode, TraderResponse, ChangeTraderUsdmMultiAssetMode, ChangeTraderFee, CancelOrder, \
@@ -105,6 +105,17 @@ class BasicSetups(unittest.TestCase):
         ))
         print(response)
 
+    def test_add_or_change_tiers(self):
+        response: Response = admin_client.addOrModifyTierLevel(Tier(
+            "600000", 80, "", ""
+        ))
+        print(response)
+
+    def test_get_tiers(self):
+        response: GetTiersResponse = admin_client.getTiers()
+        for tier in response.tiers:
+            print(tier)
+
     def test_transfer_asset(self):
         print(trader_client.transferAsset(TransferAsset(
             uniqueId=1,
@@ -144,13 +155,13 @@ class BasicSetups(unittest.TestCase):
 
     def test_place_order(self):
         print(trader_client.placeOrder(PlaceOrder(
-            id=3,
+            id=4,
             traderId=ADD_TRADER_02.id,
             contractId=CONTRACT_BTCUSDT_PERPETUAL.id,
             orderType=OrderType.LIMIT,
-            orderSide=OrderSide.SELL,
-            price="61000.245",
-            size="1.2",
+            orderSide=OrderSide.BUY,
+            price="62000",
+            size="8",
             isSizeInBaseCurrency=True,
         )))
 

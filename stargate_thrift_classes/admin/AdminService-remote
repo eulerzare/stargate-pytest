@@ -31,6 +31,8 @@ if len(sys.argv) <= 1 or sys.argv[1] == '--help':
     print('  Response addContract(AddContractRequest addContractRequest)')
     print('  GetContractResponse getContract(GetContractRequest getContractRequest)')
     print('  Response changeContractScale(ChangeContractScaleRequest changeContractScaleRequest)')
+    print('  Response addOrModifyTierLevel(Tier addOrModifyTierRequest)')
+    print('  GetTiersResponse getTiers()')
     print('')
     sys.exit(0)
 
@@ -151,6 +153,18 @@ elif cmd == 'changeContractScale':
         print('changeContractScale requires 1 args')
         sys.exit(1)
     pp.pprint(client.changeContractScale(eval(args[0]),))
+
+elif cmd == 'addOrModifyTierLevel':
+    if len(args) != 1:
+        print('addOrModifyTierLevel requires 1 args')
+        sys.exit(1)
+    pp.pprint(client.addOrModifyTierLevel(eval(args[0]),))
+
+elif cmd == 'getTiers':
+    if len(args) != 0:
+        print('getTiers requires 0 args')
+        sys.exit(1)
+    pp.pprint(client.getTiers())
 
 else:
     print('Unrecognized method %s' % cmd)

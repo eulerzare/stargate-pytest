@@ -77,6 +77,17 @@ class Iface(object):
         """
         pass
 
+    def addOrModifyTierLevel(self, addOrModifyTierRequest):
+        """
+        Parameters:
+         - addOrModifyTierRequest
+
+        """
+        pass
+
+    def getTiers(self):
+        pass
+
 
 class Client(Iface):
     def __init__(self, iprot, oprot=None):
@@ -323,6 +334,71 @@ class Client(Iface):
             "changeContractScale failed: unknown result",
         )
 
+    def addOrModifyTierLevel(self, addOrModifyTierRequest):
+        """
+        Parameters:
+         - addOrModifyTierRequest
+
+        """
+        self.send_addOrModifyTierLevel(addOrModifyTierRequest)
+        return self.recv_addOrModifyTierLevel()
+
+    def send_addOrModifyTierLevel(self, addOrModifyTierRequest):
+        self._oprot.writeMessageBegin(
+            "addOrModifyTierLevel", TMessageType.CALL, self._seqid
+        )
+        args = addOrModifyTierLevel_args()
+        args.addOrModifyTierRequest = addOrModifyTierRequest
+        args.write(self._oprot)
+        self._oprot.writeMessageEnd()
+        self._oprot.trans.flush()
+
+    def recv_addOrModifyTierLevel(self):
+        iprot = self._iprot
+        (fname, mtype, rseqid) = iprot.readMessageBegin()
+        if mtype == TMessageType.EXCEPTION:
+            x = TApplicationException()
+            x.read(iprot)
+            iprot.readMessageEnd()
+            raise x
+        result = addOrModifyTierLevel_result()
+        result.read(iprot)
+        iprot.readMessageEnd()
+        if result.success is not None:
+            return result.success
+        raise TApplicationException(
+            TApplicationException.MISSING_RESULT,
+            "addOrModifyTierLevel failed: unknown result",
+        )
+
+    def getTiers(self):
+        self.send_getTiers()
+        return self.recv_getTiers()
+
+    def send_getTiers(self):
+        self._oprot.writeMessageBegin("getTiers", TMessageType.CALL, self._seqid)
+        args = getTiers_args()
+        args.write(self._oprot)
+        self._oprot.writeMessageEnd()
+        self._oprot.trans.flush()
+
+    def recv_getTiers(self):
+        iprot = self._iprot
+        (fname, mtype, rseqid) = iprot.readMessageBegin()
+        if mtype == TMessageType.EXCEPTION:
+            x = TApplicationException()
+            x.read(iprot)
+            iprot.readMessageEnd()
+            raise x
+        result = getTiers_result()
+        result.read(iprot)
+        iprot.readMessageEnd()
+        if result.success is not None:
+            return result.success
+        raise TApplicationException(
+            TApplicationException.MISSING_RESULT, "getTiers failed: unknown result"
+        )
+
 
 class Processor(Iface, TProcessor):
     def __init__(self, handler):
@@ -335,6 +411,10 @@ class Processor(Iface, TProcessor):
         self._processMap["addContract"] = Processor.process_addContract
         self._processMap["getContract"] = Processor.process_getContract
         self._processMap["changeContractScale"] = Processor.process_changeContractScale
+        self._processMap["addOrModifyTierLevel"] = (
+            Processor.process_addOrModifyTierLevel
+        )
+        self._processMap["getTiers"] = Processor.process_getTiers
         self._on_message_begin = None
 
     def on_message_begin(self, func):
@@ -534,6 +614,58 @@ class Processor(Iface, TProcessor):
                 TApplicationException.INTERNAL_ERROR, "Internal error"
             )
         oprot.writeMessageBegin("changeContractScale", msg_type, seqid)
+        result.write(oprot)
+        oprot.writeMessageEnd()
+        oprot.trans.flush()
+
+    def process_addOrModifyTierLevel(self, seqid, iprot, oprot):
+        args = addOrModifyTierLevel_args()
+        args.read(iprot)
+        iprot.readMessageEnd()
+        result = addOrModifyTierLevel_result()
+        try:
+            result.success = self._handler.addOrModifyTierLevel(
+                args.addOrModifyTierRequest
+            )
+            msg_type = TMessageType.REPLY
+        except TTransport.TTransportException:
+            raise
+        except TApplicationException as ex:
+            logging.exception("TApplication exception in handler")
+            msg_type = TMessageType.EXCEPTION
+            result = ex
+        except Exception:
+            logging.exception("Unexpected exception in handler")
+            msg_type = TMessageType.EXCEPTION
+            result = TApplicationException(
+                TApplicationException.INTERNAL_ERROR, "Internal error"
+            )
+        oprot.writeMessageBegin("addOrModifyTierLevel", msg_type, seqid)
+        result.write(oprot)
+        oprot.writeMessageEnd()
+        oprot.trans.flush()
+
+    def process_getTiers(self, seqid, iprot, oprot):
+        args = getTiers_args()
+        args.read(iprot)
+        iprot.readMessageEnd()
+        result = getTiers_result()
+        try:
+            result.success = self._handler.getTiers()
+            msg_type = TMessageType.REPLY
+        except TTransport.TTransportException:
+            raise
+        except TApplicationException as ex:
+            logging.exception("TApplication exception in handler")
+            msg_type = TMessageType.EXCEPTION
+            result = ex
+        except Exception:
+            logging.exception("Unexpected exception in handler")
+            msg_type = TMessageType.EXCEPTION
+            result = TApplicationException(
+                TApplicationException.INTERNAL_ERROR, "Internal error"
+            )
+        oprot.writeMessageBegin("getTiers", msg_type, seqid)
         result.write(oprot)
         oprot.writeMessageEnd()
         oprot.trans.flush()
@@ -1592,6 +1724,286 @@ changeContractScale_result.thrift_spec = (
         TType.STRUCT,
         "success",
         [stargate_thrift_classes.base.ttypes.Response, None],
+        None,
+    ),  # 0
+)
+
+
+class addOrModifyTierLevel_args(object):
+    """
+    Attributes:
+     - addOrModifyTierRequest
+
+    """
+
+    def __init__(
+        self,
+        addOrModifyTierRequest=None,
+    ):
+        self.addOrModifyTierRequest = addOrModifyTierRequest
+
+    def read(self, iprot):
+        if (
+            iprot._fast_decode is not None
+            and isinstance(iprot.trans, TTransport.CReadableTransport)
+            and self.thrift_spec is not None
+        ):
+            iprot._fast_decode(self, iprot, [self.__class__, self.thrift_spec])
+            return
+        iprot.readStructBegin()
+        while True:
+            (fname, ftype, fid) = iprot.readFieldBegin()
+            if ftype == TType.STOP:
+                break
+            if fid == 1:
+                if ftype == TType.STRUCT:
+                    self.addOrModifyTierRequest = stargate_thrift_classes.base.ttypes.Tier()
+                    self.addOrModifyTierRequest.read(iprot)
+                else:
+                    iprot.skip(ftype)
+            else:
+                iprot.skip(ftype)
+            iprot.readFieldEnd()
+        iprot.readStructEnd()
+
+    def write(self, oprot):
+        if oprot._fast_encode is not None and self.thrift_spec is not None:
+            oprot.trans.write(
+                oprot._fast_encode(self, [self.__class__, self.thrift_spec])
+            )
+            return
+        oprot.writeStructBegin("addOrModifyTierLevel_args")
+        if self.addOrModifyTierRequest is not None:
+            oprot.writeFieldBegin("addOrModifyTierRequest", TType.STRUCT, 1)
+            self.addOrModifyTierRequest.write(oprot)
+            oprot.writeFieldEnd()
+        oprot.writeFieldStop()
+        oprot.writeStructEnd()
+
+    def validate(self):
+        return
+
+    def __repr__(self):
+        L = ["%s=%r" % (key, value) for key, value in self.__dict__.items()]
+        return "%s(%s)" % (self.__class__.__name__, ", ".join(L))
+
+    def __eq__(self, other):
+        return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        return not (self == other)
+
+
+all_structs.append(addOrModifyTierLevel_args)
+addOrModifyTierLevel_args.thrift_spec = (
+    None,  # 0
+    (
+        1,
+        TType.STRUCT,
+        "addOrModifyTierRequest",
+        [stargate_thrift_classes.base.ttypes.Tier, None],
+        None,
+    ),  # 1
+)
+
+
+class addOrModifyTierLevel_result(object):
+    """
+    Attributes:
+     - success
+
+    """
+
+    def __init__(
+        self,
+        success=None,
+    ):
+        self.success = success
+
+    def read(self, iprot):
+        if (
+            iprot._fast_decode is not None
+            and isinstance(iprot.trans, TTransport.CReadableTransport)
+            and self.thrift_spec is not None
+        ):
+            iprot._fast_decode(self, iprot, [self.__class__, self.thrift_spec])
+            return
+        iprot.readStructBegin()
+        while True:
+            (fname, ftype, fid) = iprot.readFieldBegin()
+            if ftype == TType.STOP:
+                break
+            if fid == 0:
+                if ftype == TType.STRUCT:
+                    self.success = stargate_thrift_classes.base.ttypes.Response()
+                    self.success.read(iprot)
+                else:
+                    iprot.skip(ftype)
+            else:
+                iprot.skip(ftype)
+            iprot.readFieldEnd()
+        iprot.readStructEnd()
+
+    def write(self, oprot):
+        if oprot._fast_encode is not None and self.thrift_spec is not None:
+            oprot.trans.write(
+                oprot._fast_encode(self, [self.__class__, self.thrift_spec])
+            )
+            return
+        oprot.writeStructBegin("addOrModifyTierLevel_result")
+        if self.success is not None:
+            oprot.writeFieldBegin("success", TType.STRUCT, 0)
+            self.success.write(oprot)
+            oprot.writeFieldEnd()
+        oprot.writeFieldStop()
+        oprot.writeStructEnd()
+
+    def validate(self):
+        return
+
+    def __repr__(self):
+        L = ["%s=%r" % (key, value) for key, value in self.__dict__.items()]
+        return "%s(%s)" % (self.__class__.__name__, ", ".join(L))
+
+    def __eq__(self, other):
+        return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        return not (self == other)
+
+
+all_structs.append(addOrModifyTierLevel_result)
+addOrModifyTierLevel_result.thrift_spec = (
+    (
+        0,
+        TType.STRUCT,
+        "success",
+        [stargate_thrift_classes.base.ttypes.Response, None],
+        None,
+    ),  # 0
+)
+
+
+class getTiers_args(object):
+
+    def read(self, iprot):
+        if (
+            iprot._fast_decode is not None
+            and isinstance(iprot.trans, TTransport.CReadableTransport)
+            and self.thrift_spec is not None
+        ):
+            iprot._fast_decode(self, iprot, [self.__class__, self.thrift_spec])
+            return
+        iprot.readStructBegin()
+        while True:
+            (fname, ftype, fid) = iprot.readFieldBegin()
+            if ftype == TType.STOP:
+                break
+            else:
+                iprot.skip(ftype)
+            iprot.readFieldEnd()
+        iprot.readStructEnd()
+
+    def write(self, oprot):
+        if oprot._fast_encode is not None and self.thrift_spec is not None:
+            oprot.trans.write(
+                oprot._fast_encode(self, [self.__class__, self.thrift_spec])
+            )
+            return
+        oprot.writeStructBegin("getTiers_args")
+        oprot.writeFieldStop()
+        oprot.writeStructEnd()
+
+    def validate(self):
+        return
+
+    def __repr__(self):
+        L = ["%s=%r" % (key, value) for key, value in self.__dict__.items()]
+        return "%s(%s)" % (self.__class__.__name__, ", ".join(L))
+
+    def __eq__(self, other):
+        return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        return not (self == other)
+
+
+all_structs.append(getTiers_args)
+getTiers_args.thrift_spec = ()
+
+
+class getTiers_result(object):
+    """
+    Attributes:
+     - success
+
+    """
+
+    def __init__(
+        self,
+        success=None,
+    ):
+        self.success = success
+
+    def read(self, iprot):
+        if (
+            iprot._fast_decode is not None
+            and isinstance(iprot.trans, TTransport.CReadableTransport)
+            and self.thrift_spec is not None
+        ):
+            iprot._fast_decode(self, iprot, [self.__class__, self.thrift_spec])
+            return
+        iprot.readStructBegin()
+        while True:
+            (fname, ftype, fid) = iprot.readFieldBegin()
+            if ftype == TType.STOP:
+                break
+            if fid == 0:
+                if ftype == TType.STRUCT:
+                    self.success = GetTiersResponse()
+                    self.success.read(iprot)
+                else:
+                    iprot.skip(ftype)
+            else:
+                iprot.skip(ftype)
+            iprot.readFieldEnd()
+        iprot.readStructEnd()
+
+    def write(self, oprot):
+        if oprot._fast_encode is not None and self.thrift_spec is not None:
+            oprot.trans.write(
+                oprot._fast_encode(self, [self.__class__, self.thrift_spec])
+            )
+            return
+        oprot.writeStructBegin("getTiers_result")
+        if self.success is not None:
+            oprot.writeFieldBegin("success", TType.STRUCT, 0)
+            self.success.write(oprot)
+            oprot.writeFieldEnd()
+        oprot.writeFieldStop()
+        oprot.writeStructEnd()
+
+    def validate(self):
+        return
+
+    def __repr__(self):
+        L = ["%s=%r" % (key, value) for key, value in self.__dict__.items()]
+        return "%s(%s)" % (self.__class__.__name__, ", ".join(L))
+
+    def __eq__(self, other):
+        return isinstance(other, self.__class__) and self.__dict__ == other.__dict__
+
+    def __ne__(self, other):
+        return not (self == other)
+
+
+all_structs.append(getTiers_result)
+getTiers_result.thrift_spec = (
+    (
+        0,
+        TType.STRUCT,
+        "success",
+        [GetTiersResponse, None],
         None,
     ),  # 0
 )
